@@ -1,0 +1,96 @@
+
+// Author: Pierce Brooks
+
+package com.piercelbrooks.roe;
+
+import android.util.Log;
+
+import org.jruby.embed.LocalContextScope;
+import org.jruby.embed.ScriptingContainer;
+import org.jruby.javasupport.JavaEmbedUtils;
+
+import java.util.concurrent.locks.ReentrantLock;
+
+class RubyScript implements Runnable
+{
+    private static final String TAG = "ROE-RubyScript";
+
+    private String content;
+    private ScriptingContainer container;
+    private JavaEmbedUtils.EvalUnit evaluation;
+    private Object result;
+    private ReentrantLock lock;
+
+    public RubyScript(String content)
+    {
+        this.content = content;
+        this.container = new ScriptingContainer(LocalContextScope.SINGLETHREAD);
+        this.evaluation = null;
+        this.result = null;
+        this.lock = new ReentrantLock();
+    }
+
+    @Override
+    public String toString()
+    {
+        return content;
+    }
+
+    @Override
+    public void run() {
+        boolean success = true;
+        lock.lock();
+        try
+        {
+            Log.i(TAG, "Running...");
+            try
+            {
+                evaluation = container.parse(content);
+                result = evaluation.run();
+            }
+            catch (Exception exceptionInner)
+            {
+                exceptionInner.printStackTrace();
+                success = false;
+            }
+            Log.i(TAG, "Ran!");
+        }
+        catch (Exception exceptionOuter)
+        {
+            exceptionOuter.printStackTrace();
+        }
+        finally
+        {
+            lock.unlock();
+        }
+        if (success)
+        {
+            Log.i(TAG, "Succeeded!");
+        }
+        else
+        {
+            Log.i(TAG, "Failed!");
+            throw new ScriptException(toString());
+        }
+    }
+
+    public boolean doRun()
+    {
+        boolean success = true;
+        try
+        {
+            run();
+        }
+        catch (ScriptException se)
+        {
+            se.printStackTrace();
+            success = false;
+        }
+        return success;
+    }
+
+    public Object getResult()
+    {
+        return result;
+    }
+}
