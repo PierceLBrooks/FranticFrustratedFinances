@@ -5,11 +5,15 @@ package com.piercelbrooks.f3;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.piercelbrooks.R;
+import com.piercelbrooks.roe.Ruby;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "F3-MainActivity";
+
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -24,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
+
+        Button button = (Button) findViewById(R.id.rubyTestButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Ruby ruby = new Ruby();
+                ruby.birth();
+                ruby.evaluate("puts \"Hello, world!\"");
+                ruby.death();
+            }
+        });
     }
 
     /**
@@ -31,4 +47,10 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
 }
