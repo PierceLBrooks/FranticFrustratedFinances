@@ -68,6 +68,7 @@ public class Governor implements Citizen
             return;
         }
         instance = this;
+        register(this);
     }
 
     @Override
@@ -78,6 +79,7 @@ public class Governor implements Citizen
             Utilities.throwSingletonException(TAG);
             return;
         }
-        instance = this;
+        instance = null;
+        unregister(this);
     }
 }

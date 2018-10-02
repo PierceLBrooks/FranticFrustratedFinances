@@ -5,5 +5,7 @@ public enum Family
     CONTEXT,
     SINGLETON,
     GOVERNOR,
+    APPLICATION,
+    ACTIVITY,
     UNKNOWN
 }

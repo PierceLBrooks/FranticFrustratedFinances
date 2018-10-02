@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.piercelbrooks.common.Citizen;
+import com.piercelbrooks.common.Family;
+import com.piercelbrooks.common.Governor;
 import com.piercelbrooks.roe.Ruby;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Citizen {
     private static final String TAG = "F3-MainActivity";
 
 
@@ -49,8 +52,29 @@ public class MainActivity extends AppCompatActivity {
     public native String stringFromJNI();
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
+        birth();
+    }
+
+    @Override
+    public void onPause() {
+        death();
+        super.onPause();
+    }
+
+    @Override
+    public Family getFamily() {
+        return Family.ACTIVITY;
+    }
+
+    @Override
+    public void birth() {
+        Governor.getInstance().register(this);
+    }
+
+    @Override
+    public void death() {
+        Governor.getInstance().unregister(this);
     }
 }
