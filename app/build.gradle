@@ -9,22 +9,32 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         externalNativeBuild {
             cmake {
                 cppFlags ""
             }
         }
     }
-    compileOptions {
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    /*compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-    /*buildTypes {
+    }*/
+    buildTypes {
         release {
             minifyEnabled false
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }*/
+        debug {
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
