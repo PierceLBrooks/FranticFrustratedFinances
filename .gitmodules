@@ -7,3 +7,6 @@
 [submodule "dependencies/grafika"]
 	path = dependencies/grafika
 	url = https://github.com/PierceLBrooks/grafika.git
+[submodule "dependencies/jdk8u-dev-jdk"]
+	path = dependencies/jdk8u-dev-jdk
+	url = https://github.com/PierceLBrooks/jdk8u-dev-jdk.git
