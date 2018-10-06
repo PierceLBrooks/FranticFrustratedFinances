@@ -25,7 +25,7 @@
 
 package java.lang.invoke;
 
-import com.piercelbrooks.Hax;
+import com.piercelbrooks.hax.Hax;
 
 /**
  * <p>
