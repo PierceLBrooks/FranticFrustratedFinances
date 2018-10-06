@@ -25,6 +25,8 @@
 
 package java.lang;
 
+import com.piercelbrooks.hax.Hax;
+
 import java.lang.ClassValue.ClassValueMap;
 import java.util.WeakHashMap;
 import java.lang.ref.WeakReference;
@@ -186,7 +188,7 @@ public abstract class ClassValue<T> {
     /** Return the cache, if it exists, else a dummy empty cache. */
     private static ClassValueEntry<?>[] getCacheCarefully(Class<?> type) {
         // racing type.classValueMap{.cacheArray} : null => new Entry[X] <=> new Entry[Y]
-        ClassValueMap map = type.classValueMap;
+        ClassValueMap map = Hax.getType(type).classValueMap;
         if (map == null)  return EMPTY_CACHE;
         ClassValueEntry<?>[] cache = map.getCache();
         return cache;
@@ -364,7 +366,7 @@ public abstract class ClassValue<T> {
         // racing type.classValueMap : null (blank) => unique ClassValueMap
         // if a null is observed, a map is created (lazily, synchronously, uniquely)
         // all further access to that map is synchronized
-        ClassValueMap map = type.classValueMap;
+        ClassValueMap map = Hax.getType(type).classValueMap;
         if (map != null)  return map;
         return initializeMap(type);
     }
@@ -374,8 +376,8 @@ public abstract class ClassValue<T> {
         ClassValueMap map;
         synchronized (CRITICAL_SECTION) {  // private object to avoid deadlocks
             // happens about once per type
-            if ((map = type.classValueMap) == null)
-                type.classValueMap = map = new ClassValueMap(type);
+            if ((map = Hax.getType(type).classValueMap) == null)
+                Hax.getType(type).classValueMap = map = new ClassValueMap(type);
         }
         return map;
     }
@@ -402,7 +404,7 @@ public abstract class ClassValue<T> {
      *  Gives a fully serialized "true state" for each pair (ClassValue cv, Class type).
      *  Also manages an unserialized fast-path cache.
      */
-    static class ClassValueMap extends WeakHashMap<ClassValue.Identity, ClassValueEntry<?>> {
+    public static class ClassValueMap extends WeakHashMap<ClassValue.Identity, ClassValueEntry<?>> {
         private final Class<?> type;
         private ClassValueEntry<?>[] cacheArray;
         private int cacheLoad, cacheLoadLimit;

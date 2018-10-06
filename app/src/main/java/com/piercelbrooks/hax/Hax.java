@@ -5,10 +5,44 @@
 package com.piercelbrooks.hax;
 
 import java.lang.invoke.MutableCallSite;
+import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Hax
 {
+    private static WeakHashMap<Class<?>, Type> types = null;
+
+    public static Type getType(Class<?> type)
+    {
+        if (types == null)
+        {
+            types = new WeakHashMap<>();
+        }
+        if (!types.containsKey(type))
+        {
+            types.put(type, new Type(type));
+        }
+        return types.get(type);
+    }
+
+    public static class Type
+    {
+        public ClassValue.ClassValueMap classValueMap;
+
+        private Class<?> type;
+
+        public Type(Class<?> type)
+        {
+            this.type = type;
+        }
+
+        public Class<?> getType()
+        {
+            return type;
+        }
+    }
+
+
     /**
      * Performs a synchronization operation on each call site in the given array,
      * forcing all other threads to throw away any cached values previously
