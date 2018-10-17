@@ -4,14 +4,15 @@
 #ifndef FTHREE_MRUBY_USAGE_H
 #define FTHREE_MRUBY_USAGE_H
 
-#include "mruby/compile.h"
-#include "mruby/mruby.h"
-
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-int test();
+void showMessage(const char* message);
+void showNumber(int number);
+void show(const char* message, int number);
+int run(const char* script, const char* entry);
 
 #ifdef __cplusplus
 }

@@ -5,17 +5,16 @@ package com.piercelbrooks.f3;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.piercelbrooks.common.Citizen;
+import com.piercelbrooks.common.Constants;
 import com.piercelbrooks.common.Family;
 import com.piercelbrooks.common.Governor;
 
 public class MainActivity extends AppCompatActivity implements Citizen {
     private static final String TAG = "F3-MainActivity";
-
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -29,16 +28,12 @@ public class MainActivity extends AppCompatActivity implements Citizen {
 
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        tv.setText(runScript(Constants.TEST_SCRIPT, Constants.TEST_SCRIPT_ENTRY));
 
         Button button = (Button) findViewById(R.id.rubyTestButton);
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
+    public native String runScript(String script, String entry);
 
     @Override
     public void onResume() {
