@@ -5,6 +5,22 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+add_library( mruby
+             STATIC
+             IMPORTED )
+
+set_target_properties( # Specifies the target library.
+                       mruby
+
+                       # Specifies the parameter you want to define.
+                       PROPERTIES IMPORTED_LOCATION
+
+                       # Provides the path to the library you want to import.
+                       ${CMAKE_CURRENT_SOURCE_DIR}/imported-lib/${ANDROID_ABI}/libmruby.a )
+
+#ink_directories( ${CMAKE_CURRENT_SOURCE_DIR}/imported-lib/${ANDROID_ABI}/ )
+include_directories( src/main/cpp/ )
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -17,7 +33,9 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/native-lib.cpp
+             src/main/cpp/mruby_usage.c
+            )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -39,6 +57,9 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
                        native-lib
 
-                       # Links the target library to the log library
-                       # included in the NDK.
                        ${log-lib} )
+
+target_link_libraries( # Specifies the target library.
+                      native-lib
+
+                      mruby )

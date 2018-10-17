@@ -1,5 +1,3 @@
 
-https://github.com/PierceLBrooks/jruby.git
-https://github.com/PierceLBrooks/android-bsf-api
 https://github.com/PierceLBrooks/grafika
-https://github.com/PierceLBrooks/jdk8u-dev-jdk
+https://github.com/PierceLBrooks/mruby

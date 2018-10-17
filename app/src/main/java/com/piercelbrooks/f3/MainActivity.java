@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.piercelbrooks.common.Citizen;
 import com.piercelbrooks.common.Family;
 import com.piercelbrooks.common.Governor;
-import com.piercelbrooks.roe.Ruby;
 
 public class MainActivity extends AppCompatActivity implements Citizen {
     private static final String TAG = "F3-MainActivity";
@@ -33,16 +32,6 @@ public class MainActivity extends AppCompatActivity implements Citizen {
         tv.setText(stringFromJNI());
 
         Button button = (Button) findViewById(R.id.rubyTestButton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Ruby ruby = new Ruby();
-                ruby.birth();
-                ruby.evaluate("puts \"Hello, world!\"");
-                ruby.death();
-            }
-        });
     }
 
     /**

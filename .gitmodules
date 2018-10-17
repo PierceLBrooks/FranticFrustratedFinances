@@ -1,12 +1,6 @@
-[submodule "dependencies/android-bsf-api"]
-	path = dependencies/android-bsf-api
-	url = https://github.com/PierceLBrooks/android-bsf-api
-[submodule "dependencies/jruby"]
-	path = dependencies/jruby
-	url = https://github.com/PierceLBrooks/jruby.git
 [submodule "dependencies/grafika"]
 	path = dependencies/grafika
 	url = https://github.com/PierceLBrooks/grafika.git
-[submodule "dependencies/jdk8u-dev-jdk"]
-	path = dependencies/jdk8u-dev-jdk
-	url = https://github.com/PierceLBrooks/jdk8u-dev-jdk.git
+[submodule "dependencies/mruby"]
+	path = dependencies/mruby
+	url = https://github.com/PierceLBrooks/mruby.git
