@@ -3,62 +3,62 @@
 
 package com.piercelbrooks.f3;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.util.Log;
+import android.view.View;
 
-import com.piercelbrooks.common.Citizen;
-import com.piercelbrooks.common.Constants;
-import com.piercelbrooks.common.Family;
-import com.piercelbrooks.common.Governor;
+import com.piercelbrooks.common.BasicActivity;
+import com.piercelbrooks.roe.AuthorFragment;
+import com.piercelbrooks.roe.Script;
 
-public class MainActivity extends AppCompatActivity implements Citizen {
+public class MainActivity extends BasicActivity {
     private static final String TAG = "F3-MainActivity";
 
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
+    @Override
+    protected void create() {
+        findViewById(R.id.rubyTestButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Script script = new Script(Script.TEST_SCRIPT, Script.TEST_SCRIPT_ENTRY);
+                String output = script.run();
+                Log.i(TAG, output);
+            }
+        });
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void destroy() {
 
-        // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(runScript(Constants.TEST_SCRIPT, Constants.TEST_SCRIPT_ENTRY));
-
-        Button button = (Button) findViewById(R.id.rubyTestButton);
-    }
-
-    public native String runScript(String script, String entry);
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        birth();
     }
 
     @Override
-    public void onPause() {
-        death();
-        super.onPause();
+    protected void start() {
+
     }
 
     @Override
-    public Family getFamily() {
-        return Family.ACTIVITY;
+    protected void stop() {
+
     }
 
     @Override
-    public void birth() {
-        Governor.getInstance().register(this);
+    protected void resume() {
+        //show(new AuthorFragment());
     }
 
     @Override
-    public void death() {
-        Governor.getInstance().unregister(this);
+    protected void pause() {
+
+    }
+
+    @Override
+    protected @IdRes int getFragmentSlot() {
+        return 0;
+    }
+
+    @Override
+    protected @LayoutRes int getLayout() {
+        return R.layout.activity_main;
     }
 }

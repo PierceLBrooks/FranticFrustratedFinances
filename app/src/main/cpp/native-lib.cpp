@@ -5,19 +5,48 @@
 #include <string>
 #include "mruby_usage.h"
 
+#ifdef __cplusplus
 extern "C"
 {
-JNIEXPORT jstring JNICALL Java_com_piercelbrooks_f3_MainActivity_runScript(JNIEnv* env, jobject thiz, jstring script, jstring entry)
+#endif
+
+JNIEXPORT void JNICALL Java_com_piercelbrooks_roe_Ruby_begin(JNIEnv* env, jobject thiz)
 {
-    std::string hello = "Hello from C++";
-    showMessage("before test");
+    if (begin() != 0)
+    {
+        assert("Ruby failed to begin!");
+    }
+}
+
+JNIEXPORT void JNICALL Java_com_piercelbrooks_roe_Ruby_end(JNIEnv* env, jobject thiz)
+{
+    if (end() != 0)
+    {
+        assert("Ruby failed to end!");
+    }
+}
+
+JNIEXPORT jstring JNICALL Java_com_piercelbrooks_roe_Ruby_run(JNIEnv* env, jobject thiz, jstring script, jstring entry)
+{
+    std::string output;
     const char* scriptNative = env->GetStringUTFChars(script, NULL);
     const char* entryNative = env->GetStringUTFChars(entry, NULL);
-    int result = run(scriptNative, entryNative);
+    char* result = run(scriptNative, entryNative);
     env->ReleaseStringUTFChars(script, scriptNative);
     env->ReleaseStringUTFChars(entry, entryNative);
-    showMessage("after test");
-    hello += " ("+std::to_string(result)+")";
-    return env->NewStringUTF(hello.c_str());
+    if (result == NULL)
+    {
+        output = "";
+    }
+    else
+    {
+        output = std::string(result, strlen(result));
+        free(result);
+        result = NULL;
+    }
+    return env->NewStringUTF(output.c_str());
 }
-};
+
+#ifdef __cplusplus
+}
+#endif

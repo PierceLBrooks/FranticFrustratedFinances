@@ -3,20 +3,22 @@
 
 package com.piercelbrooks.common;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Governor implements Citizen
+public class Governor extends ContextWrap
 {
     private static final String TAG = "PLB-Governor";
     private static Governor instance = null;
 
     private Registry<Family, Citizen, HashSet<Citizen>, HashMap<Family, HashSet<Citizen>>> citizens;
 
-    public Governor()
+    public Governor(Context context)
     {
+        super(context);
         this.citizens = new Registry<>(new HashMap<Family, HashSet<Citizen>>());
     }
 

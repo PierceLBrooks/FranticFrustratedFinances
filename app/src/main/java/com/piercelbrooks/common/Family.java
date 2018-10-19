@@ -1,3 +1,6 @@
+
+// Author: Pierce Brooks
+
 package com.piercelbrooks.common;
 
 public enum Family
@@ -7,5 +10,6 @@ public enum Family
     GOVERNOR,
     APPLICATION,
     ACTIVITY,
+    FRAGMENT,
     UNKNOWN
 }

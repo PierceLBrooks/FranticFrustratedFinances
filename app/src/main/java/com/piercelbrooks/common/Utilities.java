@@ -25,7 +25,6 @@ public class Utilities
         }
         view.setClickable(true);
         view.setVisibility(View.VISIBLE);
-        view.setFocusable(View.FOCUSABLE);
         return true;
     }
 
@@ -37,7 +36,6 @@ public class Utilities
         }
         view.setClickable(false);
         view.setVisibility(View.INVISIBLE);
-        view.setFocusable(View.NOT_FOCUSABLE);
         return true;
     }
 
