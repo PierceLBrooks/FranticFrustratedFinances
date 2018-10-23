@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@string/spacing"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:background="@drawable/outline">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="45"
+            android:layout_margin="@string/spacing"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_label"
+                android:labelFor="@+id/input_script"
+                android:text=" Input:"
+                android:textSize="@string/text_size"
+                android:textColor="@color/text_color">
+
+            </TextView>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/input_script"
+                android:padding="@string/spacing"
+                android:background="@drawable/outline"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:text="Input"
+                android:textSize="@string/text_size"
+                android:textColor="@color/text_color">
+
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="45"
+            android:layout_margin="@string/spacing"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/output_label"
+                android:labelFor="@+id/output_script"
+                android:text=" Output:"
+                android:textSize="@string/text_size"
+                android:textColor="@color/text_color">
+
+            </TextView>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/output_script"
+                android:padding="@string/spacing"
+                android:background="@drawable/outline"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:text="Output"
+                android:textSize="@string/text_size"
+                android:textColor="@color/text_color">
+
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:layout_gravity="center"
+            android:layout_margin="@string/spacing"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/author_exit"
+                            android:text="EXIT"
+                            android:textSize="@string/text_size"
+                            android:textColor="@color/text_color">
+
+                        </Button>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/author_run"
+                            android:text="RUN"
+                            android:textSize="@string/text_size"
+                            android:textColor="@color/text_color">
+
+                        </Button>
+
+                    </FrameLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

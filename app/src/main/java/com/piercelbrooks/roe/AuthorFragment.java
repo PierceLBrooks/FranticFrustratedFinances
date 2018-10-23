@@ -4,31 +4,54 @@
 package com.piercelbrooks.roe;
 
 import android.support.annotation.LayoutRes;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.piercelbrooks.common.BasicFragment;
 import com.piercelbrooks.common.Governor;
+import com.piercelbrooks.f3.R;
 
 public class AuthorFragment extends BasicFragment
 {
     private static final String TAG = "ROE-AuthorFragment";
-    private static final String TEST_SCRIPT = "\ndef foo\n\treturn \"bar\"\nend\n";
-    private static final String TEST_SCRIPT_ENTRY = "foo";
 
-    private TextView display;
+    private TextView outputLabel;
+    private TextView inputLabel;
+    private EditText outputScript;
+    private EditText inputScript;
+    private Button authorExit;
+    private Button authorRun;
     private ScriptBank bank;
 
     @Override
     protected @LayoutRes int getInflationResource()
     {
-        return 0;
+        return R.layout.author_fragment;
     }
 
     @Override
     protected void createView(View view)
     {
-        //display = view.findViewById(Governor.getInstance().getResources());
+        outputLabel = view.findViewById(R.id.output_label);
+        inputLabel = view.findViewById(R.id.input_label);
+        outputScript = view.findViewById(R.id.output_script);
+        inputScript  = view.findViewById(R.id.input_script);
+        authorExit = view.findViewById(R.id.author_exit);
+        authorRun = view.findViewById(R.id.author_run);
+        authorRun.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Script input = new Script(inputScript.getText().toString(), "run");
+                String output = input.run();
+                outputScript.setText(output);
+                Log.d(TAG, output);
+            }
+        });
     }
 
     @Override
@@ -41,5 +64,6 @@ public class AuthorFragment extends BasicFragment
     protected void onDeath()
     {
         bank.death();
+        bank = null;
     }
 }

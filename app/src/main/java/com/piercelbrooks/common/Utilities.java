@@ -172,4 +172,9 @@ public class Utilities
         }
         return "<\""+object.toString()+"\" (#"+Integer.toHexString(object.hashCode())+")>";
     }
+
+    public static String getHax(int number)
+    {
+        return Integer.toHexString(number);
+    }
 }

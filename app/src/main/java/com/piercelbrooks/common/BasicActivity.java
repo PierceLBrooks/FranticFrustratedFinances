@@ -10,6 +10,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 public abstract class BasicActivity extends FragmentActivity implements Citizen {
     private static final String TAG = "PLB-BasicActivity";
@@ -48,10 +49,16 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
         resume();
     }
 
+    private void setContentView() {
+        int layout = getLayout();
+        Log.d(TAG, "Setting content view (0x"+Utilities.getHax(layout)+")...");
+        setContentView(layout);
+    }
+
     private void commonOnCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         birth();
         activeFragment = null;
-        setContentView(getLayout());
+        setContentView();
         create();
     }
 

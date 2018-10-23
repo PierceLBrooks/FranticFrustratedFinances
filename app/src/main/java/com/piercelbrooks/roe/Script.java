@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Script implements Mortal
 {
     private static final String TAG = "ROE-Script";
-    public static final String TEST_SCRIPT = "\ndef foo\n\treturn \"bar\"\nend\n";
-    public static final String TEST_SCRIPT_ENTRY = "foo";
+    private static final String TEST_SCRIPT = "\ndef foo\n\treturn \"bar\"\nend\n";
+    private static final String TEST_SCRIPT_ENTRY = "foo";
 
     private static Ruby ruby;
     private static AtomicInteger instances;
@@ -20,9 +20,18 @@ public class Script implements Mortal
     private String body;
     private String entry;
 
+    public Script()
+    {
+        initialize(TEST_SCRIPT, TEST_SCRIPT_ENTRY);
+    }
+
     public Script(String body, String entry)
     {
+        initialize(body, entry);
+    }
 
+    private void initialize(String body, String entry)
+    {
         if (ruby == null)
         {
             ruby = new Ruby();
