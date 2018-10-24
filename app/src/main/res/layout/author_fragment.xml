@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@string/spacing"
+        android:layout_margin="@dimen/spacing"
         android:orientation="vertical"
         android:weightSum="100"
         android:background="@drawable/outline">
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="45"
-            android:layout_margin="@string/spacing"
+            android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
             <TextView
@@ -25,7 +25,7 @@
                 android:id="@+id/input_label"
                 android:labelFor="@+id/input_script"
                 android:text=" Input:"
-                android:textSize="@string/text_size"
+                android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
             </TextView>
@@ -34,12 +34,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/input_script"
-                android:padding="@string/spacing"
+                android:padding="@dimen/spacing"
                 android:background="@drawable/outline"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical"
                 android:text="Input"
-                android:textSize="@string/text_size"
+                android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
             </EditText>
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="45"
-            android:layout_margin="@string/spacing"
+            android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
             <TextView
@@ -59,7 +59,7 @@
                 android:id="@+id/output_label"
                 android:labelFor="@+id/output_script"
                 android:text=" Output:"
-                android:textSize="@string/text_size"
+                android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
             </TextView>
@@ -68,12 +68,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/output_script"
-                android:padding="@string/spacing"
+                android:padding="@dimen/spacing"
                 android:background="@drawable/outline"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical"
                 android:text="Output"
-                android:textSize="@string/text_size"
+                android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
             </EditText>
@@ -85,58 +85,48 @@
             android:layout_height="0dp"
             android:layout_weight="10"
             android:layout_gravity="center"
-            android:layout_margin="@string/spacing"
+            android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
-            <TableLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:stretchColumns="1">
+                android:layout_gravity="center">
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:id="@+id/author_exit"
+                    android:text="EXIT"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="left">
+                </Button>
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:id="@+id/author_exit"
-                            android:text="EXIT"
-                            android:textSize="@string/text_size"
-                            android:textColor="@color/text_color">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/author_clear"
+                    android:text="CLEAR"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color">
 
-                        </Button>
+                </Button>
 
-                    </FrameLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:id="@+id/author_run"
+                    android:text="RUN"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="right">
+                </Button>
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:id="@+id/author_run"
-                            android:text="RUN"
-                            android:textSize="@string/text_size"
-                            android:textColor="@color/text_color">
-
-                        </Button>
-
-                    </FrameLayout>
-
-                </TableRow>
-
-            </TableLayout>
+            </FrameLayout>
 
         </LinearLayout>
 

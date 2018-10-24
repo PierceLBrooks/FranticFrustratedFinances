@@ -42,7 +42,7 @@ public class Script implements Mortal
             instances = new AtomicInteger(0);
         }
         birth();
-        this.body = body;
+        this.body = body+"\n";
         this.entry = entry;
     }
 

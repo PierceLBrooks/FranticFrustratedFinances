@@ -4,6 +4,7 @@
 package com.piercelbrooks.common;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.HashMap;
@@ -20,6 +21,11 @@ public class Governor extends ContextWrap
     {
         super(context);
         this.citizens = new Registry<>(new HashMap<Family, HashSet<Citizen>>());
+    }
+
+    public Citizen getCitizen(@NonNull Family family)
+    {
+        return citizens.get(family);
     }
 
     public boolean register(@Nullable Citizen citizen)

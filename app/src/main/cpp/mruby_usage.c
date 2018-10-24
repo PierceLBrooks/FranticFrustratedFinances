@@ -90,6 +90,7 @@ char* run(const char* script, const char* entry)
     {
         if (!mrb_undef_p(value))
         {
+            mrb_print_error(state);
             error = -1;
         }
     }
@@ -101,6 +102,7 @@ char* run(const char* script, const char* entry)
         {
             if (!mrb_undef_p(value))
             {
+                mrb_print_error(state);
                 error = -2;
             }
         }

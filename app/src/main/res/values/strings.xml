@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">Frantic Frustrated Finances</string>
-    <string name="text_size">20dp</string>
-    <string name="spacing">2dp</string>
 </resources>

@@ -4,9 +4,11 @@
 package com.piercelbrooks.common;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,46 @@ import android.util.Log;
 
 public abstract class BasicActivity extends FragmentActivity implements Citizen {
     private static final String TAG = "PLB-BasicActivity";
+
+    private class FragmentShower extends Handler {
+        private class Runner implements Runnable {
+            private BasicActivity activity;
+            private BasicFragment fragment;
+
+            public Runner(@NonNull BasicActivity activity, @NonNull BasicFragment fragment) {
+                this.activity = activity;
+                this.fragment = fragment;
+            }
+
+            @Override
+            public void run() {
+                FragmentManager manager = activity.getSupportFragmentManager();
+                if (manager == null) {
+                    return;
+                }
+                if (activeFragment != null) {
+                    activeFragment.death();
+                    manager.beginTransaction().remove(activeFragment).commitNow();
+                }
+                activeFragment = this.fragment;
+                if (this.fragment != null) {
+                    manager.beginTransaction().replace(getFragmentSlot(), this.fragment, null).commitNow();
+                }
+            }
+        }
+
+        private BasicActivity activity;
+        private BasicFragment fragment;
+
+        public FragmentShower(@NonNull BasicActivity activity, @NonNull BasicFragment fragment) {
+            this.activity = activity;
+            this.fragment = fragment;
+        }
+
+        public void post() {
+            super.post(new Runner(activity, fragment));
+        }
+    }
 
     protected abstract void create();
     protected abstract void destroy();
@@ -27,15 +69,7 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
     private BasicFragment activeFragment;
 
     public void show(BasicFragment fragment) {
-        FragmentManager manager = getSupportFragmentManager();
-        if (activeFragment != null) {
-            activeFragment.death();
-            manager.beginTransaction().remove(activeFragment).commitNow();
-        }
-        activeFragment = fragment;
-        if (fragment != null) {
-            manager.beginTransaction().replace(getFragmentSlot(), fragment, null).commitNow();
-        }
+        new FragmentShower(this, fragment).post();
     }
 
     public BasicFragment getActiveFragment() {

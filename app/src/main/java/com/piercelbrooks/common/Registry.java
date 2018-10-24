@@ -47,6 +47,25 @@ public class Registry <T, U, V extends Set<U>, W extends Map<T, V>>
         this.population = new AtomicInteger(0);
     }
 
+    public @Nullable U get(@Nullable T key)
+    {
+        if (key == null)
+        {
+            return null;
+        }
+        if (!elements.containsKey(key))
+        {
+            return null;
+        }
+        V temp = elements.get(key);
+        Iterator<U> iterator = temp.iterator();
+        if (!iterator.hasNext())
+        {
+            return null;
+        }
+        return iterator.next();
+    }
+
     public boolean empty()
     {
         if (population.get() == 0)

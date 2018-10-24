@@ -36,14 +36,10 @@ JNIEXPORT jstring JNICALL Java_com_piercelbrooks_roe_Ruby_run(JNIEnv* env, jobje
     env->ReleaseStringUTFChars(entry, entryNative);
     if (result == NULL)
     {
-        output = "";
+        return NULL;
     }
-    else
-    {
-        output = std::string(result, strlen(result));
-        free(result);
-        result = NULL;
-    }
+    output = std::string(result, strlen(result));
+    free(result);
     return env->NewStringUTF(output.c_str());
 }
 

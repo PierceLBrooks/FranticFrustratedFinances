@@ -1,5 +1,7 @@
 package com.piercelbrooks.common;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.os.Build;
@@ -9,6 +11,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.inputmethod.InputMethodManager;
 
 import com.android.grafika.gles.EglCore;
 import com.android.grafika.gles.WindowSurface;
@@ -176,5 +179,36 @@ public class Utilities
     public static String getHax(int number)
     {
         return Integer.toHexString(number);
+    }
+
+    public static boolean closeKeyboard(Activity activity)
+    {
+        if (activity == null)
+        {
+            return false;
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null)
+        {
+            return false;
+        }
+        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        return true;
+
+    }
+
+    public static boolean openKeyboard(Activity activity)
+    {
+        if (activity == null)
+        {
+            return false;
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null)
+        {
+            return false;
+        }
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        return true;
     }
 }

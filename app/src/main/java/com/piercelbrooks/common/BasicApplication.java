@@ -6,6 +6,7 @@ package com.piercelbrooks.common;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.widget.Toast;
 
 public abstract class BasicApplication extends Application implements Application.ActivityLifecycleCallbacks, Citizen {
     private static final String TAG = "PLB-BasicApp";
@@ -20,6 +21,19 @@ public abstract class BasicApplication extends Application implements Applicatio
     protected abstract void activityPaused(Activity activity);
 
     private Governor governor;
+    private Preferences preferences;
+
+    public static BasicApplication getInstance() {
+        return (BasicApplication)Governor.getInstance().getCitizen(Family.APPLICATION);
+    }
+
+    public Preferences getPreferences() {
+        return preferences;
+    }
+
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Constants.TOAST_DURATION);
+    }
 
     @Override
     public void onCreate() {
@@ -79,6 +93,7 @@ public abstract class BasicApplication extends Application implements Applicatio
 
     @Override
     public void birth() {
+        preferences = new Preferences(new ContextWrap(this));
         governor = new Governor(this);
         governor.birth();
         governor.register(this);
@@ -86,6 +101,7 @@ public abstract class BasicApplication extends Application implements Applicatio
 
     @Override
     public void death() {
+        preferences = null;
         governor.unregister(this);
         governor.death();
         governor = null;

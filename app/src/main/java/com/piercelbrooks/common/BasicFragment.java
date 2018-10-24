@@ -29,7 +29,7 @@ public abstract class BasicFragment extends Fragment implements Citizen {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getInflationResource(), container);
+        View view = inflater.inflate(getInflationResource(), container, false);
         createView(view);
         return view;
     }
