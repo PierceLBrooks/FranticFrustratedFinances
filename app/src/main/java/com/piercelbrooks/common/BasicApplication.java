@@ -6,6 +6,7 @@ package com.piercelbrooks.common;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.support.annotation.StyleRes;
 import android.widget.Toast;
 
 public abstract class BasicApplication extends Application implements Application.ActivityLifecycleCallbacks, Citizen {
@@ -93,7 +94,7 @@ public abstract class BasicApplication extends Application implements Applicatio
 
     @Override
     public void birth() {
-        preferences = new Preferences(new ContextWrap(this));
+        preferences = new Preferences(this);
         governor = new Governor(this);
         governor.birth();
         governor.register(this);

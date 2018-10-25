@@ -13,7 +13,7 @@ public class ScriptBank extends Registry<String, Script, HashSet<Script>, TreeMa
 {
     private static final String TAG = "ROE-ScriptBank";
 
-    ScriptBank()
+    public ScriptBank()
     {
         super(new TreeMap<String, HashSet<Script>>());
         birth();

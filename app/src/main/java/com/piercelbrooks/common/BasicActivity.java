@@ -13,10 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Window;
 
 public abstract class BasicActivity extends FragmentActivity implements Citizen {
-    private static final String TAG = "PLB-BasicActivity";
-
     private class FragmentShower extends Handler {
         private class Runner implements Runnable {
             private BasicActivity activity;
@@ -57,6 +56,12 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
         }
     }
 
+    private static final String TAG = "PLB-BasicActivity";
+
+    private BasicFragment activeFragment;
+    private Window.Callback androidWindowCallback;
+    private WindowCallback commonWindowCallback;
+
     protected abstract void create();
     protected abstract void destroy();
     protected abstract void start();
@@ -65,8 +70,6 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
     protected abstract void pause();
     protected abstract @IdRes int getFragmentSlot();
     protected abstract @LayoutRes int getLayout();
-
-    private BasicFragment activeFragment;
 
     public void show(BasicFragment fragment) {
         new FragmentShower(this, fragment).post();
@@ -92,6 +95,8 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
     private void commonOnCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         birth();
         activeFragment = null;
+        androidWindowCallback = null;
+        commonWindowCallback = null;
         setContentView();
         create();
     }
@@ -138,12 +143,19 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
     @Override
     protected void onResume() {
         super.onResume();
+        Window window = getWindow();
+        androidWindowCallback = window.getCallback();
+        commonWindowCallback = new WindowCallback(this, androidWindowCallback);
+        window.setCallback(commonWindowCallback);
         resume();
     }
 
     @Override
     protected void onPause() {
         pause();
+        getWindow().setCallback(androidWindowCallback);
+        commonWindowCallback.death();
+        commonWindowCallback = null;
         super.onPause();
     }
 

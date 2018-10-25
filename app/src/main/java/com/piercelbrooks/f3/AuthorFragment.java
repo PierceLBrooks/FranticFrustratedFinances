@@ -1,9 +1,10 @@
 
 // Author: Pierce Brooks
 
-package com.piercelbrooks.roe;
+package com.piercelbrooks.f3;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +13,15 @@ import android.widget.TextView;
 
 import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicFragment;
+import com.piercelbrooks.common.Text;
+import com.piercelbrooks.common.TextListener;
 import com.piercelbrooks.common.Utilities;
-import com.piercelbrooks.f3.R;
+import com.piercelbrooks.roe.Script;
+import com.piercelbrooks.roe.ScriptBank;
 
-public class AuthorFragment extends BasicFragment
+public class AuthorFragment extends BasicFragment implements TextListener
 {
-    private static final String TAG = "ROE-AuthorFragment";
+    private static final String TAG = "F3-AuthorFragment";
 
     private TextView outputLabel;
     private TextView inputLabel;
@@ -99,5 +103,17 @@ public class AuthorFragment extends BasicFragment
         }
         bank.death();
         bank = null;
+    }
+
+    @Override
+    public void onChange(@NonNull Text text)
+    {
+        Log.d(TAG, "onChange");
+    }
+
+    @Override
+    public void onDelete(@NonNull Text text, boolean action)
+    {
+        Log.d(TAG, "onDelete");
     }
 }

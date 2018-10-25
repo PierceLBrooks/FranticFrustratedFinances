@@ -30,7 +30,7 @@
 
             </TextView>
 
-            <EditText
+            <com.piercelbrooks.f3.AuthorScript
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/input_script"
@@ -42,7 +42,7 @@
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
-            </EditText>
+            </com.piercelbrooks.f3.AuthorScript>
 
         </LinearLayout>
 
@@ -64,7 +64,7 @@
 
             </TextView>
 
-            <EditText
+            <com.piercelbrooks.f3.AuthorScript
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/output_script"
@@ -76,7 +76,7 @@
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
-            </EditText>
+            </com.piercelbrooks.f3.AuthorScript>
 
         </LinearLayout>
 

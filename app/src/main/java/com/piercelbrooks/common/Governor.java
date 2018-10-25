@@ -68,7 +68,7 @@ public class Governor extends ContextWrap
     }
 
     @Override
-    public void birth()
+    public void onBirth()
     {
         if (instance != null)
         {
@@ -76,11 +76,10 @@ public class Governor extends ContextWrap
             return;
         }
         instance = this;
-        register(this);
     }
 
     @Override
-    public void death()
+    public void onDeath()
     {
         if (instance != this)
         {
@@ -88,6 +87,5 @@ public class Governor extends ContextWrap
             return;
         }
         instance = null;
-        unregister(this);
     }
 }

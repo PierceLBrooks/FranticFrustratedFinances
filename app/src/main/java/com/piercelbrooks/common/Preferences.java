@@ -10,7 +10,7 @@ public class Preferences
 {
     SharedPreferences preferences;
 
-    public Preferences(ContextWrap context)
+    public Preferences(Context context)
     {
         preferences = context.getSharedPreferences(Constants.TAG, Context.MODE_PRIVATE);
     }

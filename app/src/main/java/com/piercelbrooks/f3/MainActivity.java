@@ -7,7 +7,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 
 import com.piercelbrooks.common.BasicActivity;
-import com.piercelbrooks.roe.AuthorFragment;
 
 public class MainActivity extends BasicActivity {
     private static final String TAG = "F3-MainActivity";
