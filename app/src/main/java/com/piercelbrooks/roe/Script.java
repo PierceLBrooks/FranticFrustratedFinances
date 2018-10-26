@@ -48,6 +48,14 @@ public class Script implements Mortal
 
     public String run()
     {
+        if ((body == null) || (entry == null))
+        {
+            return null;
+        }
+        if ((body.isEmpty()) || (entry.isEmpty()))
+        {
+            return null;
+        }
         return Ruby.getInstance().run(body, entry);
     }
 

@@ -5,7 +5,6 @@ package com.piercelbrooks.common;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,7 +16,7 @@ import android.view.inputmethod.InputConnectionWrapper;
 
 public abstract class Text extends android.support.v7.widget.AppCompatEditText implements TextWatcher
 {
-    private class TextInput extends InputConnectionWrapper implements View.OnKeyListener
+    private class TextInput extends InputConnectionWrapper
     {
         private static final String TAG = "PLB-TextInput";
 
@@ -28,6 +27,32 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
         {
             super(target, mutable);
             this.owner = owner;
+        }
+
+        @Override
+        public boolean sendKeyEvent(KeyEvent event)
+        {
+            if (owner != null)
+            {
+                int action = event.getAction();
+                int keyCode = event.getKeyCode();
+                switch (keyCode)
+                {
+                    case KeyEvent.KEYCODE_DEL:
+                    case KeyEvent.KEYCODE_FORWARD_DEL:
+                        switch (action)
+                        {
+                            case KeyEvent.ACTION_DOWN:
+                                owner.delete(true);
+                                break;
+                            case KeyEvent.ACTION_UP:
+                                owner.delete(false);
+                                break;
+                        }
+                        break;
+                }
+            }
+            return super.sendKeyEvent(event);
         }
 
         @Override
@@ -48,35 +73,6 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
                 return result;
             }
             return super.deleteSurroundingText(beforeLength, afterLength);
-        }
-
-        @Override
-        public boolean onKey(View view, int keyCode, KeyEvent event)
-        {
-            Log.d(TAG, "onKey");
-            if (owner != null)
-            {
-                int action = event.getAction();
-                boolean result = false;
-                switch (keyCode)
-                {
-                    case KeyEvent.KEYCODE_DEL:
-                    case KeyEvent.KEYCODE_FORWARD_DEL:
-                        switch (action)
-                        {
-                            case KeyEvent.ACTION_DOWN:
-                                owner.delete(true);
-                                break;
-                            case KeyEvent.ACTION_UP:
-                                owner.delete(false);
-                                break;
-                        }
-                        result = true;
-                        break;
-                }
-                return result;
-            }
-            return false;
         }
     }
 
@@ -140,36 +136,6 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
         {
             listener.onDelete(this, action);
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (input != null)
-        {
-            input.onKey(this, keyCode, event);
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
-    {
-        if (input != null)
-        {
-            input.onKey(this, keyCode, event);
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event)
-    {
-        if (input != null)
-        {
-            input.onKey(this, keyCode, event);
-        }
-        return super.onKeyMultiple(keyCode, repeatCount, event);
     }
 
     @Override

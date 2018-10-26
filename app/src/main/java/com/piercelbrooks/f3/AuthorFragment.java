@@ -24,9 +24,11 @@ public class AuthorFragment extends BasicFragment implements TextListener
     private static final String TAG = "F3-AuthorFragment";
 
     private TextView outputLabel;
+    private TextView callLabel;
     private TextView inputLabel;
-    private EditText outputScript;
-    private EditText inputScript;
+    private Text outputScript;
+    private Text call;
+    private Text inputScript;
     private Button authorExit;
     private Button authorClear;
     private Button authorRun;
@@ -42,12 +44,18 @@ public class AuthorFragment extends BasicFragment implements TextListener
     protected void createView(View view)
     {
         outputLabel = view.findViewById(R.id.output_label);
+        callLabel = view.findViewById(R.id.call_label);
         inputLabel = view.findViewById(R.id.input_label);
         outputScript = view.findViewById(R.id.output_script);
+        call = view.findViewById(R.id.call);
         inputScript  = view.findViewById(R.id.input_script);
         authorExit = view.findViewById(R.id.author_exit);
         authorClear = view.findViewById(R.id.author_clear);
         authorRun = view.findViewById(R.id.author_run);
+
+        outputScript.setListener(this);
+        call.setListener(this);
+        inputScript.setListener(this);
 
         authorExit.setOnClickListener(new View.OnClickListener()
         {
@@ -64,6 +72,7 @@ public class AuthorFragment extends BasicFragment implements TextListener
             public void onClick(View v)
             {
                 inputScript.setText("");
+                call.setText("");
                 outputScript.setText("");
             }
         });
@@ -72,7 +81,7 @@ public class AuthorFragment extends BasicFragment implements TextListener
             @Override
             public void onClick(View v)
             {
-                Script input = new Script(inputScript.getText().toString(), "run");
+                Script input = new Script(inputScript.getText().toString(), call.getText().toString());
                 String output = input.run();
                 if (output != null)
                 {

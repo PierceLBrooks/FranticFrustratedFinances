@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="45"
+            android:layout_weight="40"
             android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/input_label"
                 android:labelFor="@+id/input_script"
-                android:text=" Input:"
+                android:text=" Input: "
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
@@ -49,7 +49,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="45"
+            android:layout_weight="10"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/spacing"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/call_label"
+                android:labelFor="@+id/call"
+                android:text=" Call: "
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/text_color">
+
+            </TextView>
+
+            <com.piercelbrooks.f3.AuthorScript
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/call"
+                android:padding="@dimen/spacing"
+                android:background="@drawable/outline"
+                android:inputType="text"
+                android:scrollbars="vertical"
+                android:text="Call"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/text_color">
+
+            </com.piercelbrooks.f3.AuthorScript>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"
             android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
@@ -58,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/output_label"
                 android:labelFor="@+id/output_script"
-                android:text=" Output:"
+                android:text=" Output: "
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color">
 
@@ -86,7 +123,7 @@
             android:layout_weight="10"
             android:layout_gravity="center"
             android:layout_margin="@dimen/spacing"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="match_parent"
