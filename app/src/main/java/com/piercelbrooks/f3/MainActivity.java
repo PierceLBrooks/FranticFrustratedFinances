@@ -33,7 +33,8 @@ public class MainActivity extends BasicActivity {
 
     @Override
     protected void resume() {
-        show(new AuthorFragment());
+        //show(new AuthorFragment());
+        show(new ActionFragment());
     }
 
     @Override

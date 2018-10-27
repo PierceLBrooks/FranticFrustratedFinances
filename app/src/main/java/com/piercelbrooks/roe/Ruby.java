@@ -5,7 +5,7 @@ package com.piercelbrooks.roe;
 
 import com.piercelbrooks.common.Citizen;
 import com.piercelbrooks.common.Family;
-import com.piercelbrooks.common.Governor;
+import com.piercelbrooks.common.Mayor;
 import com.piercelbrooks.common.Utilities;
 
 public class Ruby implements Citizen
@@ -33,7 +33,7 @@ public class Ruby implements Citizen
             return;
         }
         instance = this;
-        Governor.getInstance().register(this);
+        Mayor.getInstance().register(this);
         begin();
     }
 
@@ -47,7 +47,7 @@ public class Ruby implements Citizen
         }
         instance = null;
         end();
-        Governor.getInstance().unregister(this);
+        Mayor.getInstance().unregister(this);
     }
 
     public static Ruby getInstance()

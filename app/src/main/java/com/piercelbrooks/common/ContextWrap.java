@@ -26,13 +26,13 @@ public abstract class ContextWrap extends ContextWrapper implements Citizen
     public void birth()
     {
         onBirth();
-        Governor.getInstance().register(this);
+        Mayor.getInstance().register(this);
     }
 
     @Override
     public void death()
     {
-        Governor.getInstance().unregister(this);
+        Mayor.getInstance().unregister(this);
         onDeath();
     }
 }

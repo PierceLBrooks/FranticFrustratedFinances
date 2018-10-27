@@ -10,18 +10,19 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Window;
 
 public abstract class BasicActivity extends FragmentActivity implements Citizen {
-    private class FragmentShower extends Handler {
-        private class Runner implements Runnable {
+    private class Shower <T extends Fragment & Citizen> extends Handler {
+        private class Runner <T extends Fragment & Citizen> implements Runnable {
             private BasicActivity activity;
-            private BasicFragment fragment;
+            private T fragment;
 
-            public Runner(@NonNull BasicActivity activity, @NonNull BasicFragment fragment) {
+            public Runner(@NonNull BasicActivity activity, @NonNull T fragment) {
                 this.activity = activity;
                 this.fragment = fragment;
             }
@@ -29,36 +30,40 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
             @Override
             public void run() {
                 FragmentManager manager = activity.getSupportFragmentManager();
+                Fragment activeFragment = activity.getActiveFragment();
                 if (manager == null) {
                     return;
                 }
                 if (activeFragment != null) {
-                    activeFragment.death();
+                    if (activeFragment instanceof Citizen) {
+                        ((Citizen)activeFragment).death();
+                    }
                     manager.beginTransaction().remove(activeFragment).commitNow();
                 }
                 activeFragment = this.fragment;
                 if (this.fragment != null) {
+                    this.fragment.birth();
                     manager.beginTransaction().replace(getFragmentSlot(), this.fragment, null).commitNow();
                 }
             }
         }
 
         private BasicActivity activity;
-        private BasicFragment fragment;
+        private T fragment;
 
-        public FragmentShower(@NonNull BasicActivity activity, @NonNull BasicFragment fragment) {
+        public Shower(@NonNull BasicActivity activity, @NonNull T fragment) {
             this.activity = activity;
             this.fragment = fragment;
         }
 
         public void post() {
-            super.post(new Runner(activity, fragment));
+            super.post(new Runner<>(activity, fragment));
         }
     }
 
     private static final String TAG = "PLB-BasicActivity";
 
-    private BasicFragment activeFragment;
+    private Fragment activeFragment;
     private Window.Callback androidWindowCallback;
     private WindowCallback commonWindowCallback;
 
@@ -71,11 +76,11 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
     protected abstract @IdRes int getFragmentSlot();
     protected abstract @LayoutRes int getLayout();
 
-    public void show(BasicFragment fragment) {
-        new FragmentShower(this, fragment).post();
+    public <T extends Fragment & Citizen> void show(T fragment) {
+        new Shower<>(this, fragment).post();
     }
 
-    public BasicFragment getActiveFragment() {
+    public Fragment getActiveFragment() {
         return activeFragment;
     }
 
@@ -196,11 +201,11 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
 
     @Override
     public void birth() {
-        Governor.getInstance().register(this);
+        Mayor.getInstance().register(this);
     }
 
     @Override
     public void death() {
-        Governor.getInstance().unregister(this);
+        Mayor.getInstance().unregister(this);
     }
 }

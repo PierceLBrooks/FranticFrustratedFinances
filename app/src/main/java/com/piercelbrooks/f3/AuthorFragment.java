@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.piercelbrooks.common.BasicApplication;
@@ -21,7 +20,7 @@ import com.piercelbrooks.roe.ScriptBank;
 
 public class AuthorFragment extends BasicFragment implements TextListener
 {
-    private static final String TAG = "F3-AuthorFragment";
+    private static final String TAG = "F3-AuthorFrag";
 
     private TextView outputLabel;
     private TextView callLabel;
@@ -41,7 +40,7 @@ public class AuthorFragment extends BasicFragment implements TextListener
     }
 
     @Override
-    protected void createView(View view)
+    protected void createView(@NonNull View view)
     {
         outputLabel = view.findViewById(R.id.output_label);
         callLabel = view.findViewById(R.id.call_label);

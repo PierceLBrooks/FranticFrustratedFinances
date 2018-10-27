@@ -7,7 +7,7 @@ public enum Family
 {
     CONTEXT,
     SINGLETON,
-    GOVERNOR,
+    MAYOR,
     APPLICATION,
     ACTIVITY,
     FRAGMENT,

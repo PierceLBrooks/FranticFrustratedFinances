@@ -10,14 +10,14 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Governor extends ContextWrap
+public class Mayor extends ContextWrap
 {
-    private static final String TAG = "PLB-Governor";
-    private static Governor instance = null;
+    private static final String TAG = "PLB-Mayor";
+    private static Mayor instance = null;
 
     private Registry<Family, Citizen, HashSet<Citizen>, HashMap<Family, HashSet<Citizen>>> citizens;
 
-    public Governor(Context context)
+    public Mayor(Context context)
     {
         super(context);
         this.citizens = new Registry<>(new HashMap<Family, HashSet<Citizen>>());
@@ -56,7 +56,7 @@ public class Governor extends ContextWrap
         new Assassin(victim).start();
     }
 
-    public static Governor getInstance()
+    public static Mayor getInstance()
     {
         return instance;
     }
@@ -64,7 +64,7 @@ public class Governor extends ContextWrap
     @Override
     public Family getFamily()
     {
-        return Family.GOVERNOR;
+        return Family.MAYOR;
     }
 
     @Override
