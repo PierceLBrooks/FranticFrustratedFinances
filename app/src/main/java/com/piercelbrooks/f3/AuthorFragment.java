@@ -32,6 +32,21 @@ public class AuthorFragment extends BasicFragment implements TextListener
     private Button authorClear;
     private Button authorRun;
     private ScriptBank bank;
+    private Action action;
+
+    public AuthorFragment()
+    {
+        outputLabel = null;
+        callLabel = null;
+        inputLabel = null;
+        outputScript = null;
+        call = null;
+        inputScript = null;
+        authorExit = null;
+        authorClear = null;
+        bank = null;
+        action = null;
+    }
 
     @Override
     protected @LayoutRes int getInflationResource()
@@ -58,11 +73,11 @@ public class AuthorFragment extends BasicFragment implements TextListener
 
         authorExit.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
                 Utilities.closeKeyboard(getActivity());
+                ((MainActivity)getActivity()).showActions(action.getOwner());
             }
         });
         authorClear.setOnClickListener(new View.OnClickListener()
@@ -123,5 +138,15 @@ public class AuthorFragment extends BasicFragment implements TextListener
     public void onDelete(@NonNull Text text, boolean action)
     {
         Log.d(TAG, "onDelete");
+    }
+
+    public void setAction(Action action)
+    {
+        this.action = action;
+    }
+
+    public Action getAction()
+    {
+        return action;
     }
 }

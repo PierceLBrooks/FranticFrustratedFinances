@@ -76,6 +76,10 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
     protected abstract @IdRes int getFragmentSlot();
     protected abstract @LayoutRes int getLayout();
 
+    public void show() {
+        show(null);
+    }
+
     public <T extends Fragment & Citizen> void show(T fragment) {
         new Shower<>(this, fragment).post();
     }

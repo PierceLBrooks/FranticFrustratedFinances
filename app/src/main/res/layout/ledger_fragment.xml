@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/action_root">
+    android:id="@+id/ledger_root">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:id="@+id/action_exit"
+                    android:id="@+id/ledger_exit"
                     android:text="BACK"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">
@@ -64,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:id="@+id/action_remove"
+                        android:id="@+id/ledger_remove"
                         android:text=" [ - ] "
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color">
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:id="@+id/action_add"
+                        android:id="@+id/ledger_add"
                         android:text=" [ + ] "
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color">
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:id="@+id/action_edit"
+                    android:id="@+id/ledger_edit"
                     android:text="EDIT"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">

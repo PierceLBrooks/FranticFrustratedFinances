@@ -12,13 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Registry <T, U, V extends Set<U>, W extends Map<T, V>>
+public abstract class Registry <T, U, V extends Set<U>, W extends Map<T, V>>
 {
-    private static final String TAG = "PLB-Registry";
-
-    private W elements;
-    private AtomicInteger population;
-
     public class Registerable
     {
         private final T key;
@@ -40,6 +35,13 @@ public class Registry <T, U, V extends Set<U>, W extends Map<T, V>>
             return element;
         }
     }
+
+    private static final String TAG = "PLB-Registry";
+
+    protected abstract V getRegisterableSet();
+
+    private W elements;
+    private AtomicInteger population;
 
     public Registry(@NonNull W elements)
     {
@@ -86,17 +88,15 @@ public class Registry <T, U, V extends Set<U>, W extends Map<T, V>>
             return false;
         }
         population.incrementAndGet();
-        /*
         if (!elements.containsKey(key))
         {
-            elements.put(key, new V());
+            elements.put(key, getRegisterableSet());
         }
         if (elements.get(key).contains(element))
         {
             return false;
         }
         elements.get(key).add(element);
-        */
         return false;
     }
 

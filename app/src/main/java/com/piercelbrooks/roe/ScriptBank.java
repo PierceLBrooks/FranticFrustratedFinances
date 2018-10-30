@@ -3,6 +3,7 @@
 
 package com.piercelbrooks.roe;
 
+import com.piercelbrooks.common.Citizen;
 import com.piercelbrooks.common.Mortal;
 import com.piercelbrooks.common.Registry;
 
@@ -17,6 +18,12 @@ public class ScriptBank extends Registry<String, Script, HashSet<Script>, TreeMa
     {
         super(new TreeMap<String, HashSet<Script>>());
         birth();
+    }
+
+    @Override
+    protected HashSet<Script> getRegisterableSet()
+    {
+        return new HashSet<>();
     }
 
     @Override

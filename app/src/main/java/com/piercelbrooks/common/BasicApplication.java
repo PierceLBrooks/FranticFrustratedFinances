@@ -6,11 +6,13 @@ package com.piercelbrooks.common;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.widget.Toast;
 
 public abstract class BasicApplication extends Application implements Application.ActivityLifecycleCallbacks, Citizen {
     private static final String TAG = "PLB-BasicApp";
 
+    public abstract @DrawableRes int getEmptyDrawable();
     protected abstract void create();
     protected abstract void terminate();
     protected abstract void activityCreated(Activity activity);
@@ -94,7 +96,7 @@ public abstract class BasicApplication extends Application implements Applicatio
     @Override
     public void birth() {
         preferences = new Preferences(this);
-        mayor = new Mayor(this);
+        mayor = new Mayor();
         mayor.birth();
         mayor.register(this);
     }

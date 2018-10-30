@@ -14,27 +14,25 @@ import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 import com.piercelbrooks.common.Utilities;
 
-public class ActionFragment extends BasicListFragment {
-    private static final String TAG = "F3-ActionFrag";
+public class LedgerFragment extends BasicListFragment {
+    private static final String TAG = "F3-LedgerFrag";
 
     private int selectionIndex;
     private View selection;
-    private Button actionExit;
-    private Button actionRemove;
-    private Button actionAdd;
-    private Button actionEdit;
-    private Ledger ledger;
+    private Button ledgerExit;
+    private Button ledgerRemove;
+    private Button ledgerAdd;
+    private Button ledgerEdit;
 
-    public ActionFragment()
+    public LedgerFragment()
     {
         super();
         selectionIndex = -1;
         selection = null;
-        actionExit = null;
-        actionRemove = null;
-        actionAdd = null;
-        actionEdit = null;
-        ledger = null;
+        ledgerExit = null;
+        ledgerRemove = null;
+        ledgerAdd = null;
+        ledgerEdit = null;
     }
 
     @Override
@@ -76,21 +74,21 @@ public class ActionFragment extends BasicListFragment {
     {
         selection = null;
 
-        actionExit = view.findViewById(R.id.action_exit);
-        actionRemove = view.findViewById(R.id.action_remove);
-        actionAdd = view.findViewById(R.id.action_add);
-        actionEdit = view.findViewById(R.id.action_edit);
+        ledgerExit = view.findViewById(R.id.action_exit);
+        ledgerRemove = view.findViewById(R.id.action_remove);
+        ledgerAdd = view.findViewById(R.id.action_add);
+        ledgerEdit = view.findViewById(R.id.action_edit);
 
-        actionExit.setOnClickListener(new View.OnClickListener()
+        ledgerExit.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
                 Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showLobby(ledger);
             }
         });
-        actionRemove.setOnClickListener(new View.OnClickListener()
+        ledgerRemove.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -102,7 +100,7 @@ public class ActionFragment extends BasicListFragment {
                 }
             }
         });
-        actionAdd.setOnClickListener(new View.OnClickListener()
+        ledgerAdd.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -110,13 +108,14 @@ public class ActionFragment extends BasicListFragment {
                 addItem(""+getItemCount());
             }
         });
-        actionEdit.setOnClickListener(new View.OnClickListener()
+        ledgerEdit.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
                 Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showAuthor(ledger.getTarget());
+                ((MainActivity)getActivity()).showLobby(new Ledger());
             }
         });
     }
@@ -131,15 +130,5 @@ public class ActionFragment extends BasicListFragment {
     protected void onDeath()
     {
 
-    }
-
-    public void setLedger(Ledger ledger)
-    {
-        this.ledger = ledger;
-    }
-
-    public Ledger getLedger()
-    {
-        return ledger;
     }
 }

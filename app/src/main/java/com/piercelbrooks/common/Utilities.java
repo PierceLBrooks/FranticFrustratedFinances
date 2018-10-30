@@ -153,7 +153,11 @@ public class Utilities {
         if (imm == null) {
             return false;
         }
-        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        View focus = activity.getCurrentFocus();
+        if (focus == null) {
+            return false;
+        }
+        imm.hideSoftInputFromWindow(focus.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         return true;
 
     }

@@ -21,6 +21,10 @@ public abstract class BasicFragment extends Fragment implements Citizen {
     protected abstract void onBirth();
     protected abstract void onDeath();
 
+    public BasicFragment() {
+
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

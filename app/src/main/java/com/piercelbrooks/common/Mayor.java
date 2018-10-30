@@ -3,29 +3,26 @@
 
 package com.piercelbrooks.common;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Mayor extends ContextWrap
+public class Mayor extends Registry<Family, Citizen, HashSet<Citizen>, HashMap<Family, HashSet<Citizen>>> implements Citizen
 {
     private static final String TAG = "PLB-Mayor";
     private static Mayor instance = null;
 
-    private Registry<Family, Citizen, HashSet<Citizen>, HashMap<Family, HashSet<Citizen>>> citizens;
-
-    public Mayor(Context context)
+    public Mayor()
     {
-        super(context);
-        this.citizens = new Registry<>(new HashMap<Family, HashSet<Citizen>>());
+        super(new HashMap<Family, HashSet<Citizen>>());
     }
 
-    public Citizen getCitizen(@NonNull Family family)
+    @Override
+    protected HashSet<Citizen> getRegisterableSet()
     {
-        return citizens.get(family);
+        return new HashSet<>();
     }
 
     public boolean register(@Nullable Citizen citizen)
@@ -34,7 +31,7 @@ public class Mayor extends ContextWrap
         {
             return false;
         }
-        return citizens.register(citizen.getFamily(), citizen);
+        return register(citizen.getFamily(), citizen);
     }
 
     public boolean unregister(@Nullable Citizen citizen)
@@ -43,7 +40,12 @@ public class Mayor extends ContextWrap
         {
             return false;
         }
-        return citizens.unregister(citizen.getFamily(), citizen);
+        return unregister(citizen.getFamily(), citizen);
+    }
+
+    public Citizen getCitizen(@NonNull Family family)
+    {
+        return get(family);
     }
 
     public void run(@Nullable Runnable runnable)
@@ -68,7 +70,7 @@ public class Mayor extends ContextWrap
     }
 
     @Override
-    public void onBirth()
+    public void birth()
     {
         if (instance != null)
         {
@@ -79,7 +81,7 @@ public class Mayor extends ContextWrap
     }
 
     @Override
-    public void onDeath()
+    public void death()
     {
         if (instance != this)
         {
