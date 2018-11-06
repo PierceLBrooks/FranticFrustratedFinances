@@ -10,7 +10,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +88,7 @@ public abstract class BasicListFragment extends ListFragment implements Citizen,
     protected abstract void itemClick(View view, int position);
     protected abstract @IdRes int getItemID();
     protected abstract @LayoutRes int getItemLayout();
-    protected abstract @LayoutRes int getInflationResource();
+    protected abstract @LayoutRes int getLayout();
     protected abstract void createView(@NonNull View view);
     protected abstract void onBirth();
     protected abstract void onDeath();
@@ -108,7 +107,7 @@ public abstract class BasicListFragment extends ListFragment implements Citizen,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(getInflationResource(), container, false);
+        View view = inflater.inflate(getLayout(), container, false);
         return view;
     }
 

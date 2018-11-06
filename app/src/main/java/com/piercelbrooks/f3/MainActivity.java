@@ -62,23 +62,51 @@ public class MainActivity extends BasicActivity {
     }
 
     public void showLedgers() {
-        LedgerFragment fragment = new LedgerFragment();
+        LedgersFragment fragment = new LedgersFragment();
         show(fragment);
     }
 
     public void showActions(Ledger ledger) {
-        ActionFragment fragment = new ActionFragment();
+        ActionsFragment fragment = new ActionsFragment();
         fragment.setLedger(ledger);
         show(fragment);
         this.ledger = ledger;
     }
 
+    public void showContacts(Ledger ledger) {
+        ContactsFragment fragment = new ContactsFragment();
+        fragment.setLedger(ledger);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public void showContactAddress(Contact contact) {
+        ContactAddressFragment fragment = new ContactAddressFragment();
+        fragment.setContact(contact);
+        if (ledger != null) {
+            ledger.setTargetContact(contact);
+        }
+        contact.setOwner(ledger);
+        show(fragment);
+    }
+
+    public void showLedgerName(Ledger ledger) {
+        LedgerNameFragment fragment = new LedgerNameFragment();
+        fragment.setLedger(ledger);
+        show(fragment);
+    }
+
+    public void showAccount(Ledger ledger) {
+        AccountFragment fragment = new AccountFragment();
+        fragment.setLedger(ledger);
+        show(fragment);
+    }
+
     public void showAuthor(Action action) {
         AuthorFragment fragment = new AuthorFragment();
         fragment.setAction(action);
-        if (ledger != null)
-        {
-            ledger.setTarget(action);
+        if (ledger != null) {
+            ledger.setTargetAction(action);
         }
         action.setOwner(ledger);
         show(fragment);

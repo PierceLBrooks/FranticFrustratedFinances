@@ -30,57 +30,111 @@
 
         </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/text_color"
-                android:text="ACTIONS"
-                android:id="@+id/lobby_actions">
-
-            </Button>
-
-        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="30">
+            android:layout_weight="90">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/text_color"
-                android:text="RENAME"
-                android:id="@+id/lobby_rename">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:background="@drawable/outline">
 
-            </Button>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20">
 
-        </FrameLayout>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/text_color"
+                        android:text="ACTIONS"
+                        android:id="@+id/lobby_actions">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="30">
+                    </Button>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/text_color"
-                android:text="FINISH"
-                android:id="@+id/lobby_finish">
+                </FrameLayout>
 
-            </Button>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/text_color"
+                        android:text="RENAME"
+                        android:id="@+id/lobby_rename">
+
+                    </Button>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/text_color"
+                        android:text="CONTACTS"
+                        android:id="@+id/lobby_contacts">
+
+                    </Button>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/text_color"
+                        android:text="ACCOUNT"
+                        android:id="@+id/lobby_account">
+
+                    </Button>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size"
+                        android:textColor="@color/text_color"
+                        android:text="FINISH"
+                        android:id="@+id/lobby_finish">
+
+                    </Button>
+
+                </FrameLayout>
+
+            </LinearLayout>
 
         </FrameLayout>
 

@@ -14,27 +14,26 @@ import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 import com.piercelbrooks.common.Utilities;
 
-public class ActionFragment extends BasicListFragment {
-    private static final String TAG = "F3-ActionFrag";
+public class LedgersFragment extends BasicListFragment
+{
+    private static final String TAG = "F3-LedgersFrag";
 
     private int selectionIndex;
     private View selection;
-    private Button actionExit;
-    private Button actionRemove;
-    private Button actionAdd;
-    private Button actionEdit;
-    private Ledger ledger;
+    private Button ledgerExit;
+    private Button ledgerRemove;
+    private Button ledgerAdd;
+    private Button ledgerEdit;
 
-    public ActionFragment()
+    public LedgersFragment()
     {
         super();
         selectionIndex = -1;
         selection = null;
-        actionExit = null;
-        actionRemove = null;
-        actionAdd = null;
-        actionEdit = null;
-        ledger = null;
+        ledgerExit = null;
+        ledgerRemove = null;
+        ledgerAdd = null;
+        ledgerEdit = null;
     }
 
     @Override
@@ -56,19 +55,19 @@ public class ActionFragment extends BasicListFragment {
     @Override
     protected @IdRes int getItemID()
     {
-        return R.id.action_item_label;
+        return R.id.ledger_item_label;
     }
 
     @Override
     protected @LayoutRes int getItemLayout()
     {
-        return R.layout.action_item;
+        return R.layout.ledger_item;
     }
 
     @Override
-    protected @LayoutRes int getInflationResource()
+    protected @LayoutRes int getLayout()
     {
-        return R.layout.action_fragment;
+        return R.layout.ledgers_fragment;
     }
 
     @Override
@@ -76,21 +75,21 @@ public class ActionFragment extends BasicListFragment {
     {
         selection = null;
 
-        actionExit = view.findViewById(R.id.action_exit);
-        actionRemove = view.findViewById(R.id.action_remove);
-        actionAdd = view.findViewById(R.id.action_add);
-        actionEdit = view.findViewById(R.id.action_edit);
+        ledgerExit = view.findViewById(R.id.ledgers_exit);
+        ledgerRemove = view.findViewById(R.id.ledgers_remove);
+        ledgerAdd = view.findViewById(R.id.ledgers_add);
+        ledgerEdit = view.findViewById(R.id.ledgers_edit);
 
-        actionExit.setOnClickListener(new View.OnClickListener()
+        ledgerExit.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
                 Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showLobby(ledger);
             }
         });
-        actionRemove.setOnClickListener(new View.OnClickListener()
+        ledgerRemove.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -102,7 +101,7 @@ public class ActionFragment extends BasicListFragment {
                 }
             }
         });
-        actionAdd.setOnClickListener(new View.OnClickListener()
+        ledgerAdd.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -110,13 +109,14 @@ public class ActionFragment extends BasicListFragment {
                 addItem(""+getItemCount());
             }
         });
-        actionEdit.setOnClickListener(new View.OnClickListener()
+        ledgerEdit.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
                 Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showAuthor(ledger.getTarget());
+                ((MainActivity)getActivity()).showLobby(new Ledger(getItemLabel(selectionIndex)));
             }
         });
     }
@@ -131,15 +131,5 @@ public class ActionFragment extends BasicListFragment {
     protected void onDeath()
     {
 
-    }
-
-    public void setLedger(Ledger ledger)
-    {
-        this.ledger = ledger;
-    }
-
-    public Ledger getLedger()
-    {
-        return ledger;
     }
 }

@@ -5,20 +5,44 @@ package com.piercelbrooks.f3;
 
 public class Ledger
 {
-    private Action target;
+    private String name;
+    private Action targetAction;
+    private Contact targetContact;
 
-    public Ledger()
+    public Ledger(String name)
     {
-        target = new Action(this);
+        this.name = name;
+        this.targetAction = new Action(this);
+        this.targetContact = new Contact(this, "");
     }
 
-    public void setTarget(Action target)
+    public void setName(String name)
     {
-        this.target = target;
+        this.name = name;
     }
 
-    public Action getTarget()
+    public String getName()
     {
-        return target;
+        return name;
+    }
+
+    public void setTargetAction(Action targetAction)
+    {
+        this.targetAction = targetAction;
+    }
+
+    public Action getTargetAction()
+    {
+        return targetAction;
+    }
+
+    public void setTargetContact(Contact targetContact)
+    {
+        this.targetContact = targetContact;
+    }
+
+    public Contact getTargetContact()
+    {
+        return targetContact;
     }
 }

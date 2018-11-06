@@ -49,7 +49,7 @@ public class AuthorFragment extends BasicFragment implements TextListener
     }
 
     @Override
-    protected @LayoutRes int getInflationResource()
+    protected @LayoutRes int getLayout()
     {
         return R.layout.author_fragment;
     }

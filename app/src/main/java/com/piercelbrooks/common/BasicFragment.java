@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 public abstract class BasicFragment extends Fragment implements Citizen {
     private static final String TAG = "PLB-BasicFrag";
 
-    protected abstract @LayoutRes int getInflationResource();
+    protected abstract @LayoutRes int getLayout();
     protected abstract void createView(@NonNull View view);
     protected abstract void onBirth();
     protected abstract void onDeath();
@@ -33,7 +33,7 @@ public abstract class BasicFragment extends Fragment implements Citizen {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getInflationResource(), container, false);
+        View view = inflater.inflate(getLayout(), container, false);
         return view;
     }
 

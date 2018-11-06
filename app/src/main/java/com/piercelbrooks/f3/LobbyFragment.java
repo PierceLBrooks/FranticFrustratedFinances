@@ -17,6 +17,8 @@ public class LobbyFragment extends BasicFragment
 
     private Button lobbyActions;
     private Button lobbyRename;
+    private Button lobbyContacts;
+    private Button lobbyAccount;
     private Button lobbyFinish;
     private Ledger ledger;
 
@@ -25,12 +27,14 @@ public class LobbyFragment extends BasicFragment
         super();
         lobbyActions = null;
         lobbyRename = null;
+        lobbyContacts = null;
+        lobbyAccount = null;
         lobbyFinish = null;
         ledger = null;
     }
 
     @Override
-    protected @LayoutRes int getInflationResource()
+    protected @LayoutRes int getLayout()
     {
         return R.layout.lobby_fragment;
     }
@@ -40,6 +44,8 @@ public class LobbyFragment extends BasicFragment
     {
         lobbyActions = view.findViewById(R.id.lobby_actions);
         lobbyRename = view.findViewById(R.id.lobby_rename);
+        lobbyContacts = view.findViewById(R.id.lobby_contacts);
+        lobbyAccount = view.findViewById(R.id.lobby_account);
         lobbyFinish = view.findViewById(R.id.lobby_finish);
 
         lobbyActions.setOnClickListener(new View.OnClickListener()
@@ -49,6 +55,36 @@ public class LobbyFragment extends BasicFragment
             {
                 Utilities.closeKeyboard(getActivity());
                 ((MainActivity)getActivity()).showActions(ledger);
+            }
+        });
+
+        lobbyRename.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Utilities.closeKeyboard(getActivity());
+                ((MainActivity)getActivity()).showLedgerName(ledger);
+            }
+        });
+
+        lobbyContacts.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Utilities.closeKeyboard(getActivity());
+                ((MainActivity)getActivity()).showContacts(ledger);
+            }
+        });
+
+        lobbyAccount.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Utilities.closeKeyboard(getActivity());
+                ((MainActivity)getActivity()).showAccount(ledger);
             }
         });
 
