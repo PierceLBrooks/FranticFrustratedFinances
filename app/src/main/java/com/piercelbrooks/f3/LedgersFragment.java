@@ -124,7 +124,7 @@ public class LedgersFragment extends BasicListFragment
     @Override
     protected void onBirth()
     {
-
+        Ledger.setCurrent(null);
     }
 
     @Override

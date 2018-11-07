@@ -35,7 +35,8 @@ public class MainActivity extends BasicActivity {
 
     @Override
     protected void resume() {
-        showLedgers();
+        //showLedgers();
+        showCalendar(new Ledger(""));
     }
 
     @Override
@@ -109,6 +110,12 @@ public class MainActivity extends BasicActivity {
             ledger.setTargetAction(action);
         }
         action.setOwner(ledger);
+        show(fragment);
+    }
+
+    private void showCalendar(Ledger ledger) {
+        CalendarFragment fragment = new CalendarFragment();
+        fragment.setLedger(ledger);
         show(fragment);
     }
 
