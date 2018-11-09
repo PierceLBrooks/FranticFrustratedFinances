@@ -24,7 +24,6 @@ public class WindowCallback extends ContextWrap implements Window.Callback {
         super(context);
         this.callback = callback;
         this.listener = null;
-        birth();
     }
 
     public WindowCallbackListener getListener() {

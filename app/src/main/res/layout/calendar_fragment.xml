@@ -30,13 +30,66 @@
 
         </FrameLayout>
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="80"
+            android:layout_weight="20"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/calendar_year"
+                    android:text="YEAR"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color">
+
+                </TextView>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            android:orientation="vertical"
             android:id="@+id/calendar_month_slot">
 
-        </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/calendar_month"
+                    android:text="MONTH"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color">
+
+                </TextView>
+
+            </FrameLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:id="@+id/ledgers_exit"
+                    android:id="@+id/calendar_exit"
                     android:text="BACK"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">
@@ -65,8 +118,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:id="@+id/ledgers_edit"
-                    android:text="EDIT"
+                    android:id="@+id/calendar_view"
+                    android:text="VIEW"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">
 

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public abstract class Grid <T extends View> extends LinearLayout
 {
-    public class Slot extends LinearLayout implements View.OnClickListener
+    public class Slot extends LinearLayout implements View.OnClickListener, View.OnFocusChangeListener
     {
         private Grid owner;
         private T view;
@@ -30,6 +31,7 @@ public abstract class Grid <T extends View> extends LinearLayout
             this.row = row;
             addView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             view.setOnClickListener(this);
+            view.setOnFocusChangeListener(this);
         }
 
         public Grid getOwner()
@@ -60,11 +62,20 @@ public abstract class Grid <T extends View> extends LinearLayout
                 owner.onSlotClick(this);
             }
         }
+
+        @Override
+        public void onFocusChange(View view, boolean hasFocus)
+        {
+            if (hasFocus)
+            {
+                owner.onSlotFocus(this);
+            }
+        }
     }
 
     private static final String TAG = "PLB-Grid";
 
-    private LinearLayout grid;
+    private Slot focus;
     private ArrayList<Slot> slots;
     private GridListener<T> listener;
 
@@ -107,6 +118,15 @@ public abstract class Grid <T extends View> extends LinearLayout
         }
     }
 
+    public void onSlotFocus(@NonNull Slot slot)
+    {
+        if (listener != null)
+        {
+            listener.onFocus(slot, focus);
+        }
+        focus = slot;
+    }
+
     public void setListener(GridListener<T> listener)
     {
         this.listener = listener;
@@ -140,30 +160,28 @@ public abstract class Grid <T extends View> extends LinearLayout
         return getSlot(getIndex(column, row));
     }
 
-    public LinearLayout getGrid()
-    {
-        return grid;
-    }
-
     private void initialize(Context context)
     {
         float width = 0.0f;
         float height = 0.0f;
+        int index;
         LinearLayout rows;
         LinearLayout columns;
         LayoutParams rowParams;
         LayoutParams columnParams;
         Slot slot;
-        grid = new LinearLayout(context);
+        focus = null;
         slots = new ArrayList<>();
         rows = new LinearLayout(context);
         rows.setOrientation(LinearLayout.VERTICAL);
+        rows.setWeightSum(0.0f);
         for (int row = 0; row != getSlotsPerColumn(); ++row)
         {
             rowParams = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
             rowParams.weight = height;
             columns = new LinearLayout(context);
             columns.setOrientation(LinearLayout.HORIZONTAL);
+            columns.setWeightSum(0.0f);
             for (int column = 0; column != getSlotsPerRow(); ++column)
             {
                 columnParams = new LayoutParams(0, LayoutParams.MATCH_PARENT);
@@ -179,13 +197,41 @@ public abstract class Grid <T extends View> extends LinearLayout
                 columns.addView(slot, columnParams);
             }
             columns.setWeightSum(width);
-            rows.setWeightSum(height+rows.getWeightSum());
+            rows.setWeightSum(rowParams.weight + rows.getWeightSum());
             rows.addView(columns, rowParams);
             width = 0.0f;
             height = 0.0f;
         }
-        grid.addView(rows, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        addView(grid, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        for (int row = 0; row != getSlotsPerColumn(); ++row)
+        {
+            for (int column = 0; column != getSlotsPerRow(); ++column)
+            {
+                index = getIndex(column, row);
+                slot = slots.get(index);
+                if (column > 0)
+                {
+                    slot.setNextFocusLeftId(slots.get(getIndex(column-1, row)).getId());
+                }
+                if (row > 0)
+                {
+                    slot.setNextFocusUpId(slots.get(getIndex(column, row-1)).getId());
+                }
+                if (column < getSlotsPerColumn()-1)
+                {
+                    slot.setNextFocusRightId(slots.get(getIndex(column+1, row)).getId());
+                }
+                if (row < getSlotsPerColumn()-1)
+                {
+                    slot.setNextFocusDownId(slots.get(getIndex(column, row+1)).getId());
+                }
+                if (index < slots.size()-1)
+                {
+                    slot.setNextFocusForwardId(slots.get(index+1).getId());
+                }
+            }
+        }
+        rows.setGravity(Gravity.CENTER);
+        addView(rows, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         requestLayout();
         listener = null;
         onInitialize(context);

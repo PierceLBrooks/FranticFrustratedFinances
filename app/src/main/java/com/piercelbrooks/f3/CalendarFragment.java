@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.piercelbrooks.common.BasicFragment;
 
@@ -14,14 +15,16 @@ public class CalendarFragment extends BasicFragment
 {
     private static final String TAG = "F3-CalendarFrag";
 
-    private Month month;
+    private TextView year;
+    private TextView month;
+    private Month calendar;
     private Ledger ledger;
 
     public CalendarFragment()
     {
         super();
         ledger = null;
-        month = null;
+        calendar = null;
     }
 
     @Override
@@ -33,9 +36,13 @@ public class CalendarFragment extends BasicFragment
     @Override
     protected void createView(@NonNull View view)
     {
-        month = new Month(getContext());
-        month.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.outline));
-        ((ViewGroup)view.findViewById(R.id.calendar_month_slot)).addView(month, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        year = view.findViewById(R.id.calendar_year);
+        year.setText(""+ledger.getTargetDateTime().getYear());
+        month = view.findViewById(R.id.calendar_month);
+        month.setText(Month.getMonthName(ledger.getTargetDateTime().getMonth()));
+        calendar = new Month(getContext());
+        calendar.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.outline));
+        ((ViewGroup)view.findViewById(R.id.calendar_month_slot)).addView(calendar, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view.requestLayout();
     }
 
@@ -53,7 +60,7 @@ public class CalendarFragment extends BasicFragment
 
     public Month getMonth()
     {
-        return month;
+        return calendar;
     }
 
     public void setLedger(Ledger ledger)

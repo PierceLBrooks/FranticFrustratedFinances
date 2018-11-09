@@ -4,6 +4,7 @@
 package com.piercelbrooks.f3;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -70,11 +71,15 @@ public class Month extends BasicCalendar<FrameLayout>
     @Override
     public void onClick(int day, int column, int row)
     {
-        Log.d(TAG, ""+day);
+        if (day > getDays())
+        {
+            return;
+        }
+        Log.d(TAG, ""+(day+1));
     }
 
-    public Date getDate()
+    public DateTime getDate()
     {
-        return Ledger.getCurrent().getTargetDate();
+        return Ledger.getCurrent().getTargetDateTime();
     }
 }

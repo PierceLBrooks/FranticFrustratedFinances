@@ -3,22 +3,20 @@
 
 package com.piercelbrooks.f3;
 
-import java.util.Date;
-
 public class Ledger {
     private static Ledger current = null;
 
     private String name;
     private Action targetAction;
     private Contact targetContact;
-    private Date targetDate;
+    private DateTime targetDateTime;
 
     public Ledger(String name) {
         current = this;
         this.name = name;
         this.targetAction = new Action(this);
         this.targetContact = new Contact(this, "");
-        this.targetDate = new Date();
+        this.targetDateTime = new DateTime();
     }
 
     public static void setCurrent(Ledger current) {
@@ -53,11 +51,11 @@ public class Ledger {
         return targetContact;
     }
 
-    public void setTargetDate(Date targetDate) {
-        this.targetDate = targetDate;
+    public void setTargetDateTime(DateTime targetDateTime) {
+        this.targetDateTime = targetDateTime;
     }
 
-    public Date getTargetDate() {
-        return targetDate;
+    public DateTime getTargetDateTime() {
+        return targetDateTime;
     }
 }

@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
     private static final String TAG = "PLB-BasicCalendar";
 
     private Integer days = null;
+    private Focus focus = null;
 
     public abstract @ColorRes int getSlotLabelColor();
     public abstract @DrawableRes int getSlotBackground();
@@ -51,6 +51,60 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public static String getMonthName(int month)
+    {
+        switch (month)
+        {
+            case Calendar.JANUARY:
+                return "January";
+            case Calendar.FEBRUARY:
+                return "February";
+            case Calendar.MARCH:
+                return "March";
+            case Calendar.APRIL:
+                return "April";
+            case Calendar.MAY:
+                return "May";
+            case Calendar.JUNE:
+                return "June";
+            case Calendar.JULY:
+                return "July";
+            case Calendar.AUGUST:
+                return "August";
+            case Calendar.SEPTEMBER:
+                return "September";
+            case Calendar.OCTOBER:
+                return "October";
+            case Calendar.NOVEMBER:
+                return "November";
+            case Calendar.DECEMBER:
+                return "December";
+        }
+        return "";
+    }
+
+    public static String getDayName(int day)
+    {
+        switch (day)
+        {
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
+            case Calendar.SUNDAY:
+                return "Sunday";
+        }
+        return "";
+    }
+
     public int getDays()
     {
         if (days != null)
@@ -63,11 +117,17 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
     }
 
     @Override
-    public void onClick(@NonNull Grid<T>.Slot slot)
+    public void onClick(@NonNull Slot slot)
     {
         int column = slot.getColumn();
         int row = slot.getRow();
         onClick(getIndex(column, row), column, row);
+    }
+
+    @Override
+    public void onFocus(@NonNull Slot next, @NonNull Slot previous)
+    {
+        focus.setView(next);
     }
 
     @Override
@@ -78,6 +138,7 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
             throw new RuntimeException("Bad calendar format!");
         }
         setListener(this);
+
     }
 
     @Override
@@ -92,16 +153,15 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
         label.setGravity(Gravity.CENTER);
         label.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
         label.setTextColor(ContextCompat.getColor(context, getSlotLabelColor()));
-        if (index < getDays())
+        if (index <= getDays())
         {
-            label.setText(""+index);
+            label.setText(""+(index+1));
         }
         else
         {
             label.setText("");
         }
         slot.requestLayout();
-        Log.d(TAG, ""+index);
         return slot;
     }
 

@@ -14,6 +14,7 @@ public abstract class ContextWrap extends ContextWrapper implements Citizen
     public ContextWrap(Context base)
     {
         super(base);
+        birth();
     }
 
     @Override
