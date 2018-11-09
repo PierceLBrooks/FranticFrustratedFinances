@@ -14,7 +14,7 @@ import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 import com.piercelbrooks.common.Utilities;
 
-public class LedgersFragment extends BasicListFragment
+public class LedgersFragment extends BasicListFragment<MayoralFamily>
 {
     private static final String TAG = "F3-LedgersFrag";
 
@@ -131,5 +131,11 @@ public class LedgersFragment extends BasicListFragment
     protected void onDeath()
     {
 
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.LEDGERS;
     }
 }

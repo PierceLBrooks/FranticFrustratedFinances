@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class BasicFragment extends Fragment implements Citizen {
+public abstract class BasicFragment <T extends Enum<T>> extends Fragment implements Mayor<T> {
     private static final String TAG = "PLB-BasicFrag";
 
     protected abstract @LayoutRes int getLayout();
@@ -49,13 +49,13 @@ public abstract class BasicFragment extends Fragment implements Citizen {
 
     @Override
     public void birth() {
-        Mayor.getInstance().register(this);
+        Governor.getInstance().register(this);
         onBirth();
     }
 
     @Override
     public void death() {
         onDeath();
-        Mayor.getInstance().unregister(this);
+        Governor.getInstance().unregister(this);
     }
 }

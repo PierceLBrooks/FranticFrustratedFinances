@@ -14,7 +14,7 @@ import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 import com.piercelbrooks.common.Utilities;
 
-public class ActionsFragment extends BasicListFragment
+public class ActionsFragment extends BasicListFragment<MayoralFamily>
 {
     private static final String TAG = "F3-ActionsFrag";
 
@@ -142,5 +142,10 @@ public class ActionsFragment extends BasicListFragment
     public Ledger getLedger()
     {
         return ledger;
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily() {
+        return MayoralFamily.ACTIONS;
     }
 }

@@ -18,7 +18,7 @@ import com.piercelbrooks.common.Utilities;
 import com.piercelbrooks.roe.Script;
 import com.piercelbrooks.roe.ScriptBank;
 
-public class AuthorFragment extends BasicFragment implements TextListener
+public class AuthorFragment extends BasicFragment<MayoralFamily> implements TextListener
 {
     private static final String TAG = "F3-AuthorFrag";
 
@@ -148,5 +148,10 @@ public class AuthorFragment extends BasicFragment implements TextListener
     public Action getAction()
     {
         return action;
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily() {
+        return MayoralFamily.AUTHOR;
     }
 }

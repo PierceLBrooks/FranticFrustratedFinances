@@ -3,7 +3,7 @@
 
 package com.piercelbrooks.roe;
 
-import com.piercelbrooks.common.Mayor;
+import com.piercelbrooks.common.Governor;
 import com.piercelbrooks.common.Mortal;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -70,7 +70,7 @@ public class Script implements Mortal
     {
         if (instances.decrementAndGet() == 0)
         {
-            Mayor.getInstance().assassinate(ruby);
+            Governor.getInstance().assassinate(ruby);
             ruby = null;
         }
     }

@@ -16,13 +16,13 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Window;
 
-public abstract class BasicActivity extends FragmentActivity implements Citizen {
-    private class Shower <T extends Fragment & Citizen> extends Handler {
-        private class Runner <T extends Fragment & Citizen> implements Runnable {
+public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity implements Citizen {
+    private class Shower <U extends Enum<U>, V extends Fragment & Mayor<U>> extends Handler {
+        private class Runner <W extends Enum<W>, X extends Fragment & Mayor<W>> implements Runnable {
             private BasicActivity activity;
-            private T fragment;
+            private X fragment;
 
-            public Runner(@NonNull BasicActivity activity, @NonNull T fragment) {
+            public Runner(@NonNull BasicActivity activity, @Nullable X fragment) {
                 this.activity = activity;
                 this.fragment = fragment;
             }
@@ -40,18 +40,20 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
                     }
                     manager.beginTransaction().remove(activeFragment).commitNow();
                 }
-                activeFragment = this.fragment;
-                if (this.fragment != null) {
-                    this.fragment.birth();
-                    manager.beginTransaction().replace(getFragmentSlot(), this.fragment, null).commitNow();
+                activeFragment = fragment;
+                activity.setActiveFragment(activeFragment);
+                if (fragment != null) {
+                    fragment.birth();
+                    manager.beginTransaction().replace(getFragmentSlot(), fragment, null).commitNow();
+                    Log.d(TAG, fragment.getMayoralFamily().name());
                 }
             }
         }
 
         private BasicActivity activity;
-        private T fragment;
+        private V fragment;
 
-        public Shower(@NonNull BasicActivity activity, @NonNull T fragment) {
+        public Shower(@NonNull BasicActivity activity, @Nullable V fragment) {
             this.activity = activity;
             this.fragment = fragment;
         }
@@ -80,12 +82,16 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
         show(null);
     }
 
-    public <T extends Fragment & Citizen> void show(T fragment) {
+    public <Y extends Fragment & Mayor<T>> void show(@Nullable Y fragment) {
         new Shower<>(this, fragment).post();
     }
 
     public Fragment getActiveFragment() {
         return activeFragment;
+    }
+
+    public void setActiveFragment(Fragment activeFragment) {
+        this.activeFragment = activeFragment;
     }
 
     private void restart() {
@@ -205,11 +211,11 @@ public abstract class BasicActivity extends FragmentActivity implements Citizen 
 
     @Override
     public void birth() {
-        Mayor.getInstance().register(this);
+        Governor.getInstance().register(this);
     }
 
     @Override
     public void death() {
-        Mayor.getInstance().unregister(this);
+        Governor.getInstance().unregister(this);
     }
 }

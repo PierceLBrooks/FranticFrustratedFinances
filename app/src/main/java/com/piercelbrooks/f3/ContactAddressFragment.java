@@ -64,4 +64,10 @@ public class ContactAddressFragment extends EditorFragment
     {
         return contact;
     }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.CONTACT_ADDRESS;
+    }
 }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.piercelbrooks.common.BasicFragment;
 
-public class CalendarFragment extends BasicFragment
+public class CalendarFragment extends BasicFragment<MayoralFamily>
 {
     private static final String TAG = "F3-CalendarFrag";
 
@@ -71,5 +71,11 @@ public class CalendarFragment extends BasicFragment
     public Ledger getLedger()
     {
         return ledger;
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.CALENDAR;
     }
 }

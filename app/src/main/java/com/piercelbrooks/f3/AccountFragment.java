@@ -9,7 +9,7 @@ import android.view.inputmethod.EditorInfo;
 
 import com.piercelbrooks.common.BasicFragment;
 
-public class AccountFragment extends BasicFragment {
+public class AccountFragment extends BasicFragment<MayoralFamily> {
     public static class AccountAddressFragment extends EditorFragment {
         public AccountAddressFragment() {
             super();
@@ -39,6 +39,11 @@ public class AccountFragment extends BasicFragment {
         protected void onSave(String field) {
 
         }
+
+        @Override
+        public MayoralFamily getMayoralFamily() {
+            return MayoralFamily.ACCOUNT_ADDRESS;
+        }
     }
 
     public static class AccountPasswordFragment extends EditorFragment {
@@ -66,6 +71,11 @@ public class AccountFragment extends BasicFragment {
         @Override
         protected void onSave(String field) {
 
+        }
+
+        @Override
+        public MayoralFamily getMayoralFamily() {
+            return MayoralFamily.ACCOUNT_PASSWORD;
         }
     }
 
@@ -96,6 +106,11 @@ public class AccountFragment extends BasicFragment {
     @Override
     protected void onDeath() {
 
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily() {
+        return MayoralFamily.ACCOUNT;
     }
 
     public void setLedger(Ledger ledger)

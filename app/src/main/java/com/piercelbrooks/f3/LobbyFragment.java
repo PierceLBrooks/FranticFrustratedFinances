@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.piercelbrooks.common.BasicFragment;
 import com.piercelbrooks.common.Utilities;
 
-public class LobbyFragment extends BasicFragment
+public class LobbyFragment extends BasicFragment<MayoralFamily>
 {
     private static final String TAG = "F3-LobbyFrag";
 
@@ -119,5 +119,11 @@ public class LobbyFragment extends BasicFragment
     public Ledger getLedger()
     {
         return ledger;
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.LOBBY;
     }
 }

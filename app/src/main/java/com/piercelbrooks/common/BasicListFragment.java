@@ -19,7 +19,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public abstract class BasicListFragment extends ListFragment implements Citizen, AdapterView.OnItemClickListener
+public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment implements Mayor<T>, AdapterView.OnItemClickListener
 {
     public class Item
     {
@@ -144,7 +144,7 @@ public abstract class BasicListFragment extends ListFragment implements Citizen,
     @Override
     public void birth()
     {
-        Mayor.getInstance().register(this);
+        Governor.getInstance().register(this);
         onBirth();
     }
 
@@ -152,7 +152,7 @@ public abstract class BasicListFragment extends ListFragment implements Citizen,
     public void death()
     {
         onDeath();
-        Mayor.getInstance().unregister(this);
+        Governor.getInstance().unregister(this);
     }
 
     public int getItemCount()

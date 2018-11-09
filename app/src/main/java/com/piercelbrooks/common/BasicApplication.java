@@ -22,11 +22,11 @@ public abstract class BasicApplication extends Application implements Applicatio
     protected abstract void activityResumed(Activity activity);
     protected abstract void activityPaused(Activity activity);
 
-    private Mayor mayor;
+    private Governor governor;
     private Preferences preferences;
 
     public static BasicApplication getInstance() {
-        return (BasicApplication)Mayor.getInstance().getCitizen(Family.APPLICATION);
+        return (BasicApplication)Governor.getInstance().getCitizen(Family.APPLICATION);
     }
 
     public Preferences getPreferences() {
@@ -96,16 +96,16 @@ public abstract class BasicApplication extends Application implements Applicatio
     @Override
     public void birth() {
         preferences = new Preferences(this);
-        mayor = new Mayor();
-        mayor.birth();
-        mayor.register(this);
+        governor = new Governor();
+        governor.birth();
+        governor.register(this);
     }
 
     @Override
     public void death() {
         preferences = null;
-        mayor.unregister(this);
-        mayor.death();
-        mayor = null;
+        governor.unregister(this);
+        governor.death();
+        governor = null;
     }
 }

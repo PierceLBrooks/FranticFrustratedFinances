@@ -8,7 +8,7 @@ import android.support.annotation.LayoutRes;
 
 import com.piercelbrooks.common.BasicActivity;
 
-public class MainActivity extends BasicActivity {
+public class MainActivity extends BasicActivity<MayoralFamily> {
     private static final String TAG = "F3-MainActivity";
 
     private Ledger ledger;

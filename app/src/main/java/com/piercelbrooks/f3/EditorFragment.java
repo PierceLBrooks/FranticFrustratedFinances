@@ -14,7 +14,7 @@ import com.piercelbrooks.common.Text;
 import com.piercelbrooks.common.TextListener;
 import com.piercelbrooks.common.Utilities;
 
-public abstract class EditorFragment extends BasicFragment implements TextListener
+public abstract class EditorFragment extends BasicFragment<MayoralFamily> implements TextListener
 {
     private static final String TAG = "F3-EditorFrag";
 

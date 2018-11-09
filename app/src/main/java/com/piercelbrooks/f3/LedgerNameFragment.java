@@ -64,4 +64,10 @@ public class LedgerNameFragment extends EditorFragment
     {
         return ledger;
     }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.LEDGER_NAME;
+    }
 }
