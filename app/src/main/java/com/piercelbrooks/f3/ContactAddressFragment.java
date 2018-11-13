@@ -5,32 +5,29 @@ package com.piercelbrooks.f3;
 
 import android.view.inputmethod.EditorInfo;
 
-public class ContactAddressFragment extends EditorFragment
+public class ContactAddressFragment extends EditorFragment implements Accountant
 {
     private static final String TAG = "F3-ContactFrag";
 
-    private Contact contact;
+    private Ledger ledger;
 
     public ContactAddressFragment()
     {
         super();
-        contact = null;
+        ledger = null;
     }
 
     @Override
     protected void onExit()
     {
-        ((MainActivity)getActivity()).showContacts(contact.getOwner());
+        ((MainActivity)getMunicipality()).showContacts(ledger);
     }
 
     @Override
     protected void onSave(String field)
     {
-        if (contact != null)
-        {
-            contact.setAddress(field);
-        }
-        ((MainActivity)getActivity()).showContacts(contact.getOwner());
+        getContact().setAddress(field);
+        ((MainActivity)getMunicipality()).showContacts(ledger);
     }
 
     @Override
@@ -42,11 +39,7 @@ public class ContactAddressFragment extends EditorFragment
     @Override
     protected String getField()
     {
-        if (contact != null)
-        {
-            return contact.getAddress();
-        }
-        return "";
+        return getContact().getAddress();
     }
 
     @Override
@@ -55,19 +48,33 @@ public class ContactAddressFragment extends EditorFragment
         return EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
     }
 
-    public void setContact(Contact contact)
-    {
-        this.contact = contact;
-    }
-
-    public Contact getContact()
-    {
-        return contact;
-    }
-
     @Override
     public MayoralFamily getMayoralFamily()
     {
         return MayoralFamily.CONTACT_ADDRESS;
+    }
+
+    @Override
+    public Class<?> getCitizenClass()
+    {
+        return ContactAddressFragment.class;
+    }
+
+    @Override
+    public void setLedger(Ledger ledger)
+    {
+        this.ledger = ledger;
+    }
+
+    @Override
+    public Ledger getLedger()
+    {
+        return ledger;
+    }
+
+
+    public Contact getContact()
+    {
+        return ledger.getTargetContact();
     }
 }

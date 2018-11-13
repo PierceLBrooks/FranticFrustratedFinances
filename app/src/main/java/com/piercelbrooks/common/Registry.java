@@ -49,7 +49,7 @@ public abstract class Registry <T, U, V extends Set<U>, W extends Map<T, V>>
         this.population = new AtomicInteger(0);
     }
 
-    public @Nullable U get(@Nullable T key)
+    public U get(@Nullable T key)
     {
         if (key == null)
         {

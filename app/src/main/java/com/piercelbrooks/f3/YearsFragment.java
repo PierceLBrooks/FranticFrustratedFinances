@@ -12,29 +12,27 @@ import android.widget.Button;
 
 import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
-import com.piercelbrooks.common.Utilities;
 
-public class ContactsFragment extends BasicListFragment<MayoralFamily> implements Accountant
+import java.util.Calendar;
+
+public class YearsFragment extends BasicListFragment<MayoralFamily> implements Accountant
 {
-    private static final String TAG = "F3-ContactsFrag";
+    private static final String TAG = "F3-YearsFrag";
 
     private int selectionIndex;
     private View selection;
-    private Button contactsExit;
-    private Button contactsRemove;
-    private Button contactsAdd;
-    private Button contactsEdit;
+    private Button yearExit;
+    private Button yearView;
     private Ledger ledger;
 
-    public ContactsFragment()
+    public YearsFragment()
     {
         super();
         selectionIndex = -1;
         selection = null;
-        contactsExit = null;
-        contactsRemove = null;
-        contactsAdd = null;
-        contactsEdit = null;
+        yearExit = null;
+        yearView = null;
+        ledger = null;
     }
 
     @Override
@@ -62,19 +60,19 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
     @Override
     protected @IdRes int getItemID()
     {
-        return R.id.contact_item_label;
+        return R.id.year_item_label;
     }
 
     @Override
     protected @LayoutRes int getItemLayout()
     {
-        return R.layout.contact_item;
+        return R.layout.year_item;
     }
 
     @Override
     public @LayoutRes int getLayout()
     {
-        return R.layout.contacts_fragment;
+        return R.layout.years_fragment;
     }
 
     @Override
@@ -82,12 +80,10 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
     {
         selection = null;
 
-        contactsExit = view.findViewById(R.id.contacts_exit);
-        contactsRemove = view.findViewById(R.id.contacts_remove);
-        contactsAdd = view.findViewById(R.id.contacts_add);
-        contactsEdit = view.findViewById(R.id.contacts_edit);
+        yearExit = view.findViewById(R.id.years_exit);
+        yearView = view.findViewById(R.id.years_view);
 
-        contactsExit.setOnClickListener(new View.OnClickListener()
+        yearExit.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -95,34 +91,21 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
                 ((MainActivity)getMunicipality()).showLobby(ledger);
             }
         });
-        contactsRemove.setOnClickListener(new View.OnClickListener()
+        yearView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (selectionIndex >= 0)
+                if (selectionIndex < 0)
                 {
-                    removeItem(selectionIndex);
-                    selectionIndex = -1;
+                    return;
                 }
+                ledger.setTargetDateTime(new DateTime(ledger.getTargetDateTime(), Integer.parseInt(getItemLabel(selectionIndex)), DateTimeMember.YEAR));
+                ((MainActivity)getMunicipality()).showMonths(ledger);
             }
         });
-        contactsAdd.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                addItem(""+getItemCount());
-            }
-        });
-        contactsEdit.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                ((MainActivity)getMunicipality()).showContactAddress(ledger.getTargetContact());
-            }
-        });
+
+        load();
     }
 
     @Override
@@ -138,18 +121,6 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
     }
 
     @Override
-    public MayoralFamily getMayoralFamily()
-    {
-        return MayoralFamily.CONTACTS;
-    }
-
-    @Override
-    public Class<?> getCitizenClass()
-    {
-        return ContactsFragment.class;
-    }
-
-    @Override
     public void setLedger(@NonNull Ledger ledger)
     {
         this.ledger = ledger;
@@ -159,5 +130,28 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
     public Ledger getLedger()
     {
         return ledger;
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.YEARS;
+    }
+
+    @Override
+    public Class<?> getCitizenClass()
+    {
+        return YearsFragment.class;
+    }
+
+    public void unload()
+    {
+        removeItems();
+    }
+
+    public void load()
+    {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        addItem(""+year);
     }
 }

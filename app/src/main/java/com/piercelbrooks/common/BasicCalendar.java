@@ -51,6 +51,20 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public static int getMonth(String name)
+    {
+        int month = Calendar.JANUARY;
+        while (month <= Calendar.DECEMBER)
+        {
+            if (getMonthName(month).equalsIgnoreCase(name))
+            {
+                return month;
+            }
+            ++month;
+        }
+        return -1;
+    }
+
     public static String getMonthName(int month)
     {
         switch (month)
@@ -138,7 +152,6 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
             throw new RuntimeException("Bad calendar format!");
         }
         setListener(this);
-
     }
 
     @Override

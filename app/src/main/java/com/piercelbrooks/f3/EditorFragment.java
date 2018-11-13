@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.piercelbrooks.common.BasicFragment;
 import com.piercelbrooks.common.Text;
 import com.piercelbrooks.common.TextListener;
-import com.piercelbrooks.common.Utilities;
 
 public abstract class EditorFragment extends BasicFragment<MayoralFamily> implements TextListener
 {
@@ -39,13 +38,13 @@ public abstract class EditorFragment extends BasicFragment<MayoralFamily> implem
     }
 
     @Override
-    protected @LayoutRes int getLayout()
+    public @LayoutRes int getLayout()
     {
         return R.layout.editor_fragment;
     }
 
     @Override
-    protected void createView(@NonNull View view)
+    public void createView(@NonNull View view)
     {
         editorExit = view.findViewById(R.id.editor_exit);
         editorSave = view.findViewById(R.id.editor_save);
@@ -62,7 +61,6 @@ public abstract class EditorFragment extends BasicFragment<MayoralFamily> implem
             @Override
             public void onClick(View v)
             {
-                Utilities.closeKeyboard(getActivity());
                 onExit();
             }
         });
@@ -72,20 +70,19 @@ public abstract class EditorFragment extends BasicFragment<MayoralFamily> implem
             @Override
             public void onClick(View v)
             {
-                Utilities.closeKeyboard(getActivity());
                 onSave(editorField.getText().toString());
             }
         });
     }
 
     @Override
-    protected void onBirth()
+    public void onBirth()
     {
 
     }
 
     @Override
-    protected void onDeath()
+    public void onDeath()
     {
 
     }

@@ -18,6 +18,8 @@ import android.view.inputmethod.InputMethodManager;
 import com.android.grafika.gles.EglCore;
 import com.android.grafika.gles.WindowSurface;
 
+import java.util.List;
+
 public class Utilities {
     private static final String TAG = "PLB-Utilities";
 
@@ -157,7 +159,7 @@ public class Utilities {
         if (focus == null) {
             return false;
         }
-        imm.hideSoftInputFromWindow(focus.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         return true;
 
     }
@@ -170,7 +172,38 @@ public class Utilities {
         if (imm == null) {
             return false;
         }
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        imm.toggleSoftInput(0, 0);
         return true;
+    }
+
+    public static void add(List<String> list, List<String> other) {
+        add(list, other, null);
+    }
+
+    public static void add(List<String> list, List<String> other, String prefix) {
+        if ((list != null) && (other != null)) {
+            if (prefix != null) {
+                for (int i = 0; i != other.size(); ++i) {
+                    list.add(prefix+other.get(i));
+                }
+            } else {
+                for (int i = 0; i != other.size(); ++i) {
+                    list.add(other.get(i));
+                }
+            }
+        }
+    }
+
+    public static int count(String subject, char object) {
+        if (subject == null) {
+            return 0;
+        }
+        int tally = 0;
+        for (int i = 0; i != subject.length(); ++i) {
+            if (subject.charAt(i) == object) {
+                ++tally;
+            }
+        }
+        return tally;
     }
 }

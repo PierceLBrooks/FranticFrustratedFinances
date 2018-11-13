@@ -3,6 +3,7 @@
 
 package com.piercelbrooks.common;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -85,13 +86,10 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     private Drawable selectionBackground;
     private int selectionIndex;
 
+    protected abstract boolean itemLabelAffix();
     protected abstract void itemClick(View view, int position);
     protected abstract @IdRes int getItemID();
     protected abstract @LayoutRes int getItemLayout();
-    protected abstract @LayoutRes int getLayout();
-    protected abstract void createView(@NonNull View view);
-    protected abstract void onBirth();
-    protected abstract void onDeath();
 
     public BasicListFragment() {
         list = null;
@@ -107,8 +105,7 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(getLayout(), container, false);
-        return view;
+        return inflater.inflate(getLayout(), container, false);
     }
 
     @Override
@@ -138,7 +135,18 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     @Override
     public Family getFamily()
     {
-        return Family.FRAGMENT;
+        return Family.MAYOR;
+    }
+
+    @Override
+    public Municipality<T> getMunicipality()
+    {
+        Activity activity = getActivity();
+        if (activity instanceof  Municipality)
+        {
+            return (Municipality<T>)getActivity();
+        }
+        return null;
     }
 
     @Override
@@ -208,7 +216,14 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         }
         item.configure(this, item.getView(), label, position);
         itemLabelOriginals.set(position, label);
-        itemLabels.set(position, ITEM_LABEL_PREFIX+label+ITEM_LABEL_SUFFIX);
+        if (itemLabelAffix())
+        {
+            itemLabels.set(position, ITEM_LABEL_PREFIX+label+ITEM_LABEL_SUFFIX);
+        }
+        else
+        {
+            itemLabels.set(position, label);
+        }
         adapter.notifyDataSetChanged();
         return true;
     }
@@ -235,7 +250,14 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
             return null;
         }
         itemLabelOriginals.add(label);
-        itemLabels.add(ITEM_LABEL_PREFIX+label+ITEM_LABEL_SUFFIX);
+        if (itemLabelAffix())
+        {
+            itemLabels.add(ITEM_LABEL_PREFIX+label+ITEM_LABEL_SUFFIX);
+        }
+        else
+        {
+            itemLabels.add(label);
+        }
         adapter.notifyDataSetChanged();
         return getItem(getItemCount()-1);
     }
@@ -265,5 +287,13 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
             item.setPosition(item.getPosition()-1);
         }
         return true;
+    }
+
+    public void removeItems()
+    {
+        while (getItemCount() != 0)
+        {
+            removeItem(0);
+        }
     }
 }

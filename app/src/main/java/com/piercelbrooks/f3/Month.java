@@ -11,31 +11,38 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.piercelbrooks.common.BasicCalendar;
+import com.piercelbrooks.common.Mortal;
 
 import java.util.Date;
 
-public class Month extends BasicCalendar<FrameLayout>
+public class Month extends BasicCalendar<FrameLayout> implements Mortal
 {
     private static final String TAG = "F3-Month";
+
+    private int day;
 
     public Month(Context context)
     {
         super(context);
+        birth();
     }
 
     public Month(Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
+        birth();
     }
 
     public Month(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
+        birth();
     }
 
     public Month(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes)
     {
         super(context, attrs, defStyleAttr, defStyleRes);
+        birth();
     }
 
     @Override
@@ -73,13 +80,32 @@ public class Month extends BasicCalendar<FrameLayout>
     {
         if (day > getDays())
         {
+            this.day = -1;
             return;
         }
+        this.day = day;
         Log.d(TAG, ""+(day+1));
     }
 
     public DateTime getDate()
     {
         return Ledger.getCurrent().getTargetDateTime();
+    }
+
+    public int getDay()
+    {
+        return day;
+    }
+
+    @Override
+    public void birth()
+    {
+        day = -1;
+    }
+
+    @Override
+    public void death()
+    {
+        day = -1;
     }
 }

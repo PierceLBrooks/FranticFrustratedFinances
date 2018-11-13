@@ -14,7 +14,7 @@ import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 import com.piercelbrooks.common.Utilities;
 
-public class ActionsFragment extends BasicListFragment<MayoralFamily>
+public class ActionsFragment extends BasicListFragment<MayoralFamily> implements Accountant
 {
     private static final String TAG = "F3-ActionsFrag";
 
@@ -36,6 +36,12 @@ public class ActionsFragment extends BasicListFragment<MayoralFamily>
         actionAdd = null;
         actionEdit = null;
         ledger = null;
+    }
+
+    @Override
+    protected boolean itemLabelAffix()
+    {
+        return true;
     }
 
     @Override
@@ -67,13 +73,13 @@ public class ActionsFragment extends BasicListFragment<MayoralFamily>
     }
 
     @Override
-    protected @LayoutRes int getLayout()
+    public @LayoutRes int getLayout()
     {
         return R.layout.actions_fragment;
     }
 
     @Override
-    protected void createView(@NonNull View view)
+    public void createView(@NonNull View view)
     {
         selection = null;
 
@@ -87,8 +93,7 @@ public class ActionsFragment extends BasicListFragment<MayoralFamily>
             @Override
             public void onClick(View v)
             {
-                Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showLobby(ledger);
+                ((MainActivity)getMunicipality()).showLobby(ledger);
             }
         });
         actionRemove.setOnClickListener(new View.OnClickListener()
@@ -116,36 +121,44 @@ public class ActionsFragment extends BasicListFragment<MayoralFamily>
             @Override
             public void onClick(View v)
             {
-                Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showAuthor(ledger.getTargetAction());
+                ((MainActivity)getMunicipality()).showAuthor(ledger.getTargetAction());
             }
         });
     }
 
     @Override
-    protected void onBirth()
+    public void onBirth()
     {
 
     }
 
     @Override
-    protected void onDeath()
+    public void onDeath()
     {
 
     }
 
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.ACTIONS;
+    }
+
+    @Override
+    public Class<?> getCitizenClass()
+    {
+        return ActionsFragment.class;
+    }
+
+    @Override
     public void setLedger(Ledger ledger)
     {
         this.ledger = ledger;
     }
 
+    @Override
     public Ledger getLedger()
     {
         return ledger;
-    }
-
-    @Override
-    public MayoralFamily getMayoralFamily() {
-        return MayoralFamily.ACTIONS;
     }
 }

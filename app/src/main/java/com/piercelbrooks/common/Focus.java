@@ -20,15 +20,22 @@ public class Focus extends ContextWrap
     }
 
     @Override
-    protected void onBirth()
+    public void onBirth()
     {
 
     }
 
     @Override
-    protected void onDeath()
+    public void onDeath()
     {
 
+    }
+
+
+    @Override
+    public Class<?> getCitizenClass() 
+    {
+        return Focus.class;
     }
 
     public void setView(@Nullable View view)

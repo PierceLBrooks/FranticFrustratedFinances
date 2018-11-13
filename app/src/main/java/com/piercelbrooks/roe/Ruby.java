@@ -25,6 +25,12 @@ public class Ruby implements Citizen
     }
 
     @Override
+    public Class<?> getCitizenClass()
+    {
+        return Ruby.class;
+    }
+
+    @Override
     public void birth()
     {
         if (instance != null)

@@ -3,9 +3,10 @@
 
 package com.piercelbrooks.f3;
 
+import android.support.annotation.NonNull;
 import android.view.inputmethod.EditorInfo;
 
-public class LedgerNameFragment extends EditorFragment
+public class LedgerNameFragment extends EditorFragment implements Accountant
 {
     private static final String TAG = "F3-ContactFrag";
 
@@ -20,7 +21,7 @@ public class LedgerNameFragment extends EditorFragment
     @Override
     protected void onExit()
     {
-        ((MainActivity)getActivity()).showLobby(ledger);
+        ((MainActivity)getMunicipality()).showLobby(ledger);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class LedgerNameFragment extends EditorFragment
         {
             ledger.setName(field);
         }
-        ((MainActivity)getActivity()).showLobby(ledger);
+        ((MainActivity)getMunicipality()).showLobby(ledger);
     }
 
     @Override
@@ -55,19 +56,27 @@ public class LedgerNameFragment extends EditorFragment
         return EditorInfo.TYPE_CLASS_TEXT;
     }
 
-    public void setLedger(Ledger ledger)
-    {
-        this.ledger = ledger;
-    }
-
-    public Ledger getLedger()
-    {
-        return ledger;
-    }
-
     @Override
     public MayoralFamily getMayoralFamily()
     {
         return MayoralFamily.LEDGER_NAME;
+    }
+
+    @Override
+    public Class<?> getCitizenClass()
+    {
+        return LedgerNameFragment.class;
+    }
+
+    @Override
+    public void setLedger(@NonNull Ledger ledger)
+    {
+        this.ledger = ledger;
+    }
+
+    @Override
+    public Ledger getLedger()
+    {
+        return ledger;
     }
 }

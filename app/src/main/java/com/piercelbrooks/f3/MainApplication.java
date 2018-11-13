@@ -55,4 +55,9 @@ public class MainApplication extends BasicApplication {
     protected void activityPaused(Activity activity) {
 
     }
+
+    @Override
+    public Class<?> getCitizenClass() {
+        return MainApplication.class;
+    }
 }

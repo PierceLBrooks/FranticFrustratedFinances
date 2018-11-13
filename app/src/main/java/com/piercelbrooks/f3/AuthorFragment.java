@@ -18,7 +18,7 @@ import com.piercelbrooks.common.Utilities;
 import com.piercelbrooks.roe.Script;
 import com.piercelbrooks.roe.ScriptBank;
 
-public class AuthorFragment extends BasicFragment<MayoralFamily> implements TextListener
+public class AuthorFragment extends BasicFragment<MayoralFamily> implements TextListener, Accountant
 {
     private static final String TAG = "F3-AuthorFrag";
 
@@ -32,7 +32,7 @@ public class AuthorFragment extends BasicFragment<MayoralFamily> implements Text
     private Button authorClear;
     private Button authorRun;
     private ScriptBank bank;
-    private Action action;
+    private Ledger ledger;
 
     public AuthorFragment()
     {
@@ -45,17 +45,17 @@ public class AuthorFragment extends BasicFragment<MayoralFamily> implements Text
         authorExit = null;
         authorClear = null;
         bank = null;
-        action = null;
+        ledger = null;
     }
 
     @Override
-    protected @LayoutRes int getLayout()
+    public @LayoutRes int getLayout()
     {
         return R.layout.author_fragment;
     }
 
     @Override
-    protected void createView(@NonNull View view)
+    public void createView(@NonNull View view)
     {
         outputLabel = view.findViewById(R.id.output_label);
         callLabel = view.findViewById(R.id.call_label);
@@ -76,8 +76,7 @@ public class AuthorFragment extends BasicFragment<MayoralFamily> implements Text
             @Override
             public void onClick(View v)
             {
-                Utilities.closeKeyboard(getActivity());
-                ((MainActivity)getActivity()).showActions(action.getOwner());
+                ((MainActivity)getMunicipality()).showActions(ledger);
             }
         });
         authorClear.setOnClickListener(new View.OnClickListener()
@@ -112,13 +111,13 @@ public class AuthorFragment extends BasicFragment<MayoralFamily> implements Text
     }
 
     @Override
-    protected void onBirth()
+    public void onBirth()
     {
         bank = new ScriptBank();
     }
 
     @Override
-    protected void onDeath()
+    public void onDeath()
     {
         if (bank == null)
         {
@@ -126,6 +125,30 @@ public class AuthorFragment extends BasicFragment<MayoralFamily> implements Text
         }
         bank.death();
         bank = null;
+    }
+
+    @Override
+    public Class<?> getCitizenClass()
+    {
+        return ActionsFragment.class;
+    }
+
+    @Override
+    public MayoralFamily getMayoralFamily()
+    {
+        return MayoralFamily.AUTHOR;
+    }
+
+    @Override
+    public void setLedger(Ledger ledger)
+    {
+        this.ledger = ledger;
+    }
+
+    @Override
+    public Ledger getLedger()
+    {
+        return ledger;
     }
 
     @Override
@@ -140,18 +163,8 @@ public class AuthorFragment extends BasicFragment<MayoralFamily> implements Text
         Log.d(TAG, "onDelete");
     }
 
-    public void setAction(Action action)
-    {
-        this.action = action;
-    }
-
     public Action getAction()
     {
-        return action;
-    }
-
-    @Override
-    public MayoralFamily getMayoralFamily() {
-        return MayoralFamily.AUTHOR;
+        return ledger.getTargetAction();
     }
 }

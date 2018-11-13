@@ -10,7 +10,6 @@ public enum Family
     GOVERNOR,
     MAYOR,
     APPLICATION,
-    ACTIVITY,
-    FRAGMENT,
+    MUNICIPALITY,
     UNKNOWN
 }

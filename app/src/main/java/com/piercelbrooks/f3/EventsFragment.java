@@ -13,26 +13,24 @@ import android.widget.Button;
 import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 
-public class LedgersFragment extends BasicListFragment<MayoralFamily>
+public class EventsFragment extends BasicListFragment<MayoralFamily> implements Accountant
 {
-    private static final String TAG = "F3-LedgersFrag";
+    private static final String TAG = "F3-eventsFrag";
 
     private int selectionIndex;
     private View selection;
-    private Button ledgerExit;
-    private Button ledgerRemove;
-    private Button ledgerAdd;
-    private Button ledgerEdit;
+    private Button eventExit;
+    private Button eventView;
+    private Ledger ledger;
 
-    public LedgersFragment()
+    public EventsFragment()
     {
         super();
         selectionIndex = -1;
         selection = null;
-        ledgerExit = null;
-        ledgerRemove = null;
-        ledgerAdd = null;
-        ledgerEdit = null;
+        eventExit = null;
+        eventView = null;
+        ledger = null;
     }
 
     @Override
@@ -60,19 +58,19 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
     @Override
     protected @IdRes int getItemID()
     {
-        return R.id.ledger_item_label;
+        return R.id.event_item_label;
     }
 
     @Override
     protected @LayoutRes int getItemLayout()
     {
-        return R.layout.ledger_item;
+        return R.layout.event_item;
     }
 
     @Override
     public @LayoutRes int getLayout()
     {
-        return R.layout.ledgers_fragment;
+        return R.layout.events_fragment;
     }
 
     @Override
@@ -80,45 +78,24 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
     {
         selection = null;
 
-        ledgerExit = view.findViewById(R.id.ledgers_exit);
-        ledgerRemove = view.findViewById(R.id.ledgers_remove);
-        ledgerAdd = view.findViewById(R.id.ledgers_add);
-        ledgerEdit = view.findViewById(R.id.ledgers_edit);
+        eventExit = view.findViewById(R.id.events_exit);
+        eventView = view.findViewById(R.id.events_view);
 
-        ledgerExit.setOnClickListener(new View.OnClickListener()
+        eventExit.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-
+                ((MainActivity)getMunicipality()).showCalendar(ledger);
             }
         });
-        ledgerRemove.setOnClickListener(new View.OnClickListener()
+        eventView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (selectionIndex >= 0)
-                {
-                    removeItem(selectionIndex);
-                    selectionIndex = -1;
-                }
-            }
-        });
-        ledgerAdd.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                addItem(""+getItemCount());
-            }
-        });
-        ledgerEdit.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                ((MainActivity)getMunicipality()).showLobby(new Ledger(getItemLabel(selectionIndex)));
+                ledger.setTargetEvent(new Event(ledger, ledger.getTargetDateTime(), selectionIndex));
+                ((MainActivity)getMunicipality()).showReview(ledger);
             }
         });
     }
@@ -126,7 +103,7 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
     @Override
     public void onBirth()
     {
-        Ledger.setCurrent(null);
+
     }
 
     @Override
@@ -136,14 +113,26 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
     }
 
     @Override
+    public void setLedger(@NonNull Ledger ledger)
+    {
+        this.ledger = ledger;
+    }
+
+    @Override
+    public Ledger getLedger()
+    {
+        return ledger;
+    }
+
+    @Override
     public MayoralFamily getMayoralFamily()
     {
-        return MayoralFamily.LEDGERS;
+        return MayoralFamily.EVENTS;
     }
 
     @Override
     public Class<?> getCitizenClass()
     {
-        return LedgersFragment.class;
+        return EventsFragment.class;
     }
 }

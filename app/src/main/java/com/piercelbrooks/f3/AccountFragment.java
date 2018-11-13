@@ -3,13 +3,14 @@
 
 package com.piercelbrooks.f3;
 
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.piercelbrooks.common.BasicFragment;
 
-public class AccountFragment extends BasicFragment<MayoralFamily> {
+public class AccountFragment extends BasicFragment<MayoralFamily> implements Accountant {
     public static class AccountAddressFragment extends EditorFragment {
         public AccountAddressFragment() {
             super();
@@ -44,6 +45,11 @@ public class AccountFragment extends BasicFragment<MayoralFamily> {
         public MayoralFamily getMayoralFamily() {
             return MayoralFamily.ACCOUNT_ADDRESS;
         }
+
+        @Override
+        public Class<?> getCitizenClass() {
+            return AccountAddressFragment.class;
+        }
     }
 
     public static class AccountPasswordFragment extends EditorFragment {
@@ -77,6 +83,11 @@ public class AccountFragment extends BasicFragment<MayoralFamily> {
         public MayoralFamily getMayoralFamily() {
             return MayoralFamily.ACCOUNT_PASSWORD;
         }
+
+        @Override
+        public Class<?> getCitizenClass() {
+            return AccountPasswordFragment.class;
+        }
     }
 
     private static final String TAG = "F3-AccountFrag";
@@ -89,22 +100,22 @@ public class AccountFragment extends BasicFragment<MayoralFamily> {
     }
 
     @Override
-    protected int getLayout() {
+    public @LayoutRes int getLayout() {
         return R.layout.account_fragment;
     }
 
     @Override
-    protected void createView(@NonNull View view) {
+    public void createView(@NonNull View view) {
 
     }
 
     @Override
-    protected void onBirth() {
+    public void onBirth() {
 
     }
 
     @Override
-    protected void onDeath() {
+    public void onDeath() {
 
     }
 
@@ -113,11 +124,18 @@ public class AccountFragment extends BasicFragment<MayoralFamily> {
         return MayoralFamily.ACCOUNT;
     }
 
+    @Override
+    public Class<?> getCitizenClass() {
+        return AccountFragment.class;
+    }
+
+    @Override
     public void setLedger(Ledger ledger)
     {
         this.ledger = ledger;
     }
 
+    @Override
     public Ledger getLedger()
     {
         return ledger;

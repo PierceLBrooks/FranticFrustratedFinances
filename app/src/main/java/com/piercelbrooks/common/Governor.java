@@ -70,6 +70,11 @@ public class Governor extends Registry<Family, Citizen, HashSet<Citizen>, HashMa
     }
 
     @Override
+    public Class<?> getCitizenClass() {
+        return Governor.class;
+    }
+
+    @Override
     public void birth()
     {
         if (instance != null)

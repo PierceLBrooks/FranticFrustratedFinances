@@ -16,7 +16,11 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Window;
 
-public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity implements Citizen {
+import com.piercelbrooks.f3.MayoralFamily;
+
+import java.util.ArrayList;
+
+public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity implements Municipality<T> {
     private class Shower <U extends Enum<U>, V extends Fragment & Mayor<U>> extends Handler {
         private class Runner <W extends Enum<W>, X extends Fragment & Mayor<W>> implements Runnable {
             private BasicActivity activity;
@@ -34,19 +38,20 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
                 if (manager == null) {
                     return;
                 }
+                Utilities.closeKeyboard(activity);
                 if (activeFragment != null) {
                     if (activeFragment instanceof Citizen) {
                         ((Citizen)activeFragment).death();
                     }
                     manager.beginTransaction().remove(activeFragment).commitNow();
                 }
-                activeFragment = fragment;
-                activity.setActiveFragment(activeFragment);
+                activity.setActiveFragment(fragment);
+                activity.preShow(fragment);
                 if (fragment != null) {
                     fragment.birth();
                     manager.beginTransaction().replace(getFragmentSlot(), fragment, null).commitNow();
-                    Log.d(TAG, fragment.getMayoralFamily().name());
                 }
+                activity.postShow(activeFragment, fragment);
             }
         }
 
@@ -68,6 +73,10 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
     private Fragment activeFragment;
     private Window.Callback androidWindowCallback;
     private WindowCallback commonWindowCallback;
+    private boolean isShowing;
+    private boolean isBacking;
+    private ArrayList<T> backStack;
+    private ArrayList<Shower<T, ?>> showers;
 
     protected abstract void create();
     protected abstract void destroy();
@@ -77,14 +86,6 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
     protected abstract void pause();
     protected abstract @IdRes int getFragmentSlot();
     protected abstract @LayoutRes int getLayout();
-
-    public void show() {
-        show(null);
-    }
-
-    public <Y extends Fragment & Mayor<T>> void show(@Nullable Y fragment) {
-        new Shower<>(this, fragment).post();
-    }
 
     public Fragment getActiveFragment() {
         return activeFragment;
@@ -112,6 +113,10 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
         activeFragment = null;
         androidWindowCallback = null;
         commonWindowCallback = null;
+        isShowing = false;
+        isBacking = false;
+        backStack = new ArrayList<>();
+        showers = new ArrayList<>();
         setContentView();
         create();
     }
@@ -205,8 +210,80 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
     }
 
     @Override
+    public void onBackPressed() {
+        if (!onBack()) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public T popBack() {
+        if (backStack.isEmpty()) {
+            return null;
+        }
+        return backStack.remove(backStack.size()-1);
+    }
+
+    @Override
+    public boolean onBack() {
+        if (isBacking) {
+            return false;
+        }
+        if (!show(getNewMayor(popBack()))) {
+            return false;
+        }
+        isBacking = true;
+        return true;
+    }
+
+    @Override
+    public <Y extends Fragment & Mayor<T>> void postShow(@Nullable Y previous, @Nullable Y current) {
+        if (previous != null) {
+            boolean check = true;
+            T mayoralFamily = previous.getMayoralFamily();
+            if (!backStack.isEmpty()) {
+                if (mayoralFamily != null) {
+                    if (mayoralFamily.equals(backStack.get(backStack.size()-1))) {
+                        check = false;
+                    }
+                }
+            }
+            if (check) {
+                backStack.add(mayoralFamily);
+            }
+        }
+        if (current != null) {
+            Log.d(TAG, current.getMayoralFamily().name());
+        }
+        if (isShowing) {
+            if (isBacking) {
+                isBacking = false;
+            }
+            if (showers.isEmpty()) {
+                isShowing = false;
+            } else {
+                showers.remove(showers.size()-1).post();
+            }
+        }
+        onShow(current);
+    }
+
+    @Override
+    public <Y extends Fragment & Mayor<T>> boolean show(@Nullable Y fragment) {
+        if (fragment == null) {
+            return false;
+        }
+        showers.add(new Shower<>(this, fragment));
+        if (!isShowing) {
+            isShowing = true;
+            showers.remove(showers.size()-1).post();
+        }
+        return true;
+    }
+
+    @Override
     public Family getFamily() {
-        return Family.ACTIVITY;
+        return Family.MUNICIPALITY;
     }
 
     @Override

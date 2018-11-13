@@ -45,6 +45,11 @@ public class WindowCallback extends ContextWrap implements Window.Callback {
     }
 
     @Override
+    public Class<?> getCitizenClass() {
+        return WindowCallback.class;
+    }
+
+    @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (listener != null) {
             listener.onKey(event);

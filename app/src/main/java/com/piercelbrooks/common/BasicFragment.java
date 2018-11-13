@@ -3,6 +3,7 @@
 
 package com.piercelbrooks.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -16,11 +17,6 @@ import android.view.ViewGroup;
 public abstract class BasicFragment <T extends Enum<T>> extends Fragment implements Mayor<T> {
     private static final String TAG = "PLB-BasicFrag";
 
-    protected abstract @LayoutRes int getLayout();
-    protected abstract void createView(@NonNull View view);
-    protected abstract void onBirth();
-    protected abstract void onDeath();
-
     public BasicFragment() {
 
     }
@@ -33,8 +29,7 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayout(), container, false);
-        return view;
+        return inflater.inflate(getLayout(), container, false);
     }
 
     @Override
@@ -44,7 +39,16 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
 
     @Override
     public Family getFamily() {
-        return Family.FRAGMENT;
+        return Family.MAYOR;
+    }
+
+    @Override
+    public Municipality<T> getMunicipality() {
+        Activity activity = getActivity();
+        if (activity instanceof  Municipality) {
+            return (Municipality<T>)activity;
+        }
+        return null;
     }
 
     @Override
