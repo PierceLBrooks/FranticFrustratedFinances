@@ -102,6 +102,26 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
         resume();
     }
 
+    private boolean handleBackStack(@NonNull Mayor<T> left, @NonNull Mayor<T> right, @NonNull T mayoralFamilyBack, boolean revert) {
+        boolean check = true;
+        T mayoralFamilyLeft = left.getMayoralFamily();
+        T mayoralFamilyRight = right.getMayoralFamily();
+        if (mayoralFamilyRight != null) {
+            if (mayoralFamilyRight.equals(mayoralFamilyBack)) {
+                check = false;
+            }
+        }
+        if (check) {
+            backStack.add(mayoralFamilyLeft);
+            return true;
+        } else {
+            if (revert) {
+                popBack();
+            }
+        }
+        return false;
+    }
+
     private void setContentView() {
         int layout = getLayout();
         Log.d(TAG, "Setting content view (0x"+Utilities.getHax(layout)+")...");
@@ -239,21 +259,32 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
     @Override
     public <Y extends Fragment & Mayor<T>> void postShow(@Nullable Y previous, @Nullable Y current) {
         if (previous != null) {
-            boolean check = true;
-            T mayoralFamily = previous.getMayoralFamily();
-            if (!backStack.isEmpty()) {
-                if (mayoralFamily != null) {
-                    if (mayoralFamily.equals(backStack.get(backStack.size()-1))) {
-                        check = false;
+            T mayoralFamilyPrevious = previous.getMayoralFamily();
+            if (mayoralFamilyPrevious != null) {
+                if (!backStack.isEmpty()) {
+                    T mayoralFamilyBack = backStack.get(backStack.size()-1);
+                    if (current != null) {
+                        boolean check = true;
+                        T mayoralFamilyCurrent = current.getMayoralFamily();
+                        if (mayoralFamilyCurrent != null) {
+                            if (mayoralFamilyCurrent.equals(mayoralFamilyBack)) {
+                                check = false;
+                            }
+                        }
+                        if (check) {
+                            if (!isBacking) {
+                                backStack.add(previous.getMayoralFamily());
+                            }
+                        } else {
+                            popBack();
+                        }
+                    }
+                } else {
+                    if (!isBacking) {
+                        backStack.add(previous.getMayoralFamily());
                     }
                 }
             }
-            if (check) {
-                backStack.add(mayoralFamily);
-            }
-        }
-        if (current != null) {
-            Log.d(TAG, current.getMayoralFamily().name());
         }
         if (isShowing) {
             if (isBacking) {
@@ -265,6 +296,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
                 showers.remove(showers.size()-1).post();
             }
         }
+        Log.d(TAG, backStack.toString());
         onShow(current);
     }
 
