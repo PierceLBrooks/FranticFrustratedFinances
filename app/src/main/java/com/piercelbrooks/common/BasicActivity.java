@@ -102,26 +102,6 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
         resume();
     }
 
-    private boolean handleBackStack(@NonNull Mayor<T> left, @NonNull Mayor<T> right, @NonNull T mayoralFamilyBack, boolean revert) {
-        boolean check = true;
-        T mayoralFamilyLeft = left.getMayoralFamily();
-        T mayoralFamilyRight = right.getMayoralFamily();
-        if (mayoralFamilyRight != null) {
-            if (mayoralFamilyRight.equals(mayoralFamilyBack)) {
-                check = false;
-            }
-        }
-        if (check) {
-            backStack.add(mayoralFamilyLeft);
-            return true;
-        } else {
-            if (revert) {
-                popBack();
-            }
-        }
-        return false;
-    }
-
     private void setContentView() {
         int layout = getLayout();
         Log.d(TAG, "Setting content view (0x"+Utilities.getHax(layout)+")...");
