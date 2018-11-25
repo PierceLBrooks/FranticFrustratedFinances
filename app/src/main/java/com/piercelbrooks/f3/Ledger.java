@@ -7,7 +7,9 @@ import com.piercelbrooks.common.Citizen;
 import com.piercelbrooks.common.Family;
 import com.piercelbrooks.common.Governor;
 
-public class Ledger {
+import java.util.List;
+
+public class Ledger implements Persistable<LedgerMember> {
     private static Ledger current = null;
 
     private String name;
@@ -84,5 +86,40 @@ public class Ledger {
         if (targetEvent != null) {
             targetEvent.setOwner(this);
         }
+    }
+
+    @Override
+    public boolean save(String path) {
+        return false;
+    }
+
+    @Override
+    public boolean load(String path) {
+        return false;
+    }
+
+    @Override
+    public Serial<LedgerMember> deserialize(List<String> source) {
+        return null;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return null;
+    }
+
+    @Override
+    public List<String> getSerialization() {
+        return null;
+    }
+
+    @Override
+    public String getMemberIdentifier(LedgerMember member) {
+        return null;
+    }
+
+    @Override
+    public List<String> getMemberSerialization(LedgerMember member) {
+        return null;
     }
 }

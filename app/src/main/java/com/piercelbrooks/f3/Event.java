@@ -8,7 +8,7 @@ import com.piercelbrooks.common.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event implements Serial<EventMember>
+public class Event implements Persistable<EventMember>
 {
     private Ledger owner;
     private final DateTime dateTime;
@@ -42,9 +42,9 @@ public class Event implements Serial<EventMember>
     }
 
     @Override
-    public void deserialize(String source)
+    public Serial<EventMember> deserialize(List<String> source)
     {
-
+        return null;
     }
 
     @Override
@@ -93,5 +93,17 @@ public class Event implements Serial<EventMember>
                 break;
         }
         return serialization;
+    }
+
+    @Override
+    public boolean save(String path)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean load(String path)
+    {
+        return false;
     }
 }

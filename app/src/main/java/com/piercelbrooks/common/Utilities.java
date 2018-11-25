@@ -2,13 +2,11 @@ package com.piercelbrooks.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,11 @@ import android.view.inputmethod.InputMethodManager;
 import com.android.grafika.gles.EglCore;
 import com.android.grafika.gles.WindowSurface;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.List;
 
 public class Utilities {
@@ -205,5 +208,74 @@ public class Utilities {
             }
         }
         return tally;
+    }
+
+    public static boolean read(String path, List<String> data) {
+        if ((path == null) || (data == null)) {
+            return false;
+        }
+        boolean success = true;
+        FileReader reader = null;
+        BufferedReader buffer = null;
+        try {
+            File file = new File(path);
+            reader = new FileReader(file);
+            buffer = new BufferedReader(reader);
+            while (reader.ready())
+            {
+                data.add(buffer.readLine());
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            success = false;
+        } finally {
+            try {
+                if (buffer != null) {
+                    buffer.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                success = false;
+            }
+        }
+        return success;
+    }
+
+    public static boolean write(String path, List<String> data) {
+        if ((path == null) || (data == null)) {
+            return false;
+        }
+        boolean success = true;
+        FileWriter writer = null;
+        BufferedWriter buffer = null;
+        try {
+            File file = new File(path);
+            writer = new FileWriter(file);
+            buffer = new BufferedWriter(writer);
+            for (int i = 0; i != data.size(); ++i)
+            {
+                buffer.write(data.get(i));
+                buffer.newLine();
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            success = false;
+        } finally {
+            try {
+                if (buffer != null) {
+                    buffer.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                success = false;
+            }
+        }
+        return success;
     }
 }
