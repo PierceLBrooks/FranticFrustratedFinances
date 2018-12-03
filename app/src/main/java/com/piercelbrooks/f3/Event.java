@@ -42,7 +42,7 @@ public class Event implements Persistable<EventMember>
     }
 
     @Override
-    public Serial<EventMember> deserialize(List<String> source)
+    public Serial<EventMember> getDeserialization(List<String> source)
     {
         return null;
     }

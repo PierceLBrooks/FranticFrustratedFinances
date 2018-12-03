@@ -30,25 +30,11 @@ public class DateTime implements Persistable<DateTimeMember>
         set(other);
     }
 
-    public DateTime(@Nullable DateTime other, int change, @NonNull DateTimeMember member)
-    {
+    public DateTime(@Nullable DateTime other, int change, @NonNull DateTimeMember member) {
         this(other);
-        switch (member)
+        if (!set(change, member))
         {
-            case NONE:
-                break;
-            case YEAR:
-                year = change;
-                break;
-            case MONTH:
-                month = change;
-                break;
-            case DAY:
-                day = change;
-                break;
-            default:
-                set();
-                break;
+            set();
         }
     }
 
@@ -71,6 +57,27 @@ public class DateTime implements Persistable<DateTimeMember>
         this.year = year;
         this.month = month;
         this.day = day;
+    }
+
+    public boolean set(int change, @NonNull DateTimeMember member)
+    {
+        switch (member)
+        {
+            case NONE:
+                break;
+            case YEAR:
+                year = change;
+                break;
+            case MONTH:
+                month = change;
+                break;
+            case DAY:
+                day = change;
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 
     public int getDay() {
@@ -98,11 +105,17 @@ public class DateTime implements Persistable<DateTimeMember>
     }
 
     @Override
-    public Serial<DateTimeMember> deserialize(List<String> source)
+    public Serial<DateTimeMember> getDeserialization(List<String> source)
     {
         DateTime deserialization = new DateTime();
+        DateTimeMember[] enumeration = DateTimeMember.values();
+        ArrayList<DateTimeMember> members = new ArrayList<>();
         String[] assignment;
         String data;
+        for (int i = 0; i != enumeration.length; ++i)
+        {
+            members.add(enumeration[i]);
+        }
         for (int i = 0; i != source.size(); ++i)
         {
             if (i == 0)
@@ -113,7 +126,22 @@ public class DateTime implements Persistable<DateTimeMember>
             assignment = data.split("=");
             if (assignment.length == 2)
             {
-                Log.d(TAG, ""+assignment);
+                for (int j = 0; j != members.size(); ++j)
+                {
+                    if (assignment[0].trim().equalsIgnoreCase(members.get(j).name()))
+                    {
+                        if (!deserialization.set(Integer.parseInt(assignment[1].trim()), members.get(j)))
+                        {
+                            Log.w(TAG, "Failed to deserialize member: \""+members.get(j).name()+"\"");
+                        }
+                        members.remove(j);
+                        break;
+                    }
+                }
+                if (members.isEmpty())
+                {
+                    break;
+                }
             }
         }
         return deserialization;
@@ -205,7 +233,7 @@ public class DateTime implements Persistable<DateTimeMember>
         {
             return false;
         }
-        set((DateTime)deserialize(input));
+        set((DateTime) getDeserialization(input));
         return true;
     }
 

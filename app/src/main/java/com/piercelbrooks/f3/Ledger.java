@@ -99,7 +99,7 @@ public class Ledger implements Persistable<LedgerMember> {
     }
 
     @Override
-    public Serial<LedgerMember> deserialize(List<String> source) {
+    public Serial<LedgerMember> getDeserialization(List<String> source) {
         return null;
     }
 

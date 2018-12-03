@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
 
-public class Utilities {
+public abstract class Utilities {
     private static final String TAG = "PLB-Utilities";
 
     public static boolean enable(@Nullable View view) {
@@ -210,20 +211,23 @@ public class Utilities {
         return tally;
     }
 
-    public static boolean read(String path, List<String> data) {
-        if ((path == null) || (data == null)) {
+    public static boolean read(String path, List<String> lines) {
+        if ((path == null) || (lines == null)) {
             return false;
         }
         boolean success = true;
         FileReader reader = null;
         BufferedReader buffer = null;
+        Log.i(TAG, "Reading ("+path+")...");
         try {
+            String line;
             File file = new File(path);
             reader = new FileReader(file);
             buffer = new BufferedReader(reader);
-            while (reader.ready())
+            while ((line = buffer.readLine()) != null)
             {
-                data.add(buffer.readLine());
+                lines.add(line);
+                Log.d(TAG, "Read: \""+line+"\"");
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -241,24 +245,36 @@ public class Utilities {
                 success = false;
             }
         }
+        if (success)
+        {
+            Log.i(TAG, "Read successfully ("+path+")!");
+        }
+        else
+        {
+            Log.e(TAG, "Read unsuccessfully ("+path+")!");
+        }
         return success;
     }
 
-    public static boolean write(String path, List<String> data) {
-        if ((path == null) || (data == null)) {
+    public static boolean write(String path, List<String> lines) {
+        if ((path == null) || (lines == null)) {
             return false;
         }
         boolean success = true;
         FileWriter writer = null;
         BufferedWriter buffer = null;
+        Log.i(TAG, "Writing ("+path+")...");
         try {
+            String line;
             File file = new File(path);
             writer = new FileWriter(file);
             buffer = new BufferedWriter(writer);
-            for (int i = 0; i != data.size(); ++i)
+            for (int i = 0; i != lines.size(); ++i)
             {
-                buffer.write(data.get(i));
+                line = lines.get(i);
+                buffer.write(line);
                 buffer.newLine();
+                Log.d(TAG, "Written: \""+line+"\"");
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -275,6 +291,14 @@ public class Utilities {
                 exception.printStackTrace();
                 success = false;
             }
+        }
+        if (success)
+        {
+            Log.i(TAG, "Wrote successfully ("+path+")!");
+        }
+        else
+        {
+            Log.e(TAG, "Wrote unsuccessfully ("+path+")!");
         }
         return success;
     }

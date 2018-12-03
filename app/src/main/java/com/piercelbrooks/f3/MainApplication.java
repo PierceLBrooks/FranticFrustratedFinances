@@ -14,14 +14,8 @@ import java.io.File;
 public class MainApplication extends BasicApplication {
     private static final String TAG = "F3-MainApp";
 
-    @Override
-    public @DrawableRes int getEmptyDrawable() {
-        return R.drawable.empty;
-    }
-
-    @Override
-    protected void create() {
-        DateTime test = new DateTime();
+    public String getDataPath()
+    {
         String path = getApplicationInfo().dataDir;
         if (path.length() != 0)
         {
@@ -29,31 +23,18 @@ public class MainApplication extends BasicApplication {
             {
                 path += File.separatorChar;
             }
-            path += "test.txt";
         }
-        Log.d(TAG, "Path: "+path);
-        Log.d(TAG, "Test:"+test);
-        Log.d(TAG, "Saving...");
-        if (test.save(path))
-        {
-            Log.d(TAG, "Success!");
-            test.set(0, 0, 0);
-            Log.d(TAG, "Test:"+test);
-            Log.d(TAG, "Loading...");
-            if (test.load(path))
-            {
-                Log.d(TAG, "Success!");
-                Log.d(TAG, "Test:"+test);
-            }
-            else
-            {
-                Log.d(TAG, "Failure!");
-            }
-        }
-        else
-        {
-            Log.d(TAG, "Failure!");
-        }
+        return path;
+    }
+
+    @Override
+    public @DrawableRes int getEmptyDrawable() {
+        return R.drawable.empty;
+    }
+
+    @Override
+    protected void create() {
+
     }
 
     @Override
@@ -83,7 +64,8 @@ public class MainApplication extends BasicApplication {
 
     @Override
     protected void activityResumed(Activity activity) {
-
+        Tests.testDateTime();
+        Tests.testContact();
     }
 
     @Override
