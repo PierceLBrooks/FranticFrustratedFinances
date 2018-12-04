@@ -3,6 +3,7 @@
 
 package com.piercelbrooks.f3;
 
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 
 public class ContactAddressFragment extends EditorFragment implements Accountant
@@ -27,6 +28,7 @@ public class ContactAddressFragment extends EditorFragment implements Accountant
     protected void onSave(String field)
     {
         getContact().setAddress(field);
+        Log.d(TAG, "LEDGER SERIAL TEST:\n"+getContact().getOwner());
         ((MainActivity)getMunicipality()).showContacts(ledger);
     }
 

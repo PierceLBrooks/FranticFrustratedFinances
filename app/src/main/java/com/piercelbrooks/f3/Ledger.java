@@ -6,10 +6,24 @@ package com.piercelbrooks.f3;
 import com.piercelbrooks.common.Citizen;
 import com.piercelbrooks.common.Family;
 import com.piercelbrooks.common.Governor;
+import com.piercelbrooks.common.Utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ledger implements Persistable<LedgerMember> {
+    private class ContactList extends SerialList<Contact> {
+        @Override
+        public SerialList<Contact> getNew() {
+            return new ContactList();
+        }
+
+        @Override
+        public Contact getSerial() {
+            return new Contact();
+        }
+    }
+
     private static Ledger current = null;
 
     private String name;
@@ -17,6 +31,10 @@ public class Ledger implements Persistable<LedgerMember> {
     private Contact targetContact;
     private DateTime targetDateTime;
     private Event targetEvent;
+
+    public Ledger() {
+        this("");
+    }
 
     public Ledger(String name) {
         setCurrent(this);
@@ -99,27 +117,79 @@ public class Ledger implements Persistable<LedgerMember> {
     }
 
     @Override
+    public Class<?> getSerialClass()
+    {
+        return Ledger.class;
+    }
+
+    @Override
     public Serial<LedgerMember> getDeserialization(List<String> source) {
-        return null;
+        int i;
+        Ledger deserialization = new Ledger();
+        for (i = 0; i != source.size(); ++i) {
+            if (i == 0) {
+                continue;
+            }
+        }
+        for (int j = 0; j != i; ++j) {
+            source.remove(0);
+        }
+        return deserialization;
     }
 
     @Override
     public String getIdentifier() {
-        return null;
+        return "Ledger";
     }
 
     @Override
     public List<String> getSerialization() {
-        return null;
+        ArrayList<String> serialization = new ArrayList<>();
+        LedgerMember[] members = LedgerMember.values();
+        LedgerMember member;
+        serialization.add(getIdentifier());
+        for (int i = 0; i != members.length; ++i) {
+            member = members[i];
+            if (member == LedgerMember.NONE) {
+                continue;
+            }
+            Utilities.add(serialization, getMemberSerialization(member));
+        }
+        return serialization;
     }
 
     @Override
     public String getMemberIdentifier(LedgerMember member) {
-        return null;
+        return member.name();
     }
 
     @Override
     public List<String> getMemberSerialization(LedgerMember member) {
-        return null;
+        ArrayList<String> serialization = new ArrayList<String>();
+        serialization.add(getMemberIdentifier(member));
+        switch (member) {
+            case CONTACTS: {
+                    ContactList contacts = new ContactList();
+                    contacts.add(targetContact);
+                    Utilities.add(serialization, contacts.getSerialization());
+                }
+                break;
+            default:
+                return null;
+        }
+        return serialization;
+    }
+
+    @Override
+    public String toString() {
+        List<String> serialization = getSerialization();
+        String result = "";
+        for (int i = 0; i != serialization.size(); ++i) {
+            result += serialization.get(i);
+            if (i != serialization.size()-1) {
+                result += "\n";
+            }
+        }
+        return result;
     }
 }

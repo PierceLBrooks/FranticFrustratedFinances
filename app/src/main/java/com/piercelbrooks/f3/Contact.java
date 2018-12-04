@@ -7,12 +7,17 @@ import com.piercelbrooks.common.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contact implements Persistable<ContactMember>
+public class Contact implements Serial<ContactMember>
 {
     private static final String TAG = "F3-Contact";
 
     private Ledger owner;
     private String address;
+
+    public Contact()
+    {
+        this(null);
+    }
 
     public Contact(Ledger owner)
     {
@@ -46,46 +51,19 @@ public class Contact implements Persistable<ContactMember>
     }
 
     @Override
-    public boolean save(String path)
+    public Class<?> getSerialClass()
     {
-        List<String> serialization = getSerialization();
-        ArrayList<String> output = new ArrayList<>();
-        String data = "";
-        for (int i = 0; i != serialization.size(); ++i)
-        {
-            data += serialization.get(i);
-            if ((i-1)%2 == 0)
-            {
-                data += "=";
-            }
-            else
-            {
-                output.add(data);
-                data = "";
-            }
-        }
-        return Utilities.write(path, output);
-    }
-
-    @Override
-    public boolean load(String path)
-    {
-        ArrayList<String> input = new ArrayList<>();
-        if (!Utilities.read(path, input))
-        {
-            return false;
-        }
-        address = ((Contact)getDeserialization(input)).getAddress();
-        return true;
+        return Contact.class;
     }
 
     @Override
     public Serial<ContactMember> getDeserialization(List<String> source)
     {
+        int i;
         Contact deserialization = new Contact(owner);
         String[] assignment;
         String data;
-        for (int i = 0; i != source.size(); ++i)
+        for (i = 0; i != source.size(); ++i)
         {
             if (i == 0)
             {
@@ -101,6 +79,10 @@ public class Contact implements Persistable<ContactMember>
                     break;
                 }
             }
+        }
+        for (int j = 0; j != i; ++j)
+        {
+            source.remove(0);
         }
         return deserialization;
     }

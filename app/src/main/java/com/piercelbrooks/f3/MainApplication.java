@@ -14,8 +14,7 @@ import java.io.File;
 public class MainApplication extends BasicApplication {
     private static final String TAG = "F3-MainApp";
 
-    public String getDataPath()
-    {
+    public String getDataPath() {
         String path = getApplicationInfo().dataDir;
         if (path.length() != 0)
         {
@@ -65,7 +64,6 @@ public class MainApplication extends BasicApplication {
     @Override
     protected void activityResumed(Activity activity) {
         Tests.testDateTime();
-        Tests.testContact();
     }
 
     @Override

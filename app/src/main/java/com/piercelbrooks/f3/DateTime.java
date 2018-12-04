@@ -105,18 +105,25 @@ public class DateTime implements Persistable<DateTimeMember>
     }
 
     @Override
+    public Class<?> getSerialClass()
+    {
+        return DateTime.class;
+    }
+
+    @Override
     public Serial<DateTimeMember> getDeserialization(List<String> source)
     {
+        int i;
         DateTime deserialization = new DateTime();
         DateTimeMember[] enumeration = DateTimeMember.values();
         ArrayList<DateTimeMember> members = new ArrayList<>();
         String[] assignment;
         String data;
-        for (int i = 0; i != enumeration.length; ++i)
+        for (i = 0; i != enumeration.length; ++i)
         {
             members.add(enumeration[i]);
         }
-        for (int i = 0; i != source.size(); ++i)
+        for (i = 0; i != source.size(); ++i)
         {
             if (i == 0)
             {
@@ -143,6 +150,10 @@ public class DateTime implements Persistable<DateTimeMember>
                     break;
                 }
             }
+        }
+        for (int j = 0; j != i; ++j)
+        {
+            source.remove(0);
         }
         return deserialization;
     }
@@ -238,7 +249,8 @@ public class DateTime implements Persistable<DateTimeMember>
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         List<String> serialization = getSerialization();
         String result = "";
         for (int i = 0; i != serialization.size(); ++i)

@@ -59,38 +59,6 @@ public abstract class Tests
         }
     }
 
-    public static class ContactTest extends SerialTest<Contact>
-    {
-
-        @Override
-        public boolean test(Contact subject)
-        {
-            for (int i = 0; i != 2; ++i)
-            {
-                testBefore(i, subject);
-                switch (i)
-                {
-                    case 0:
-                        subject.setAddress("foo@foo.foo");
-                        if (!subject.save(getPath()))
-                        {
-                            return false;
-                        }
-                        break;
-                    case 1:
-                        subject.setAddress("bar@bar.bar");
-                        if (!subject.load(getPath()))
-                        {
-                            return false;
-                        }
-                        break;
-                }
-                testAfter(i, subject);
-            }
-            return true;
-        }
-    }
-
     public static class DateTimeTest extends SerialTest<DateTime>
     {
         @Override
@@ -120,14 +88,6 @@ public abstract class Tests
             }
             return true;
         }
-    }
-
-    public static boolean testContact()
-    {
-        Ledger ledger = new Ledger("test");
-        Contact serial = new Contact(ledger);
-        ContactTest test = new ContactTest();
-        return test.test(serial);
     }
 
     public static boolean testDateTime()

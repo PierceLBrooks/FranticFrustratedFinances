@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface Serial <T extends Enum<T>>
 {
+    public Class<?> getSerialClass();
     public Serial<T> getDeserialization(List<String> source);
     public String getIdentifier();
     public List<String> getSerialization();
