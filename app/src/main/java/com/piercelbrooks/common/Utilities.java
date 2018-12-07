@@ -256,6 +256,32 @@ public abstract class Utilities {
         return success;
     }
 
+    public static boolean delete(String path) {
+        if (path == null) {
+            return false;
+        }
+        boolean success = true;
+        Log.i(TAG, "Deleting ("+path+")...");
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                success = file.delete();
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            success = false;
+        }
+        if (success)
+        {
+            Log.i(TAG, "Deleted successfully ("+path+")!");
+        }
+        else
+        {
+            Log.e(TAG, "Deleted unsuccessfully ("+path+")!");
+        }
+        return success;
+    }
+
     public static boolean write(String path, List<String> lines) {
         if ((path == null) || (lines == null)) {
             return false;
@@ -263,42 +289,68 @@ public abstract class Utilities {
         boolean success = true;
         FileWriter writer = null;
         BufferedWriter buffer = null;
-        Log.i(TAG, "Writing ("+path+")...");
-        try {
-            String line;
-            File file = new File(path);
-            writer = new FileWriter(file);
-            buffer = new BufferedWriter(writer);
-            for (int i = 0; i != lines.size(); ++i)
-            {
-                line = lines.get(i);
-                buffer.write(line);
-                buffer.newLine();
-                Log.d(TAG, "Written: \""+line+"\"");
+        String[] split = path.split(File.separator);
+        path = ""+File.separatorChar;
+        for (int i = 0; i != split.length; ++i) {
+            path += split[i];
+            Log.d(TAG, path);
+            if (i == split.length-1) {
+                break;
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            success = false;
-        } finally {
             try {
-                if (buffer != null) {
-                    buffer.close();
-                }
-                if (writer != null) {
-                    writer.close();
+                File file = new File(path);
+                if (!file.exists()) {
+                    if (!file.mkdirs()) {
+                        success = false;
+                    }
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
                 success = false;
             }
+            if (!success) {
+                Log.e(TAG, "Bad path!");
+                break;
+            }
+            path += File.separatorChar;
         }
-        if (success)
-        {
-            Log.i(TAG, "Wrote successfully ("+path+")!");
-        }
-        else
-        {
-            Log.e(TAG, "Wrote unsuccessfully ("+path+")!");
+        if (success) {
+            Log.i(TAG, "Writing ("+path+")...");
+            try {
+                String line;
+                File file = new File(path);
+                writer = new FileWriter(file);
+                buffer = new BufferedWriter(writer);
+                for (int i = 0; i != lines.size(); ++i) {
+                    line = lines.get(i);
+                    buffer.write(line);
+                    buffer.newLine();
+                    Log.d(TAG, "Written: \""+line+"\"");
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                success = false;
+            } finally {
+                try {
+                    if (buffer != null) {
+                        buffer.close();
+                    }
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    success = false;
+                }
+            }
+            if (success)
+            {
+                Log.i(TAG, "Wrote successfully ("+path+")!");
+            }
+            else
+            {
+                Log.e(TAG, "Wrote unsuccessfully ("+path+")!");
+            }
         }
         return success;
     }

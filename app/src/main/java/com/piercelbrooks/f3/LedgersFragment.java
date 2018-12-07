@@ -7,11 +7,17 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
+import com.piercelbrooks.common.Utilities;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class LedgersFragment extends BasicListFragment<MayoralFamily>
 {
@@ -90,7 +96,7 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             @Override
             public void onClick(View v)
             {
-
+                getActivity().finish();
             }
         });
         ledgerRemove.setOnClickListener(new View.OnClickListener()
@@ -100,6 +106,34 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             {
                 if (selectionIndex >= 0)
                 {
+                    ArrayList<String> ledgers = new ArrayList<>();
+                    if (Utilities.read(Ledger.getPath()+"ledgers.dat", ledgers))
+                    {
+                        String ledger;
+                        for (int i = 0; i != ledgers.size(); ++i)
+                        {
+                            ledger = ledgers.get(i).trim();
+                            if (ledger.equals(getItemLabel(selectionIndex).trim()))
+                            {
+                                Utilities.delete(Ledger.getPath()+"ledgers"+File.separator+ledger+".dat");
+                                ledgers.remove(i);
+                                --i;
+                                continue;
+                            }
+                            ledgers.set(i, ledger);
+                        }
+                        if (ledgers.isEmpty())
+                        {
+                            Utilities.delete(Ledger.getPath()+"ledgers.dat");
+                        }
+                        else
+                        {
+                            if (!Utilities.write(Ledger.getPath()+"ledgers.dat", ledgers))
+                            {
+                                Log.e(TAG, "Could not update ledgers!");
+                            }
+                        }
+                    }
                     removeItem(selectionIndex);
                     selectionIndex = -1;
                 }
@@ -111,6 +145,8 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             public void onClick(View v)
             {
                 addItem(""+getItemCount());
+                Ledger.setCurrent(new Ledger(getItemLabel(getItemCount()-1)));
+                Ledger.setCurrent(null);
             }
         });
         ledgerEdit.setOnClickListener(new View.OnClickListener()
@@ -118,9 +154,23 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showLobby(new Ledger(getItemLabel(selectionIndex)));
+                Ledger ledger = new Ledger(getItemLabel(selectionIndex));
+                Ledger.setCurrent(ledger);
+                ((MainActivity)getMunicipality()).showLobby(ledger);
             }
         });
+
+        ArrayList<String> ledgers = new ArrayList<>();
+        if (Utilities.read(Ledger.getPath()+"ledgers.dat", ledgers))
+        {
+            String ledger;
+            Collections.sort(ledgers);
+            for (int i = 0; i != ledgers.size(); ++i)
+            {
+                ledger = ledgers.get(i).trim();
+                addItem(ledger);
+            }
+        }
     }
 
     @Override

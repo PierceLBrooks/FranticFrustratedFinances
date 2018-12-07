@@ -46,6 +46,7 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
     @Override
     protected void itemClick(View view, int position)
     {
+        ledger.setTargetContact(ledger.getContacts().get(position));
         if (selection != null)
         {
             selection.setBackground(ContextCompat.getDrawable(getContext(), BasicApplication.getInstance().getEmptyDrawable()));
@@ -102,6 +103,7 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
             {
                 if (selectionIndex >= 0)
                 {
+                    ledger.getContacts().remove(selectionIndex);
                     removeItem(selectionIndex);
                     selectionIndex = -1;
                 }
@@ -113,6 +115,7 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
             public void onClick(View v)
             {
                 addItem(""+getItemCount());
+                ledger.getContacts().add(new Contact(ledger, getItemLabel(getItemCount()-1)));
             }
         });
         contactsEdit.setOnClickListener(new View.OnClickListener()
@@ -123,6 +126,8 @@ public class ContactsFragment extends BasicListFragment<MayoralFamily> implement
                 ((MainActivity)getMunicipality()).showContactAddress(ledger.getTargetContact());
             }
         });
+
+        addItems(ledger.getContacts().getAddresses());
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment implements Mayor<T>, AdapterView.OnItemClickListener
 {
@@ -92,6 +93,7 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     protected abstract @LayoutRes int getItemLayout();
 
     public BasicListFragment() {
+        super();
         list = null;
         items = null;
         itemLabels = null;
@@ -260,6 +262,18 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         }
         adapter.notifyDataSetChanged();
         return getItem(getItemCount()-1);
+    }
+
+    public void addItems(List<String> labels)
+    {
+        if (labels == null)
+        {
+            return;
+        }
+        for (int i = 0; i != labels.size(); ++i)
+        {
+            addItem(labels.get(i));
+        }
     }
 
     public boolean removeItem(int position)

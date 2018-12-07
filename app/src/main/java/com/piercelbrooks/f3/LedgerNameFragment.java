@@ -4,7 +4,13 @@
 package com.piercelbrooks.f3;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
+
+import com.piercelbrooks.common.Utilities;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class LedgerNameFragment extends EditorFragment implements Accountant
 {
@@ -27,9 +33,40 @@ public class LedgerNameFragment extends EditorFragment implements Accountant
     @Override
     protected void onSave(String field)
     {
+        ArrayList<String> ledgers = new ArrayList<>();
+        if (Utilities.read(Ledger.getPath()+"ledgers.dat", ledgers))
+        {
+            String ledger;
+            for (int i = 0; i != ledgers.size(); ++i)
+            {
+                ledger = ledgers.get(i).trim();
+                if (ledger.equals(this.ledger.getName().trim()))
+                {
+                    Utilities.delete(Ledger.getPath()+"ledgers"+File.separator+ledger+".dat");
+                    ledgers.set(i, field.trim());
+                    continue;
+                }
+                ledgers.set(i, ledger);
+            }
+            if (!Utilities.write(Ledger.getPath()+"ledgers.dat", ledgers))
+            {
+                Log.e(TAG, "Could not update ledgers!");
+            }
+        }
         if (ledger != null)
         {
-            ledger.setName(field);
+            ledger.setName(field.trim());
+            if (Ledger.getCurrent() == ledger)
+            {
+                Ledger.setCurrent(null);
+                Ledger.setCurrent(ledger);
+            }
+            else
+            {
+                Ledger other = Ledger.getCurrent();
+                Ledger.setCurrent(ledger);
+                Ledger.setCurrent(other);
+            }
         }
         ((MainActivity)getMunicipality()).showLobby(ledger);
     }

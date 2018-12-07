@@ -125,11 +125,16 @@ public class DateTime implements Persistable<DateTimeMember>
         }
         for (i = 0; i != source.size(); ++i)
         {
+            data = source.get(i).trim();
             if (i == 0)
             {
+                if (!data.equalsIgnoreCase(getIdentifier()))
+                {
+                    Log.e(TAG, "Incorrect identifier ("+data+")!");
+                    return null;
+                }
                 continue;
             }
-            data = source.get(i).trim();
             assignment = data.split("=");
             if (assignment.length == 2)
             {
@@ -153,6 +158,10 @@ public class DateTime implements Persistable<DateTimeMember>
         }
         for (int j = 0; j != i; ++j)
         {
+            if (source.isEmpty())
+            {
+                break;
+            }
             source.remove(0);
         }
         return deserialization;
@@ -244,7 +253,7 @@ public class DateTime implements Persistable<DateTimeMember>
         {
             return false;
         }
-        set((DateTime) getDeserialization(input));
+        set((DateTime)getDeserialization(input));
         return true;
     }
 

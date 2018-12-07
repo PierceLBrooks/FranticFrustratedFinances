@@ -18,7 +18,7 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
     private static final String TAG = "PLB-BasicFrag";
 
     public BasicFragment() {
-
+        super();
     }
 
     @Override

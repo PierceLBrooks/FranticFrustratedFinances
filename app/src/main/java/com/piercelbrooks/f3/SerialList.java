@@ -25,6 +25,17 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
         population = -1;
     }
 
+    public int getPopulation()
+    {
+        return population;
+    }
+
+    public void setPopulation(int population)
+    {
+        this.population = population;
+        Log.d(TAG, "New population: "+population);
+    }
+
     @Override
     public Class<?> getSerialClass()
     {
@@ -35,47 +46,94 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
     public Serial<SerialListMember> getDeserialization(List<String> source)
     {
         int i;
+        boolean check = true;
         SerialList<T> deserialization = getNew();
+        SerialListMember[] enumeration = SerialListMember.values();
+        ArrayList<SerialListMember> members = new ArrayList<>();
         T parent = getSerial();
         Serial child;
+        for (i = 0; i != enumeration.length; ++i)
+        {
+            members.add(enumeration[i]);
+        }
         for (i = 0; i != source.size(); ++i)
         {
-            if (i == 0)
+            Log.d(TAG, "Data: "+source.get(i).trim());
+            if (check)
             {
+                check = false;
+                if (!source.get(i).trim().equalsIgnoreCase(getIdentifier()))
+                {
+                    Log.e(TAG, "Incorrect identifier ("+source.get(i).trim()+")!");
+                    return null;
+                }
+                source.remove(i);
+                --i;
                 continue;
             }
-            if (deserialization.getPopulation() < 0)
+            if (i+1 >= source.size())
             {
-                deserialization.setPopulation(Integer.parseInt(source.get(i)));
+                break;
             }
-            else
+            for (int j = 0; j != members.size(); ++j)
             {
-                if (size() >= deserialization.getPopulation())
+                if (source.get(i).trim().equalsIgnoreCase(members.get(j).name()))
                 {
+                    source.remove(i);
+                    switch (members.get(j))
+                    {
+                        case POPULATION:
+                            if (deserialization.getPopulation() < 0)
+                            {
+                                deserialization.setPopulation(Integer.parseInt(source.get(i).trim()));
+                                source.remove(i);
+                                --i;
+                            }
+                            break;
+                        case SERIALS:
+                            child = parent.getDeserialization(source);
+                            if (child != null)
+                            {
+                                if (child.getSerialClass().isAssignableFrom(parent.getSerialClass()))
+                                {
+                                    deserialization.add((T)child);
+                                }
+                                else
+                                {
+                                    Log.w(TAG, "Cast failure at index: "+deserialization.size());
+                                }
+                            }
+                            else
+                            {
+                                Log.w(TAG, "Null child at index: "+deserialization.size());
+                            }
+                            break;
+                        default:
+                            Log.e(TAG, "Unhandled member ("+members.get(j).name()+")!");
+                            break;
+                    }
+                    members.remove(j);
                     break;
                 }
-                child = parent.getDeserialization(source);
-                if (child.getSerialClass().isAssignableFrom(parent.getSerialClass()))
-                {
-                    deserialization.add((T)child);
-                }
-                else
-                {
-                    Log.w(TAG, "Cast failure at index: "+size());
-                }
+            }
+            if (deserialization.size() >= deserialization.getPopulation())
+            {
+                break;
+            }
+            if (source.isEmpty())
+            {
+                break;
             }
         }
         for (int j = 0; j != i; ++j)
         {
+            if (source.isEmpty())
+            {
+                break;
+            }
             source.remove(0);
         }
         return deserialization;
-    }
-
-    @Override
-    public String getIdentifier()
-    {
-        return "SerialList";
     }
 
     @Override
@@ -125,13 +183,19 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
         return serialization;
     }
 
-    public int getPopulation()
+    @Override
+    public String toString()
     {
-        return population;
-    }
-
-    public void setPopulation(int population)
-    {
-        this.population = population;
+        List<String> serialization = getSerialization();
+        String result = "";
+        for (int i = 0; i != serialization.size(); ++i)
+        {
+            result += serialization.get(i);
+            if (i != serialization.size()-1)
+            {
+                result += "\n";
+            }
+        }
+        return result;
     }
 }

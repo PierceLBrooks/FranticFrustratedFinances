@@ -43,6 +43,7 @@ public class Contact implements Serial<ContactMember>
     public void setAddress(String address)
     {
         this.address = address;
+        Log.d(TAG, "New address: "+this.address);
     }
 
     public String getAddress()
@@ -61,27 +62,59 @@ public class Contact implements Serial<ContactMember>
     {
         int i;
         Contact deserialization = new Contact(owner);
-        String[] assignment;
+        ContactMember[] members = ContactMember.values();
+        ContactMember member;
         String data;
         for (i = 0; i != source.size(); ++i)
         {
+            data = source.get(i).trim();
+            Log.d(TAG, "Data: "+data);
             if (i == 0)
             {
+                if (!data.equalsIgnoreCase(getIdentifier()))
+                {
+                    Log.e(TAG, "Incorrect identifier ("+data+")!");
+                    return null;
+                }
                 continue;
             }
-            data = source.get(i).trim();
-            assignment = data.split("=");
-            if (assignment.length == 2)
+            for (int j = 0; j != members.length; ++j)
             {
-                if (assignment[0].trim().equalsIgnoreCase(ContactMember.ADDRESS.name()))
+                member = members[j];
+                if (data.equalsIgnoreCase(member.name()))
                 {
-                    deserialization.setAddress(assignment[1].trim());
-                    break;
+                    Log.d(TAG, "Member: "+member.toString()+" ("+data+")");
+                    switch (member)
+                    {
+                        case ADDRESS:
+                            if (i + 1 != source.size())
+                            {
+                                deserialization.setAddress(source.get(i+1).trim());
+                                ++i;
+                                source.remove(i);
+                                --i;
+                                source.remove(i);
+                                --i;
+                            }
+                            else
+                            {
+                                Log.e(TAG, "Malformed address!");
+                                return null;
+                            }
+                            break;
+                        default:
+                            Log.e(TAG, "Unhandled member ("+data+")!");
+                            return null;
+                    }
                 }
             }
         }
         for (int j = 0; j != i; ++j)
         {
+            if (source.isEmpty())
+            {
+                break;
+            }
             source.remove(0);
         }
         return deserialization;
@@ -135,7 +168,8 @@ public class Contact implements Serial<ContactMember>
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         List<String> serialization = getSerialization();
         String result = "";
         for (int i = 0; i != serialization.size(); ++i)
