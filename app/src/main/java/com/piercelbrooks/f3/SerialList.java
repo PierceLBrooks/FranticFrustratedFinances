@@ -91,21 +91,24 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
                             }
                             break;
                         case SERIALS:
-                            child = parent.getDeserialization(source);
-                            if (child != null)
+                            for (int k = 0; k != deserialization.getPopulation(); ++k)
                             {
-                                if (child.getSerialClass().isAssignableFrom(parent.getSerialClass()))
+                                child = parent.getDeserialization(source);
+                                if (child != null)
                                 {
-                                    deserialization.add((T)child);
+                                    if (child.getSerialClass().isAssignableFrom(parent.getSerialClass()))
+                                    {
+                                        deserialization.add((T)child);
+                                    }
+                                    else
+                                    {
+                                        Log.w(TAG, "Cast failure at index: "+deserialization.size());
+                                    }
                                 }
                                 else
                                 {
-                                    Log.w(TAG, "Cast failure at index: "+deserialization.size());
+                                    Log.w(TAG, "Null child at index: "+deserialization.size());
                                 }
-                            }
-                            else
-                            {
-                                Log.w(TAG, "Null child at index: "+deserialization.size());
                             }
                             break;
                         default:

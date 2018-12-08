@@ -7,7 +7,7 @@ import com.piercelbrooks.common.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contact implements Serial<ContactMember>
+public class Contact implements Serial<ContactMember>, Comparable<Contact>
 {
     private static final String TAG = "F3-Contact";
 
@@ -106,7 +106,12 @@ public class Contact implements Serial<ContactMember>
                             Log.e(TAG, "Unhandled member ("+data+")!");
                             return null;
                     }
+                    break;
                 }
+            }
+            if (!deserialization.getAddress().isEmpty())
+            {
+                break;
             }
         }
         for (int j = 0; j != i; ++j)
@@ -181,5 +186,11 @@ public class Contact implements Serial<ContactMember>
             }
         }
         return result;
+    }
+
+    @Override
+    public int compareTo(Contact other)
+    {
+        return address.compareTo(other.getAddress());
     }
 }

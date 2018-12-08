@@ -38,10 +38,10 @@ public class Ledger implements Persistable<LedgerMember> {
 
         public List<String> getAddresses() {
             ArrayList<String> addresses = new ArrayList<>();
+            Collections.sort(this);
             for (int i = 0; i != size(); ++i) {
                 addresses.add(get(i).getAddress());
             }
-            Collections.sort(addresses);
             return addresses;
         }
     }
