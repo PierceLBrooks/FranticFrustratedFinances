@@ -5,4 +5,48 @@
     android:layout_height="match_parent"
     android:id="@+id/account_root">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/spacing"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:background="@drawable/outline">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:layout_margin="@dimen/spacing"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing"
+                android:id="@+id/account_address_slot">
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:layout_margin="@dimen/spacing"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing"
+                android:id="@+id/account_password_slot">
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>

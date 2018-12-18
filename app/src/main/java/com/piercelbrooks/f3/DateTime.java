@@ -123,12 +123,12 @@ public class DateTime implements Persistable<DateTimeMember>
         {
             members.add(enumeration[i]);
         }
-        for (i = 0; i != source.size(); ++i)
+        for (i = 0; i < source.size(); ++i)
         {
             data = source.get(i).trim();
             if (i == 0)
             {
-                if (!data.equalsIgnoreCase(getIdentifier()))
+                if (!data.equals(getIdentifier()))
                 {
                     Log.e(TAG, "Incorrect identifier ("+data+")!");
                     return null;
@@ -140,7 +140,7 @@ public class DateTime implements Persistable<DateTimeMember>
             {
                 for (int j = 0; j != members.size(); ++j)
                 {
-                    if (assignment[0].trim().equalsIgnoreCase(members.get(j).name()))
+                    if (assignment[0].trim().equals(members.get(j).name()))
                     {
                         if (!deserialization.set(Integer.parseInt(assignment[1].trim()), members.get(j)))
                         {

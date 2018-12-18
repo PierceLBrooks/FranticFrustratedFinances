@@ -56,13 +56,13 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
         {
             members.add(enumeration[i]);
         }
-        for (i = 0; i != source.size(); ++i)
+        for (i = 0; i < source.size(); ++i)
         {
             Log.d(TAG, "Data: "+source.get(i).trim());
             if (check)
             {
                 check = false;
-                if (!source.get(i).trim().equalsIgnoreCase(getIdentifier()))
+                if (!source.get(i).trim().equals(getIdentifier()))
                 {
                     Log.e(TAG, "Incorrect identifier ("+source.get(i).trim()+")!");
                     return null;
@@ -77,7 +77,7 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
             }
             for (int j = 0; j != members.size(); ++j)
             {
-                if (source.get(i).trim().equalsIgnoreCase(members.get(j).name()))
+                if (source.get(i).trim().equals(members.get(j).name()))
                 {
                     source.remove(i);
                     switch (members.get(j))

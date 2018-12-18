@@ -92,7 +92,6 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             @Override
             public void onClick(View v)
             {
-                Utilities.closeKeyboard(getActivity());
                 ((MainActivity)getMunicipality()).showAccount(ledger);
             }
         });

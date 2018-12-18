@@ -8,7 +8,7 @@ import com.piercelbrooks.common.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event implements Persistable<EventMember>
+public class Event implements Persistable<EventMember>, LedgerProperty
 {
     private Ledger owner;
     private final DateTime dateTime;
@@ -21,11 +21,13 @@ public class Event implements Persistable<EventMember>
         this.index = index;
     }
 
+    @Override
     public void setOwner(Ledger owner)
     {
         this.owner = owner;
     }
 
+    @Override
     public Ledger getOwner()
     {
         return owner;

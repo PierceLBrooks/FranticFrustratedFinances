@@ -16,8 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Window;
 
-import com.piercelbrooks.f3.MayoralFamily;
-
 import java.util.ArrayList;
 
 public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity implements Municipality<T> {
@@ -104,7 +102,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
 
     private void setContentView() {
         int layout = getLayout();
-        Log.d(TAG, "Setting content view (0x"+Utilities.getHax(layout)+")...");
+        Log.d(TAG, "Setting content view (0x"+Utilities.getHex(layout)+")...");
         setContentView(layout);
     }
 

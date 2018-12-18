@@ -3,7 +3,7 @@
 
 package com.piercelbrooks.f3;
 
-public class Action
+public class Action implements LedgerProperty
 {
     private Ledger owner;
 
@@ -12,11 +12,13 @@ public class Action
         this.owner = owner;
     }
 
+    @Override
     public void setOwner(Ledger owner)
     {
         this.owner = owner;
     }
 
+    @Override
     public Ledger getOwner()
     {
         return owner;

@@ -147,7 +147,7 @@ public abstract class Utilities {
         return "<\"" + object.toString() + "\" (#" + Integer.toHexString(object.hashCode()) + ")>";
     }
 
-    public static String getHax(int number) {
+    public static String getHex(int number) {
         return Integer.toHexString(number);
     }
 

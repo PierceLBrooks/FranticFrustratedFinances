@@ -5,15 +5,24 @@ package com.piercelbrooks.f3;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.piercelbrooks.common.BasicFragment;
+import com.piercelbrooks.common.Utilities;
 
 public class AccountFragment extends BasicFragment<MayoralFamily> implements Accountant {
     public static class AccountAddressFragment extends EditorFragment {
+        private AccountFragment account;
+
         public AccountAddressFragment() {
             super();
+            account = null;
+        }
+
+        public void setAccount(AccountFragment account) {
+            this.account = account;
         }
 
         @Override
@@ -23,12 +32,12 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
         @Override
         protected String getField() {
-            return null;
+            return account.getAddress();
         }
 
         @Override
         protected String getTitle() {
-            return null;
+            return "Account Address";
         }
 
         @Override
@@ -38,7 +47,8 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
         @Override
         protected void onSave(String field) {
-
+            account.getLedger().getAccount().setAddress(field);
+            Utilities.closeKeyboard(getActivity());
         }
 
         @Override
@@ -53,6 +63,16 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
     }
 
     public static class AccountPasswordFragment extends EditorFragment {
+        private AccountFragment account;
+
+        public AccountPasswordFragment() {
+            super();
+            account = null;
+        }
+
+        public void setAccount(AccountFragment account) {
+            this.account = account;
+        }
 
         @Override
         protected int getInputType() {
@@ -61,12 +81,12 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
         @Override
         protected String getField() {
-            return null;
+            return account.getPassword();
         }
 
         @Override
         protected String getTitle() {
-            return null;
+            return "Account Password";
         }
 
         @Override
@@ -76,7 +96,8 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
         @Override
         protected void onSave(String field) {
-
+            account.getLedger().getAccount().setPassword(field);
+            Utilities.closeKeyboard(getActivity());
         }
 
         @Override
@@ -93,10 +114,22 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
     private static final String TAG = "F3-AccountFrag";
 
     private Ledger ledger;
+    private AccountAddressFragment address;
+    private AccountPasswordFragment password;
 
     public AccountFragment() {
         super();
         ledger = null;
+        address = null;
+        password = null;
+    }
+
+    public String getAddress() {
+        return ledger.getAccount().getAddress();
+    }
+
+    public String getPassword() {
+        return ledger.getAccount().getPassword();
     }
 
     @Override
@@ -106,7 +139,13 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
     @Override
     public void createView(@NonNull View view) {
-
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        address = new AccountAddressFragment();
+        password = new AccountPasswordFragment();
+        address.setAccount(this);
+        password.setAccount(this);
+        manager.beginTransaction().replace(R.id.account_address_slot, address, null).commit();
+        manager.beginTransaction().replace(R.id.account_password_slot, password, null).commit();
     }
 
     @Override

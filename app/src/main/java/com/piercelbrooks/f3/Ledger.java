@@ -55,6 +55,7 @@ public class Ledger implements Persistable<LedgerMember> {
     private DateTime targetDateTime;
     private Event targetEvent;
     private ContactList contacts;
+    private Account account;
 
     public Ledger() {
         this("");
@@ -67,6 +68,7 @@ public class Ledger implements Persistable<LedgerMember> {
         this.targetDateTime = new DateTime();
         this.targetEvent = null;
         this.contacts = new ContactList();
+        this.account = new Account();
     }
 
     public static String getPath() {
@@ -154,12 +156,29 @@ public class Ledger implements Persistable<LedgerMember> {
         return true;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public boolean setAccount(Account account) {
+        if (account == null) {
+            this.account = new Account(this);
+            return false;
+        }
+        this.account = account;
+        if (account != null) {
+            account.setOwner(this);
+        }
+        return true;
+    }
+
     public boolean copy(Ledger other) {
         if (other == null) {
             return false;
         }
         setName(other.getName());
         setContacts(other.getContacts());
+        setAccount(other.getAccount());
         Log.d(TAG, "Contacts: "+contacts.toString());
         return true;
     }
@@ -243,12 +262,12 @@ public class Ledger implements Persistable<LedgerMember> {
         LedgerMember[] members = LedgerMember.values();
         LedgerMember member;
         String data;
-        for (i = 0; i != source.size(); ++i) {
+        for (i = 0; i < source.size(); ++i) {
             data = source.get(i).trim();
             Log.d(TAG, "Data: "+data);
             if (check) {
                 check = false;
-                if (!data.equalsIgnoreCase(getIdentifier())) {
+                if (!data.equals(getIdentifier())) {
                     Log.e(TAG, "Incorrect identifier ("+data+")!");
                     return null;
                 }
@@ -258,7 +277,7 @@ public class Ledger implements Persistable<LedgerMember> {
             }
             for (int j = 0; j != members.length; ++j) {
                 member = members[j];
-                if (data.equalsIgnoreCase(member.name())) {
+                if (data.equals(member.name())) {
                     Log.d(TAG, "Member: "+member.toString()+" ("+data+")");
                     switch (member) {
                         case NAME:
@@ -277,6 +296,12 @@ public class Ledger implements Persistable<LedgerMember> {
                         case CONTACTS:
                             if (!deserialization.setContacts((ContactList)contacts.getDeserialization(source))) {
                                 Log.e(TAG, "Malformed contacts!");
+                                return null;
+                            }
+                            break;
+                        case ACCOUNT:
+                            if (!deserialization.setAccount((Account)account.getDeserialization(source))) {
+                                Log.e(TAG, "Malformed account!");
                                 return null;
                             }
                             break;
@@ -335,9 +360,12 @@ public class Ledger implements Persistable<LedgerMember> {
                 serialization.add(getMemberIdentifier(member));
                 serialization.add(name);
                 break;
-            case CONTACTS: {
-                    Utilities.add(serialization, contacts.getSerialization());
-                }
+            case CONTACTS:
+                Utilities.add(serialization, contacts.getSerialization());
+                break;
+            case ACCOUNT:
+                serialization.add(getMemberIdentifier(member));
+                Utilities.add(serialization, account.getSerialization());
                 break;
             default:
                 return null;

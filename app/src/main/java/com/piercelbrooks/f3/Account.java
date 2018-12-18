@@ -10,27 +10,24 @@ import com.piercelbrooks.common.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contact implements Serial<ContactMember>, Comparable<Contact>, LedgerProperty
+public class Account implements Serial<AccountMember>, LedgerProperty
 {
-    private static final String TAG = "F3-Contact";
+    private static final String TAG = "F3-Account";
 
     private Ledger owner;
     private String address;
+    private String password;
 
-    public Contact()
+    public Account()
     {
         this(null);
     }
 
-    public Contact(Ledger owner)
-    {
-        this(owner, "");
-    }
-
-    public Contact(Ledger owner, String address)
+    public Account(Ledger owner)
     {
         this.owner = owner;
-        this.address = address;
+        this.address = "";
+        this.password = "";
     }
 
     @Override
@@ -48,7 +45,6 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
     public void setAddress(String address)
     {
         this.address = address;
-        Log.d(TAG, "New address: "+this.address);
     }
 
     public String getAddress()
@@ -56,20 +52,47 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
         return address;
     }
 
-    @Override
-    public Class<?> getSerialClass()
+    public void setPassword(String password)
     {
-        return Contact.class;
+        this.password = password;
+    }
+
+    public String getPassword()
+    {
+        return password;
     }
 
     @Override
-    public Serial<ContactMember> getDeserialization(List<String> source)
+    public Class<?> getSerialClass()
+    {
+        return Account.class;
+    }
+
+    @Override
+    public Serial<AccountMember> getDeserialization(List<String> source)
     {
         int i;
-        Contact deserialization = new Contact(owner);
-        ContactMember[] members = ContactMember.values();
-        ContactMember member;
+        Account deserialization = new Account(owner);
+        AccountMember[] members = AccountMember.values();
+        AccountMember member;
         String data;
+        for (i = 0; i < source.size(); ++i)
+        {
+            data = source.get(i).trim();
+            if (data.equals(getIdentifier()))
+            {
+                for (int j = 0; j != i; ++j)
+                {
+                    source.remove(0);
+                    if (source.isEmpty())
+                    {
+                        Log.e(TAG, "Too few data from source!");
+                        return null;
+                    }
+                }
+                break;
+            }
+        }
         for (i = 0; i < source.size(); ++i)
         {
             data = source.get(i).trim();
@@ -107,6 +130,22 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
                                 return null;
                             }
                             break;
+                        case PASSWORD:
+                            if (i + 1 != source.size())
+                            {
+                                deserialization.setPassword(source.get(i+1).trim());
+                                ++i;
+                                source.remove(i);
+                                --i;
+                                source.remove(i);
+                                --i;
+                            }
+                            else
+                            {
+                                Log.e(TAG, "Malformed password!");
+                                return null;
+                            }
+                            break;
                         default:
                             Log.e(TAG, "Unhandled member ("+data+")!");
                             return null;
@@ -114,7 +153,7 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
                     break;
                 }
             }
-            if (!deserialization.getAddress().isEmpty())
+            if ((!deserialization.getAddress().isEmpty()) && (!deserialization.getPassword().isEmpty()))
             {
                 break;
             }
@@ -133,20 +172,20 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
     @Override
     public String getIdentifier()
     {
-        return "Contact";
+        return "Account";
     }
 
     @Override
     public List<String> getSerialization()
     {
         ArrayList<String> serialization = new ArrayList<>();
-        ContactMember[] members = ContactMember.values();
-        ContactMember member;
+        AccountMember[] members = AccountMember.values();
+        AccountMember member;
         serialization.add(getIdentifier());
         for (int i = 0; i != members.length; ++i)
         {
             member = members[i];
-            if (member == ContactMember.NONE)
+            if (member == AccountMember.NONE)
             {
                 continue;
             }
@@ -156,13 +195,13 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
     }
 
     @Override
-    public String getMemberIdentifier(ContactMember member)
+    public String getMemberIdentifier(AccountMember member)
     {
         return member.name();
     }
 
     @Override
-    public List<String> getMemberSerialization(ContactMember member)
+    public List<String> getMemberSerialization(AccountMember member)
     {
         ArrayList<String> serialization = new ArrayList<>();
         switch (member)
@@ -170,32 +209,13 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
             case ADDRESS:
                 serialization.add(address);
                 break;
+            case PASSWORD:
+                serialization.add(password);
+                break;
             default:
                 return null;
         }
         serialization.add(0, getMemberIdentifier(member));
         return serialization;
-    }
-
-    @Override
-    public String toString()
-    {
-        List<String> serialization = getSerialization();
-        String result = "";
-        for (int i = 0; i != serialization.size(); ++i)
-        {
-            result += serialization.get(i);
-            if (i != serialization.size()-1)
-            {
-                result += "\n";
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public int compareTo(Contact other)
-    {
-        return address.compareTo(other.getAddress());
     }
 }

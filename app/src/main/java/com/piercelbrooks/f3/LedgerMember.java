@@ -9,5 +9,6 @@ public enum LedgerMember
     NAME,
     ACTIONS,
     EVENTS,
-    CONTACTS
+    CONTACTS,
+    ACCOUNT
 }
