@@ -23,6 +23,11 @@ public class Preferences
         preferences = context.getSharedPreferences(Constants.TAG, Context.MODE_PRIVATE);
     }
 
+    public boolean reset()
+    {
+        return preferences.edit().clear().commit();
+    }
+
     protected SharedPreferences getSource()
     {
         return preferences;

@@ -36,7 +36,7 @@ public class SettingsFragment extends SerialFragment<SettingsFragment> implement
     @Override
     protected String getTitle()
     {
-        return "MAIL";
+        return "SETTINGS";
     }
 
     @Override
@@ -59,7 +59,7 @@ public class SettingsFragment extends SerialFragment<SettingsFragment> implement
 
     @Override
     public Class<?> getSerialClass() {
-        return null;
+        return SettingsFragment.class;
     }
 
     @Override

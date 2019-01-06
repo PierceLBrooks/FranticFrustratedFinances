@@ -16,6 +16,7 @@ public class LaunchFragment extends BasicFragment<MayoralFamily>
 
     private Button launchLedgers;
     private Button launchSettings;
+    private Button launchSettingsClear;
     private Button launchExit;
 
     public LaunchFragment()
@@ -23,13 +24,14 @@ public class LaunchFragment extends BasicFragment<MayoralFamily>
         super();
         launchLedgers = null;
         launchSettings = null;
+        launchSettingsClear = null;
         launchExit = null;
     }
 
     @Override
     public @LayoutRes int getLayout()
     {
-        return R.layout.lobby_fragment;
+        return R.layout.launch_fragment;
     }
 
     @Override
@@ -37,6 +39,7 @@ public class LaunchFragment extends BasicFragment<MayoralFamily>
     {
         launchLedgers = view.findViewById(R.id.launch_ledgers);
         launchSettings = view.findViewById(R.id.launch_settings);
+        launchSettingsClear = view.findViewById(R.id.launch_settings_clear);
         launchExit = view.findViewById(R.id.launch_exit);
 
         launchLedgers.setOnClickListener(new View.OnClickListener()
@@ -54,6 +57,16 @@ public class LaunchFragment extends BasicFragment<MayoralFamily>
             public void onClick(View v)
             {
                 ((MainActivity)getMunicipality()).showSettings();
+            }
+        });
+
+        launchSettingsClear.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                SettingsFragment.getSettings().reset();
+                getMunicipality().getOwner().makeToast("Settings reset!");
             }
         });
 

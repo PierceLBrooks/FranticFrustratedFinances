@@ -60,7 +60,10 @@ public class Settings extends Preferences implements MailProperties
         if (!source.contains(MAIL_PROPERTIES_KEY))
         {
             properties = getDefaultMailProperties();
-            setMailProperties(properties);
+            if (!setMailProperties(properties))
+            {
+                Log.w(TAG, "Unable to set default mail properties!");
+            }
             return properties;
         }
         properties = new Properties();
@@ -93,7 +96,7 @@ public class Settings extends Preferences implements MailProperties
         Iterator<Map.Entry<Object, Object>> iterator;
         if (properties == null)
         {
-            return false;
+            return getSource().edit().remove(MAIL_PROPERTIES_KEY).commit();
         }
         serialization = new HashSet<>();
         iterator = properties.entrySet().iterator();
@@ -123,6 +126,13 @@ public class Settings extends Preferences implements MailProperties
             case MAIL_PROPERTIES:
                 serialization = Utilities.toString(getMailProperties().entrySet());
                 break;
+        }
+        if (serialization != null)
+        {
+            serialization.add(0, "{");
+            serialization.add(0, setting.name());
+            serialization.add(" ");
+            serialization.add("}");
         }
         return serialization;
     }

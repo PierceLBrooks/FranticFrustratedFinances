@@ -215,6 +215,11 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
     }
 
     @Override
+    public BasicApplication getOwner() {
+        return (BasicApplication)(Governor.getInstance().getCitizen(Family.APPLICATION));
+    }
+
+    @Override
     public T popBack() {
         if (backStack.isEmpty()) {
             return null;

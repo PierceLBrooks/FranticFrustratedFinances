@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:id="@+id/ledgers_edit"
-                    android:text="EDIT"
+                    android:text="VIEW"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">
 

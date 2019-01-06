@@ -63,7 +63,7 @@ public class MainApplication extends BasicApplication {
 
     @Override
     protected void activityResumed(Activity activity) {
-        Tests.testDateTime();
+        //Tests.testDateTime();
     }
 
     @Override

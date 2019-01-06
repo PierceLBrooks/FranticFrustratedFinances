@@ -151,7 +151,10 @@ public abstract class SerialFragment <T extends Serial> extends BasicListFragmen
                         {
                             continue;
                         }
-                        member += " = ";
+                        if (!member.trim().isEmpty())
+                        {
+                            member += " = ";
+                        }
                         member += temp.trim();
                         member = TAB+member.replaceAll("\t", TAB);
                         addItem(member);
