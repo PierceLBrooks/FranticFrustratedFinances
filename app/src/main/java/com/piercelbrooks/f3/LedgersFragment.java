@@ -145,7 +145,7 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             public void onClick(View v)
             {
                 addItem(""+getItemCount());
-                Ledger.setCurrent(new Ledger(getItemLabel(getItemCount()-1)));
+                Ledger.setCurrent(Ledger.getNewLedger(getItemLabel(getItemCount()-1)));
                 Ledger.setCurrent(null);
             }
         });
@@ -154,7 +154,11 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             @Override
             public void onClick(View v)
             {
-                Ledger ledger = new Ledger(getItemLabel(selectionIndex));
+                Ledger ledger = Ledger.getNewLedger(getItemLabel(selectionIndex));
+                if (ledger == null)
+                {
+                    return;
+                }
                 Ledger.setCurrent(ledger);
                 ((MainActivity)getMunicipality()).showLobby(ledger);
             }

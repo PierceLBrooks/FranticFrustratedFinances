@@ -41,7 +41,7 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
         @Override
         protected String getTitle() {
-            return "Account Address";
+            return "ACCOUNT ADDRESS";
         }
 
         @Override
@@ -94,7 +94,7 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
         @Override
         protected String getTitle() {
-            return "Account Password";
+            return "ACCOUNT PASSWORD";
         }
 
         @Override
@@ -126,6 +126,7 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
     private AccountAddressFragment address;
     private AccountPasswordFragment password;
     private Button accountExit;
+    private Button accountTest;
 
     public AccountFragment() {
         super();
@@ -133,6 +134,7 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         address = null;
         password = null;
         accountExit = null;
+        accountTest = null;
     }
 
     public String getAddress() {
@@ -162,6 +164,13 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
             @Override
             public void onClick(View v) {
                 ((MainActivity)getMunicipality()).showLobby(getLedger());
+            }
+        });
+        accountTest = view.findViewById(R.id.account_test);
+        accountTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getMunicipality()).showMailTest(getLedger());
             }
         });
     }

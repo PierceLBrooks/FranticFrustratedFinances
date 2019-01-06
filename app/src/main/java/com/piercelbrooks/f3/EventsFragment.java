@@ -15,7 +15,7 @@ import com.piercelbrooks.common.BasicListFragment;
 
 public class EventsFragment extends BasicListFragment<MayoralFamily> implements Accountant
 {
-    private static final String TAG = "F3-eventsFrag";
+    private static final String TAG = "F3-EventsFrag";
 
     private int selectionIndex;
     private View selection;

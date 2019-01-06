@@ -71,6 +71,13 @@ public class Ledger implements Persistable<LedgerMember> {
         this.account = new Account();
     }
 
+    public static Ledger getNewLedger(String name) {
+        if (name == null) {
+            return null;
+        }
+        return new Ledger(name);
+    }
+
     public static String getPath() {
         return ((MainApplication)Governor.getInstance().getCitizen(Family.APPLICATION)).getDataPath();
     }

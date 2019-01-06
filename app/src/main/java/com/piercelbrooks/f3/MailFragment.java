@@ -5,22 +5,41 @@ package com.piercelbrooks.f3;
 
 import android.support.annotation.NonNull;
 
+import com.piercelbrooks.common.Preferences;
+import com.piercelbrooks.roe.Mail;
+
+import javax.mail.search.SearchTerm;
+
 public class MailFragment extends SerialFragment<MailSerial> implements Accountant
 {
     private static final String TAG = "F3-MailFrag";
 
     private Ledger ledger;
+    private Mail mail;
+    private SearchTerm searchTerm;
 
     public MailFragment()
     {
         super();
         ledger = null;
+        mail = null;
+        searchTerm = null;
+    }
+
+    public void setMail(Mail mail)
+    {
+        this.mail = mail;
+    }
+
+    public void setSearchTerm(SearchTerm searchTerm)
+    {
+        this.searchTerm = searchTerm;
     }
 
     @Override
     protected MailSerial getSerial()
     {
-        return null;
+        return new MailSerial(mail);
     }
 
     @Override
@@ -32,7 +51,7 @@ public class MailFragment extends SerialFragment<MailSerial> implements Accounta
     @Override
     protected void onExit()
     {
-        ((MainActivity)getMunicipality()).showLaunch();
+        ((MainActivity)getMunicipality()).showInbox(ledger, searchTerm);
     }
 
     @Override

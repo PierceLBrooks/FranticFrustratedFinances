@@ -22,5 +22,10 @@ public enum MayoralFamily
     LOBBY,
     MAIL,
     SETTINGS,
-    LAUNCH
+    LAUNCH,
+    MAIL_TEST,
+    MAIL_TEST_INBOX,
+    MAIL_TEST_OUTBOX,
+    INBOX,
+    OUTBOX
 }

@@ -11,6 +11,9 @@ import android.util.Log;
 
 import com.piercelbrooks.common.BasicActivity;
 import com.piercelbrooks.common.Mayor;
+import com.piercelbrooks.roe.Mail;
+
+import javax.mail.search.SearchTerm;
 
 public class MainActivity extends BasicActivity<MayoralFamily> implements Accountant {
     private static final String TAG = "F3-MainActivity";
@@ -248,6 +251,39 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
     public void showSettings() {
         SettingsFragment fragment = new SettingsFragment();
         show(fragment);
+    }
+
+    public void showMailTest(Ledger ledger) {
+        MailTestFragment fragment = new MailTestFragment();
+        fragment.setLedger(ledger);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public void showMail(Ledger ledger, Mail mail, SearchTerm searchTerm) {
+        MailFragment fragment = new MailFragment();
+        fragment.setLedger(ledger);
+        fragment.setMail(mail);
+        fragment.setSearchTerm(searchTerm);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public void showInbox(Ledger ledger, SearchTerm searchTerm) {
+        InboxFragment fragment = new InboxFragment();
+        fragment.setLedger(ledger);
+        fragment.setSearchTerm(searchTerm);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public void showOutbox(Ledger ledger, String subject, String message) {
+        OutboxFragment fragment = new OutboxFragment();
+        fragment.setLedger(ledger);
+        fragment.setSubject(subject);
+        fragment.setMessage(message);
+        show(fragment);
+        this.ledger = ledger;
     }
 
     private void setMayorLedger(Mayor<MayoralFamily> mayor) {

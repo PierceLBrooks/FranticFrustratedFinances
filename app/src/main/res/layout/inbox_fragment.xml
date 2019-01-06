@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/account_root">
+    android:id="@+id/inbox_root">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,51 +13,38 @@
         android:weightSum="100"
         android:background="@drawable/outline">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="45"
-            android:layout_margin="@dimen/spacing"
-            android:orientation="vertical">
+            android:layout_weight="10">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/text_color"
+                android:text="INBOX">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/spacing"
-                    android:id="@+id/account_address_slot">
+            </TextView>
 
-                </FrameLayout>
-
-            </ScrollView>
-
-        </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="45"
+            android:layout_weight="80"
             android:layout_margin="@dimen/spacing"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/outline">
 
-            <ScrollView
+            <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing"
+                android:id="@android:id/list">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/spacing"
-                    android:id="@+id/account_password_slot">
-
-                </FrameLayout>
-
-            </ScrollView>
+            </ListView>
 
         </LinearLayout>
 
@@ -70,16 +57,17 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/text_color"
+                    android:id="@+id/inbox_exit"
                     android:text="BACK"
-                    android:id="@+id/account_exit">
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color">
 
                 </Button>
 
@@ -87,10 +75,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
+                    android:id="@+id/inbox_view"
+                    android:text="VIEW"
                     android:textSize="@dimen/text_size"
-                    android:textColor="@color/text_color"
-                    android:text="TEST"
-                    android:id="@+id/account_test">
+                    android:textColor="@color/text_color">
 
                 </Button>
 
