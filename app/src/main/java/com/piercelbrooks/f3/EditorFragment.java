@@ -98,4 +98,9 @@ public abstract class EditorFragment extends BasicFragment<MayoralFamily> implem
     {
 
     }
+
+    public void setField(String field)
+    {
+        editorField.setText(field);
+    }
 }

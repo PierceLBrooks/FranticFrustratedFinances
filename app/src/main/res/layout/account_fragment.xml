@@ -16,32 +16,72 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="50"
+            android:layout_weight="45"
             android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
-            <FrameLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/spacing"
-                android:id="@+id/account_address_slot">
+                android:fillViewport="true">
 
-            </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/spacing"
+                    android:id="@+id/account_address_slot">
+
+                </FrameLayout>
+
+            </ScrollView>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="50"
+            android:layout_weight="45"
+            android:layout_margin="@dimen/spacing"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/spacing"
+                    android:id="@+id/account_password_slot">
+
+                </FrameLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
             android:layout_margin="@dimen/spacing"
             android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/spacing"
-                android:id="@+id/account_password_slot">
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/text_color"
+                    android:text="BACK"
+                    android:id="@+id/account_exit">
+
+                </Button>
 
             </FrameLayout>
 

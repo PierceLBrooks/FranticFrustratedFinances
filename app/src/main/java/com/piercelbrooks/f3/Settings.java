@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 public class Settings extends Preferences implements MailProperties
 {
@@ -54,7 +55,7 @@ public class Settings extends Preferences implements MailProperties
         String[] property;
         String key;
         String value;
-        HashSet<String> serialization;
+        Set<String> serialization;
         Iterator<String> iterator;
         SharedPreferences source = getSource();
         if (!source.contains(MAIL_PROPERTIES_KEY))
@@ -66,9 +67,12 @@ public class Settings extends Preferences implements MailProperties
             }
             return properties;
         }
+        serialization = source.getStringSet(MAIL_PROPERTIES_KEY, new HashSet<String>());
+        if (serialization == null)
+        {
+            return null;
+        }
         properties = new Properties();
-        serialization = new HashSet<>();
-        source.getStringSet(MAIL_PROPERTIES_KEY, serialization);
         iterator = serialization.iterator();
         while (iterator.hasNext())
         {
