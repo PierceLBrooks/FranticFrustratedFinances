@@ -96,7 +96,7 @@ public class LedgersFragment extends BasicListFragment<MayoralFamily>
             @Override
             public void onClick(View v)
             {
-                getActivity().finish();
+                ((MainActivity)getMunicipality()).showLaunch();
             }
         });
         ledgerRemove.setOnClickListener(new View.OnClickListener()

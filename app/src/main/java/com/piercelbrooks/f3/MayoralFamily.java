@@ -19,5 +19,8 @@ public enum MayoralFamily
     CONTACT_ADDRESS,
     LEDGERS,
     LEDGER_NAME,
-    LOBBY
+    LOBBY,
+    MAIL,
+    SETTINGS,
+    LAUNCH
 }

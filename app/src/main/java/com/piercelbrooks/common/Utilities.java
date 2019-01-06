@@ -22,7 +22,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class Utilities {
     private static final String TAG = "PLB-Utilities";
@@ -136,8 +140,12 @@ public abstract class Utilities {
         throw new InstanceException(tag, limit);
     }
 
-    public static void throwSingletonException(@NonNull String tag) {
+    public static void throwSingletonException(@NonNull String tag) throws SingletonException {
         throw new SingletonException(tag);
+    }
+
+    public static void throwUnimplementedException(@NonNull String tag) throws UnimplementedException {
+        throw new UnimplementedException(tag);
     }
 
     public static String getIdentifier(@Nullable Object object) {
@@ -353,5 +361,49 @@ public abstract class Utilities {
             }
         }
         return success;
+    }
+
+    public static List<String> toString(Object[] objects) {
+        if (objects == null) {
+            return null;
+        }
+        Object object;
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i != objects.length; ++i) {
+            object = objects[i];
+            if (object == null) {
+                result.add(""+null);
+            }
+            else {
+                result.add(object.toString());
+            }
+        }
+        return result;
+    }
+
+    public static List<String> toString(Set<Map.Entry<Object, Object>> entries) {
+        if (entries == null) {
+            return null;
+        }
+        Object object;
+        Map.Entry<Object, Object> entry;
+        Iterator<Map.Entry<Object, Object>> iterator = entries.iterator();
+        ArrayList<String> result = new ArrayList<>();
+        while (iterator.hasNext()) {
+            entry = iterator.next();
+            object = entry.getKey();
+            if (object == null) {
+                result.add(""+null);
+            } else {
+                result.add(object.toString());
+            }
+            object = entry.getValue();
+            if (object == null) {
+                result.add(""+null);
+            } else {
+                result.add(object.toString());
+            }
+        }
+        return result;
     }
 }

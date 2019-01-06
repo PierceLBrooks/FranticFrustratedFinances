@@ -39,7 +39,7 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
 
     @Override
     protected void resume() {
-        showLedgers();
+        showLaunch();
     }
 
     @Override
@@ -123,6 +123,15 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
                 break;
             case LOBBY:
                 mayor = (T)(new LobbyFragment());
+                break;
+            case MAIL:
+                mayor = (T)(new MailFragment());
+                break;
+            case SETTINGS:
+                mayor = (T)(new SettingsFragment());
+                break;
+            case LAUNCH:
+                mayor = (T)(new LaunchFragment());
                 break;
         }
         setMayorLedger(mayor);
@@ -229,6 +238,16 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
         fragment.setLedger(ledger);
         show(fragment);
         this.ledger = ledger;
+    }
+
+    public void showLaunch() {
+        LaunchFragment fragment = new LaunchFragment();
+        show(fragment);
+    }
+
+    public void showSettings() {
+        SettingsFragment fragment = new SettingsFragment();
+        show(fragment);
     }
 
     private void setMayorLedger(Mayor<MayoralFamily> mayor) {

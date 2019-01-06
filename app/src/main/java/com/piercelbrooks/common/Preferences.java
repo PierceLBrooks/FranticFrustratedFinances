@@ -5,13 +5,26 @@ package com.piercelbrooks.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 public class Preferences
 {
-    SharedPreferences preferences;
+    private static final String TAG = "PLB-Preferences";
 
-    public Preferences(Context context)
+    private SharedPreferences preferences;
+
+    public Preferences(@NonNull Preferences other)
+    {
+        preferences = other.getSource();
+    }
+
+    public Preferences(@NonNull Context context)
     {
         preferences = context.getSharedPreferences(Constants.TAG, Context.MODE_PRIVATE);
+    }
+
+    protected SharedPreferences getSource()
+    {
+        return preferences;
     }
 }

@@ -14,5 +14,6 @@ public class InstanceException extends RuntimeException
     {
         super("\""+tag+"\" cannot be instantiated more than "+limit+" time(s)!");
         Log.e(TAG, getMessage());
+        printStackTrace();
     }
 }
