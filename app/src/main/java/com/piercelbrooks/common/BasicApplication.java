@@ -10,7 +10,7 @@ import android.support.annotation.DrawableRes;
 import android.widget.Toast;
 
 public abstract class BasicApplication extends Application implements Application.ActivityLifecycleCallbacks, Citizen {
-    private static final String TAG = "PLB-BasicApp";
+    private static final String TAG = "PLB-BaseApp";
 
     public abstract @DrawableRes int getEmptyDrawable();
     protected abstract void create();
@@ -24,17 +24,37 @@ public abstract class BasicApplication extends Application implements Applicatio
 
     private Governor governor;
     private Preferences preferences;
+    private Activity activity;
 
     public static BasicApplication getInstance() {
         return (BasicApplication)Governor.getInstance().getCitizen(Family.APPLICATION);
+    }
+
+    public Activity getActivity() {
+        return activity;
     }
 
     public Preferences getPreferences() {
         return preferences;
     }
 
-    public void makeToast(String message) {
-        Toast.makeText(this, message, Constants.TOAST_DURATION);
+    public boolean makeToast(String message) {
+        if (activity == null) {
+            return false;
+        }
+        activity.runOnUiThread(new Runner(new Runner(null), message) {
+            @Override
+            public void run() {
+                super.run();
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(activity, getMessage(), Constants.TOAST_DURATION).show();
+                    }
+                });
+            }
+        });
+        return true;
     }
 
     @Override
@@ -66,11 +86,15 @@ public abstract class BasicApplication extends Application implements Applicatio
     @Override
     public void onActivityResumed(Activity activity) {
         activityResumed(activity);
+        this.activity = activity;
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
         activityPaused(activity);
+        if (this.activity == activity) {
+            this.activity = null;
+        }
     }
 
     @Override

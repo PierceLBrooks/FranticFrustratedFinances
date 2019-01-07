@@ -22,10 +22,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 public abstract class Utilities {
@@ -405,5 +408,19 @@ public abstract class Utilities {
             }
         }
         return result;
+    }
+
+    public static Set<Map.Entry<Object, Object>> getEntries(Properties properties) {
+        if (properties == null) {
+            return null;
+        }
+        HashSet<Map.Entry<Object, Object>> entries = new HashSet<>();
+        Iterator<String> iterator = properties.stringPropertyNames().iterator();
+        String name;
+        while (iterator.hasNext()) {
+            name = iterator.next();
+            entries.add(new AbstractMap.SimpleEntry<Object, Object>(name, properties.getProperty(name)));
+        }
+        return entries;
     }
 }

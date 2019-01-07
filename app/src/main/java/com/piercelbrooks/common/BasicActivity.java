@@ -66,7 +66,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
         }
     }
 
-    private static final String TAG = "PLB-BasicActivity";
+    private static final String TAG = "PLB-BaseActivity";
 
     private Fragment activeFragment;
     private Window.Callback androidWindowCallback;

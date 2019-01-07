@@ -74,7 +74,7 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         }
     }
 
-    private static final String TAG = "PLB-BasicListFrag";
+    private static final String TAG = "PLB-BaseListFrag";
     private static final String ITEM_LABEL_PREFIX = "\" ";
     private static final String ITEM_LABEL_SUFFIX = " \"";
 

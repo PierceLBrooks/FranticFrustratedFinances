@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class BasicFragment <T extends Enum<T>> extends Fragment implements Mayor<T> {
-    private static final String TAG = "PLB-BasicFrag";
+    private static final String TAG = "PLB-BaseFrag";
 
     public BasicFragment() {
         super();

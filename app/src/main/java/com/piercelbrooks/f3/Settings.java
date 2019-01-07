@@ -40,11 +40,15 @@ public class Settings extends Preferences implements MailProperties
         //Configuring properties for gmail
         //If you are not using gmail you may need to change the values
         Properties properties = new Properties();
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.socketFactory.port", "465");
-        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.port", "465");
+        properties.setProperty("mail.store.protocol", "imaps");
+        properties.setProperty("mail.host", "imap.gmail.com");
+        /*
+        properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+        properties.setProperty("mail.smtp.socketFactory.port", "465");
+        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.port", "465");
+        */
         return properties;
     }
 
@@ -85,7 +89,7 @@ public class Settings extends Preferences implements MailProperties
                 {
                     Log.w(TAG, "Duplicate properties with key \""+key+"\": \""+value+"\" & \""+properties.get(key)+"\"");
                 }
-                properties.put(key, value);
+                properties.setProperty(key, value);
             }
         }
         return properties;
@@ -103,7 +107,7 @@ public class Settings extends Preferences implements MailProperties
             return getSource().edit().remove(MAIL_PROPERTIES_KEY).commit();
         }
         serialization = new HashSet<>();
-        iterator = properties.entrySet().iterator();
+        iterator = Utilities.getEntries(properties).iterator();
         while (iterator.hasNext())
         {
             entry = iterator.next();
@@ -128,7 +132,7 @@ public class Settings extends Preferences implements MailProperties
         switch (setting)
         {
             case MAIL_PROPERTIES:
-                serialization = Utilities.toString(getMailProperties().entrySet());
+                serialization = Utilities.toString(Utilities.getEntries(getMailProperties()));
                 break;
         }
         if (serialization != null)

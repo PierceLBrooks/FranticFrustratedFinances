@@ -6,6 +6,7 @@ package com.piercelbrooks.roe;
 // Source: https://stackoverflow.com/questions/28019184/receive-read-emails-in-android
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,7 @@ public class Inbox extends Mailbox<InboxListener> {
         Message[] messages = null;
         FetchProfile fetch;
         try {
+            Log.d(TAG, "Store Protocol: "+getSession().getProperty("mail.store.protocol"));
             store = getSession().getStore();
             store.connect(getAddress(), getPassword());
             folder = store.getFolder("Inbox");

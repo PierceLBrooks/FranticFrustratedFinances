@@ -62,10 +62,10 @@ public class MailSerial extends Mail implements Serial<MailSerialMember>
         switch (member)
         {
             case SUBJECT:
-                serialization = getSubject();
+                serialization += getSubject();
                 break;
             case CONTENT:
-                serialization = getContent();
+                serialization += getContent();
                 break;
             case FROM:
                 for (int i = 0; i != getFrom().size(); ++i)

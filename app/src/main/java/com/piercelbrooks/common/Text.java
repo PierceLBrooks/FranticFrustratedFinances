@@ -4,8 +4,11 @@
 package com.piercelbrooks.common;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,6 +19,52 @@ import android.view.inputmethod.InputConnectionWrapper;
 
 public abstract class Text extends android.support.v7.widget.AppCompatEditText implements TextWatcher
 {
+    private class Password implements CharSequence
+    {
+        private static final String TAG = "PLB-Password";
+
+        private CharSequence source;
+
+        public Password(CharSequence source)
+        {
+            this.source = source;
+        }
+
+        @Override
+        public char charAt(int index)
+        {
+            return '*';
+        }
+
+        @Override
+        public int length()
+        {
+            return source.length();
+        }
+
+        @Override
+        public CharSequence subSequence(int start, int end)
+        {
+            return source.subSequence(start, end);
+        }
+    }
+
+    private class PasswordTransformer extends PasswordTransformationMethod
+    {
+        private static final String TAG = "PLB-PassTransform";
+
+        public PasswordTransformer()
+        {
+            super();
+        }
+
+        @Override
+        public CharSequence getTransformation(CharSequence source, View view)
+        {
+            return new Password(source);
+        }
+    }
+
     private class TextInput extends InputConnectionWrapper
     {
         private static final String TAG = "PLB-TextInput";
@@ -171,5 +220,15 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
             return;
         }
         Log.d(TAG, "No change...");
+    }
+
+    @Override
+    public void setInputType(int type)
+    {
+        super.setInputType(type);
+        if ((type == EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD) || (type == EditorInfo.TYPE_TEXT_VARIATION_PASSWORD) || (type == EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD))
+        {
+            setTransformationMethod(new PasswordTransformer());
+        }
     }
 }

@@ -19,7 +19,7 @@ import java.util.GregorianCalendar;
 
 public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implements GridListener<T>
 {
-    private static final String TAG = "PLB-BasicCalendar";
+    private static final String TAG = "PLB-BaseCalendar";
 
     private Integer days = null;
     private Focus focus = null;
