@@ -6,15 +6,10 @@ package com.piercelbrooks.f3;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.piercelbrooks.common.BasicFragment;
-import com.piercelbrooks.common.Text;
-import com.piercelbrooks.common.TextListener;
-
-public abstract class EditorFragment extends BasicFragment<MayoralFamily> implements TextListener
+public abstract class EditorFragment extends FieldFragment
 {
     private static final String TAG = "F3-EditorFrag";
 
@@ -23,11 +18,7 @@ public abstract class EditorFragment extends BasicFragment<MayoralFamily> implem
     private TextView editorTitle;
     private EditorField editorField;
 
-    protected abstract int getInputType();
-    protected abstract String getField();
-    protected abstract String getTitle();
-    protected abstract void onExit();
-    protected abstract void onSave(String field);
+    public abstract void onSave(String field);
 
     public EditorFragment()
     {
@@ -77,29 +68,6 @@ public abstract class EditorFragment extends BasicFragment<MayoralFamily> implem
     }
 
     @Override
-    public void onBirth()
-    {
-
-    }
-
-    @Override
-    public void onDeath()
-    {
-
-    }
-
-    @Override
-    public void onChange(@NonNull Text text)
-    {
-
-    }
-
-    @Override
-    public void onDelete(@NonNull Text text, boolean action)
-    {
-
-    }
-
     public void setField(String field)
     {
         editorField.setText(field);

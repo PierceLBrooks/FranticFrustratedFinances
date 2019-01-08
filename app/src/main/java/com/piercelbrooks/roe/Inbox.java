@@ -43,7 +43,7 @@ public class Inbox extends Mailbox<InboxListener> {
         Message[] messages = null;
         FetchProfile fetch;
         try {
-            Log.d(TAG, "Store Protocol: "+getSession().getProperty("mail.store.protocol"));
+            Log.d(TAG, "Mail Store Protocol: "+getSession().getProperty(Mailbox.MAIL_PROTOCOL_PROPERTY));
             store = getSession().getStore();
             store.connect(getAddress(), getPassword());
             folder = store.getFolder("Inbox");

@@ -10,6 +10,7 @@ public interface Municipality <T extends Enum<T>> extends Citizen
 {
     public T popBack();
     public boolean onBack();
+    public <U extends Fragment & Mayor<T>> boolean getIsTemporary(@Nullable U fragment);
     public <U extends Fragment & Mayor<T>> void postShow(@Nullable U previous, @Nullable U current);
     public <U extends Fragment & Mayor<T>> void preShow(@Nullable U fragment);
     public <U extends Fragment & Mayor<T>> void onShow(@Nullable U fragment);

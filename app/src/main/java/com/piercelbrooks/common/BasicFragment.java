@@ -10,6 +10,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,14 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
 
     @Override
     public void birth() {
+        Log.v(TAG, "Birth: "+getMayoralFamily().name());
         Governor.getInstance().register(this);
         onBirth();
     }
 
     @Override
     public void death() {
+        Log.v(TAG, "Death: "+getMayoralFamily().name());
         onDeath();
         Governor.getInstance().unregister(this);
     }

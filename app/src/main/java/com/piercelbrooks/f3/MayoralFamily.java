@@ -19,6 +19,7 @@ public enum MayoralFamily
     CONTACT_ADDRESS,
     LEDGERS,
     LEDGER_NAME,
+    LEDGER_PASSWORD,
     LOBBY,
     MAIL,
     SETTINGS,
@@ -27,5 +28,6 @@ public enum MayoralFamily
     MAIL_TEST_INBOX,
     MAIL_TEST_OUTBOX,
     INBOX,
-    OUTBOX
+    OUTBOX,
+    PASSWORD
 }

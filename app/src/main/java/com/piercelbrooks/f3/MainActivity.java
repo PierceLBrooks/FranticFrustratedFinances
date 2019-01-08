@@ -66,6 +66,16 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
     }
 
     @Override
+    public <T extends Fragment & Mayor<MayoralFamily>> boolean getIsTemporary(@Nullable T fragment) {
+        if (fragment != null) {
+            if (fragment instanceof GateFragment) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public <T extends Fragment & Mayor<MayoralFamily>> void preShow(@Nullable T fragment) {
         setMayorLedger(fragment);
     }
@@ -124,6 +134,9 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
             case LEDGER_NAME:
                 mayor = (T)(new LedgerNameFragment());
                 break;
+            case LEDGER_PASSWORD:
+                mayor = (T)(new LedgerPasswordFragment());
+                break;
             case LOBBY:
                 mayor = (T)(new LobbyFragment());
                 break;
@@ -135,6 +148,18 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
                 break;
             case LAUNCH:
                 mayor = (T)(new LaunchFragment());
+                break;
+            case MAIL_TEST:
+                mayor = (T)(new MailTestFragment());
+                break;
+            case INBOX:
+                mayor = (T)(new InboxFragment());
+                break;
+            case OUTBOX:
+                mayor = (T)(new OutboxFragment());
+                break;
+            case PASSWORD:
+                mayor = (T)(new PasswordFragment());
                 break;
         }
         setMayorLedger(mayor);
@@ -189,6 +214,13 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
 
     public void showLedgerName(Ledger ledger) {
         LedgerNameFragment fragment = new LedgerNameFragment();
+        fragment.setLedger(ledger);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public void showLedgerPassword(Ledger ledger) {
+        LedgerPasswordFragment fragment = new LedgerPasswordFragment();
         fragment.setLedger(ledger);
         show(fragment);
         this.ledger = ledger;
@@ -286,7 +318,20 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
         this.ledger = ledger;
     }
 
-    private void setMayorLedger(Mayor<MayoralFamily> mayor) {
+    public void showPassword(Ledger ledger, MayoralFamily previous, MayoralFamily next) {
+        PasswordFragment fragment = new PasswordFragment();
+        fragment.setLedger(ledger);
+        fragment.setPrevious(previous);
+        fragment.setNext(next);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public boolean show(@Nullable MayoralFamily mayoralFamily) {
+        return show(getNewMayor(mayoralFamily));
+    }
+
+    private void setMayorLedger(@Nullable Mayor<MayoralFamily> mayor) {
         if (mayor != null) {
             if (Accountant.class.isAssignableFrom(mayor.getCitizenClass())) {
                 ((Accountant)mayor).setLedger(ledger);

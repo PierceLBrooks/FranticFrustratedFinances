@@ -5,7 +5,7 @@ import android.util.Log;
 
 public class Runner extends Thread
 {
-    private static final String TAG = "PLB-Runner";
+    private static final String TAG = "PLB-Run";
 
     private Runnable runnable;
     private String message;

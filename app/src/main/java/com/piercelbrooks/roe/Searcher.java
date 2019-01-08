@@ -3,6 +3,8 @@
 
 package com.piercelbrooks.roe;
 
+import android.util.Log;
+
 import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -10,6 +12,8 @@ import javax.mail.search.FlagTerm;
 import javax.mail.search.SearchTerm;
 
 public class Searcher extends SearchTerm {
+    private static final String TAG = "ROE-Search";
+
     private String term;
     private Boolean seen;
 
@@ -40,6 +44,7 @@ public class Searcher extends SearchTerm {
                 }
                 return true;
             }
+            Log.d(TAG, "\""+other+"\" ? \""+term+"\"");
             if (other.contains(term)) {
                 return true;
             }

@@ -19,13 +19,13 @@ public class ContactAddressFragment extends EditorFragment implements Accountant
     }
 
     @Override
-    protected void onExit()
+    public void onExit()
     {
         ((MainActivity)getMunicipality()).showContacts(ledger);
     }
 
     @Override
-    protected void onSave(String field)
+    public void onSave(String field)
     {
         getContact().setAddress(field);
         Log.d(TAG, "LEDGER SERIAL TEST:\n"+getContact().getOwner());
@@ -33,19 +33,19 @@ public class ContactAddressFragment extends EditorFragment implements Accountant
     }
 
     @Override
-    protected String getTitle()
+    public String getTitle()
     {
         return "CONTACT ADDRESS";
     }
 
     @Override
-    protected String getField()
+    public String getField()
     {
         return getContact().getAddress();
     }
 
     @Override
-    protected int getInputType()
+    public int getInputType()
     {
         return EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
     }

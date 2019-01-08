@@ -11,6 +11,7 @@ import com.piercelbrooks.common.Governor;
 import com.piercelbrooks.common.Preferences;
 import com.piercelbrooks.common.Utilities;
 import com.piercelbrooks.roe.MailProperties;
+import com.piercelbrooks.roe.Mailbox;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -37,18 +38,9 @@ public class Settings extends Preferences implements MailProperties
 
     public static Properties getDefaultMailProperties()
     {
-        //Configuring properties for gmail
-        //If you are not using gmail you may need to change the values
         Properties properties = new Properties();
-        properties.setProperty("mail.store.protocol", "imaps");
-        properties.setProperty("mail.host", "imap.gmail.com");
-        /*
-        properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-        properties.setProperty("mail.smtp.socketFactory.port", "465");
-        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.port", "465");
-        */
+        properties.setProperty(Mailbox.MAIL_PROTOCOL_PROPERTY, "imaps");
+        properties.setProperty(Mailbox.MAIL_HOST_PROPERTY, "imap.gmail.com");
         return properties;
     }
 

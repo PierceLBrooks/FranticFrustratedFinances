@@ -21,7 +21,7 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
 {
     private class Password implements CharSequence
     {
-        private static final String TAG = "PLB-Password";
+        private static final String TAG = "PLB-Pass";
 
         private CharSequence source;
 
@@ -76,12 +76,13 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
         {
             super(target, mutable);
             this.owner = owner;
+            Log.d(TAG, "Input: "+Utilities.getIdentifier(target));
         }
 
         @Override
         public boolean sendKeyEvent(KeyEvent event)
         {
-            if (owner != null)
+            if ((owner != null) && (event != null))
             {
                 int action = event.getAction();
                 int keyCode = event.getKeyCode();

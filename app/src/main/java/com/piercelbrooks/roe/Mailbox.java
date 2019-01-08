@@ -16,6 +16,8 @@ import javax.mail.Session;
 
 public abstract class Mailbox <T extends MailboxListener> extends AsyncTask<Void, Void, Void> implements Runnable {
     private static final String TAG = "ROE-Mailbox";
+    public static final String MAIL_PROTOCOL_PROPERTY = "mail.store.protocol";
+    public static final String MAIL_HOST_PROPERTY = "mail.host";
 
     private T listener;
     private Session session;

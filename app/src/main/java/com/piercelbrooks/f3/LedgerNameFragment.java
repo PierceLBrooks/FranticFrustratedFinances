@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class LedgerNameFragment extends EditorFragment implements Accountant
 {
-    private static final String TAG = "F3-ContactFrag";
+    private static final String TAG = "F3-LedgerNameFrag";
 
     private Ledger ledger;
 
@@ -25,14 +25,18 @@ public class LedgerNameFragment extends EditorFragment implements Accountant
     }
 
     @Override
-    protected void onExit()
+    public void onExit()
     {
         ((MainActivity)getMunicipality()).showLobby(ledger);
     }
 
     @Override
-    protected void onSave(String field)
+    public void onSave(String field)
     {
+        if (field == null)
+        {
+            return;
+        }
         ArrayList<String> ledgers = new ArrayList<>();
         if (Utilities.read(Ledger.getPath()+"ledgers.dat", ledgers))
         {
@@ -72,13 +76,13 @@ public class LedgerNameFragment extends EditorFragment implements Accountant
     }
 
     @Override
-    protected String getTitle()
+    public String getTitle()
     {
         return "LEDGER NAME";
     }
 
     @Override
-    protected String getField()
+    public String getField()
     {
         if (ledger != null)
         {
@@ -88,7 +92,7 @@ public class LedgerNameFragment extends EditorFragment implements Accountant
     }
 
     @Override
-    protected int getInputType()
+    public int getInputType()
     {
         return EditorInfo.TYPE_CLASS_TEXT;
     }

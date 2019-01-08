@@ -50,6 +50,7 @@ public class Ledger implements Persistable<LedgerMember> {
     private static Ledger current = null;
 
     private String name;
+    private String password;
     private Action targetAction;
     private Contact targetContact;
     private DateTime targetDateTime;
@@ -63,6 +64,7 @@ public class Ledger implements Persistable<LedgerMember> {
 
     public Ledger(String name) {
         this.name = name;
+        this.password = "";
         this.targetAction = new Action(this);
         this.targetContact = new Contact(this, "");
         this.targetDateTime = new DateTime();
@@ -102,11 +104,18 @@ public class Ledger implements Persistable<LedgerMember> {
 
     public void setName(String name) {
         this.name = name.trim();
-        Log.d(TAG, "New name: "+this.name);
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setTargetAction(Action targetAction) {
@@ -184,6 +193,7 @@ public class Ledger implements Persistable<LedgerMember> {
             return false;
         }
         setName(other.getName());
+        setPassword((other.getPassword()));
         setContacts(other.getContacts());
         setAccount(other.getAccount());
         Log.d(TAG, "Contacts: "+contacts.toString());
@@ -287,7 +297,7 @@ public class Ledger implements Persistable<LedgerMember> {
                 if (data.equals(member.name())) {
                     Log.d(TAG, "Member: "+member.toString()+" ("+data+")");
                     switch (member) {
-                        case NAME:
+                        case LEDGER_NAME:
                             if (i+1 != source.size()) {
                                 deserialization.setName(source.get(i+1).trim());
                                 ++i;
@@ -297,6 +307,19 @@ public class Ledger implements Persistable<LedgerMember> {
                                 --i;
                             } else {
                                 Log.e(TAG, "Malformed name!");
+                                return null;
+                            }
+                            break;
+                        case LEDGER_PASSWORD:
+                            if (i+1 != source.size()) {
+                                deserialization.setPassword(source.get(i+1).trim());
+                                ++i;
+                                source.remove(i);
+                                --i;
+                                source.remove(i);
+                                --i;
+                            } else {
+                                Log.e(TAG, "Malformed password!");
                                 return null;
                             }
                             break;
@@ -363,9 +386,13 @@ public class Ledger implements Persistable<LedgerMember> {
     public List<String> getMemberSerialization(LedgerMember member) {
         ArrayList<String> serialization = new ArrayList<String>();
         switch (member) {
-            case NAME:
+            case LEDGER_NAME:
                 serialization.add(getMemberIdentifier(member));
-                serialization.add(name);
+                serialization.add(""+name);
+                break;
+            case LEDGER_PASSWORD:
+                serialization.add(getMemberIdentifier(member));
+                serialization.add(""+password);
                 break;
             case CONTACTS:
                 Utilities.add(serialization, contacts.getSerialization());

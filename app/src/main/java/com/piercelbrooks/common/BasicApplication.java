@@ -39,6 +39,9 @@ public abstract class BasicApplication extends Application implements Applicatio
     }
 
     public boolean makeToast(String message) {
+        if (message == null) {
+            return false;
+        }
         if (activity == null) {
             return false;
         }

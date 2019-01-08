@@ -35,31 +35,31 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         }
 
         @Override
-        protected int getInputType()
+        public int getInputType()
         {
             return EditorInfo.TYPE_TEXT_VARIATION_NORMAL;
         }
 
         @Override
-        protected String getField()
+        public String getField()
         {
             return subject;
         }
 
         @Override
-        protected String getTitle()
+        public String getTitle()
         {
             return "MAIL INBOX TEST SUBJECT";
         }
 
         @Override
-        protected void onExit()
+        public void onExit()
         {
             setField(test.getDefault());
         }
 
         @Override
-        protected void onSave(String field)
+        public void onSave(String field)
         {
             subject = field;
             Utilities.closeKeyboard(getActivity());
@@ -98,31 +98,31 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         }
 
         @Override
-        protected int getInputType()
+        public int getInputType()
         {
             return EditorInfo.TYPE_TEXT_VARIATION_NORMAL;
         }
 
         @Override
-        protected String getField()
+        public String getField()
         {
             return message;
         }
 
         @Override
-        protected String getTitle()
+        public String getTitle()
         {
             return "MAIL OUTBOX TEST MESSAGE";
         }
 
         @Override
-        protected void onExit()
+        public void onExit()
         {
             setField(test.getDefault());
         }
 
         @Override
-        protected void onSave(String field)
+        public void onSave(String field)
         {
             message = field;
             Utilities.closeKeyboard(getActivity());
@@ -187,7 +187,9 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         outbox = new OutboxTestFragment();
         inbox.setTest(this);
         outbox.setTest(this);
+        inbox.birth();
         manager.beginTransaction().replace(R.id.mail_test_inbox_slot, inbox, null).commit();
+        outbox.birth();
         manager.beginTransaction().replace(R.id.mail_test_outbox_slot, outbox, null).commit();
         mailTestExit = view.findViewById(R.id.mail_test_exit);
         mailTestExit.setOnClickListener(new View.OnClickListener()
@@ -209,7 +211,11 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
     @Override
     public void onDeath()
     {
-
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        inbox.death();
+        manager.beginTransaction().remove(inbox).commitAllowingStateLoss();
+        outbox.death();
+        manager.beginTransaction().remove(outbox).commitAllowingStateLoss();
     }
 
     @Override

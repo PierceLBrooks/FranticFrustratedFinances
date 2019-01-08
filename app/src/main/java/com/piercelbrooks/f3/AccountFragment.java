@@ -30,27 +30,27 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         }
 
         @Override
-        protected int getInputType() {
+        public int getInputType() {
             return EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
         }
 
         @Override
-        protected String getField() {
+        public String getField() {
             return account.getAddress();
         }
 
         @Override
-        protected String getTitle() {
+        public String getTitle() {
             return "ACCOUNT ADDRESS";
         }
 
         @Override
-        protected void onExit() {
+        public void onExit() {
             setField(address);
         }
 
         @Override
-        protected void onSave(String field) {
+        public void onSave(String field) {
             address = field;
             account.getLedger().getAccount().setAddress(field);
             Utilities.closeKeyboard(getActivity());
@@ -83,27 +83,27 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         }
 
         @Override
-        protected int getInputType() {
+        public int getInputType() {
             return EditorInfo.TYPE_TEXT_VARIATION_PASSWORD;
         }
 
         @Override
-        protected String getField() {
+        public String getField() {
             return account.getPassword();
         }
 
         @Override
-        protected String getTitle() {
+        public String getTitle() {
             return "ACCOUNT PASSWORD";
         }
 
         @Override
-        protected void onExit() {
+        public void onExit() {
             setField(password);
         }
 
         @Override
-        protected void onSave(String field) {
+        public void onSave(String field) {
             password = field;
             account.getLedger().getAccount().setPassword(field);
             Utilities.closeKeyboard(getActivity());
@@ -157,7 +157,9 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         password = new AccountPasswordFragment();
         address.setAccount(this);
         password.setAccount(this);
+        address.birth();
         manager.beginTransaction().replace(R.id.account_address_slot, address, null).commit();
+        password.birth();
         manager.beginTransaction().replace(R.id.account_password_slot, password, null).commit();
         accountExit = view.findViewById(R.id.account_exit);
         accountExit.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +172,7 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         accountTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getMunicipality()).showMailTest(getLedger());
+                ((MainActivity)getMunicipality()).showPassword(getLedger(), MayoralFamily.LOBBY, MayoralFamily.MAIL_TEST);
             }
         });
     }
@@ -182,7 +184,11 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
 
     @Override
     public void onDeath() {
-
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        address.death();
+        manager.beginTransaction().remove(address).commitAllowingStateLoss();
+        password.death();
+        manager.beginTransaction().remove(password).commitAllowingStateLoss();
     }
 
     @Override

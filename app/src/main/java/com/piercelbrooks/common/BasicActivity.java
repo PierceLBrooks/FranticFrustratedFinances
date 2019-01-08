@@ -255,7 +255,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
                             }
                         }
                         if (check) {
-                            if (!isBacking) {
+                            if ((!isBacking) && (!getIsTemporary(previous))) {
                                 backStack.add(previous.getMayoralFamily());
                             }
                         } else {
@@ -263,7 +263,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
                         }
                     }
                 } else {
-                    if (!isBacking) {
+                    if ((!isBacking) && (!getIsTemporary(previous))) {
                         backStack.add(previous.getMayoralFamily());
                     }
                 }
@@ -288,6 +288,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
         if (fragment == null) {
             return false;
         }
+        Log.d(TAG, "Show: "+fragment.getMayoralFamily().name());
         showers.add(new Shower<>(this, fragment));
         if (!isShowing) {
             isShowing = true;

@@ -207,10 +207,10 @@ public class Account implements Serial<AccountMember>, LedgerProperty
         switch (member)
         {
             case ADDRESS:
-                serialization.add(address);
+                serialization.add(""+address);
                 break;
             case PASSWORD:
-                serialization.add(password);
+                serialization.add(""+password);
                 break;
             default:
                 return null;

@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.piercelbrooks.common.BasicFragment;
-import com.piercelbrooks.common.Utilities;
 
 public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accountant
 {
     private static final String TAG = "F3-LobbyFrag";
 
     private Button lobbyActions;
-    private Button lobbyRename;
+    private Button lobbyName;
+    private Button lobbyPassword;
     private Button lobbyCalendar;
     private Button lobbyContacts;
     private Button lobbyAccount;
@@ -27,7 +27,8 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
     {
         super();
         lobbyActions = null;
-        lobbyRename = null;
+        lobbyName = null;
+        lobbyPassword = null;
         lobbyCalendar = null;
         lobbyContacts = null;
         lobbyAccount = null;
@@ -45,7 +46,8 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
     public void createView(@NonNull View view)
     {
         lobbyActions = view.findViewById(R.id.lobby_actions);
-        lobbyRename = view.findViewById(R.id.lobby_rename);
+        lobbyName = view.findViewById(R.id.lobby_name);
+        lobbyPassword = view.findViewById(R.id.lobby_password);
         lobbyCalendar = view.findViewById(R.id.lobby_calendar);
         lobbyContacts = view.findViewById(R.id.lobby_contacts);
         lobbyAccount = view.findViewById(R.id.lobby_account);
@@ -56,16 +58,25 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showActions(ledger);
+                ((MainActivity)getMunicipality()).showActions(getLedger());
             }
         });
 
-        lobbyRename.setOnClickListener(new View.OnClickListener()
+        lobbyName.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showLedgerName(ledger);
+                ((MainActivity)getMunicipality()).showLedgerName(getLedger());
+            }
+        });
+
+        lobbyPassword.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ((MainActivity)getMunicipality()).showPassword(getLedger(), getMayoralFamily(), MayoralFamily.LEDGER_PASSWORD);
             }
         });
 
@@ -74,7 +85,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showYears(ledger);
+                ((MainActivity)getMunicipality()).showYears(getLedger());
             }
         });
 
@@ -83,7 +94,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showContacts(ledger);
+                ((MainActivity)getMunicipality()).showContacts(getLedger());
             }
         });
 
@@ -92,7 +103,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showAccount(ledger);
+                ((MainActivity)getMunicipality()).showAccount(getLedger());
             }
         });
 

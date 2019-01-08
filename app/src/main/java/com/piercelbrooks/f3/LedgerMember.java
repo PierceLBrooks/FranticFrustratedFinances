@@ -6,7 +6,8 @@ package com.piercelbrooks.f3;
 public enum LedgerMember
 {
     NONE,
-    NAME,
+    LEDGER_NAME,
+    LEDGER_PASSWORD,
     ACTIONS,
     EVENTS,
     CONTACTS,
