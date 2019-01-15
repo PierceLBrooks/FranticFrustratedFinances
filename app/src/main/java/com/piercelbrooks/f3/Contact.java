@@ -119,7 +119,7 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
                 break;
             }
         }
-        for (int j = 0; j != i; ++j)
+        for (int j = 0; j < i; ++j)
         {
             if (source.isEmpty())
             {

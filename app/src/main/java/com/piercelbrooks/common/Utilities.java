@@ -191,6 +191,18 @@ public abstract class Utilities {
         return true;
     }
 
+    public static boolean openKeyboard(Activity activity, View view) {
+        if ((activity == null) || (view == null)) {
+            return false;
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) {
+            return false;
+        }
+        imm.showSoftInput(view, 0);
+        return true;
+    }
+
     public static void add(List<String> list, List<String> other) {
         add(list, other, null);
     }

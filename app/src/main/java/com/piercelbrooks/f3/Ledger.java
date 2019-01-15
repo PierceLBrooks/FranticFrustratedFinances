@@ -347,7 +347,7 @@ public class Ledger implements Persistable<LedgerMember> {
                 break;
             }
         }
-        for (int j = 0; j != i; ++j) {
+        for (int j = 0; j < i; ++j) {
             if (source.isEmpty()) {
                 break;
             }

@@ -39,6 +39,18 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.v(TAG, "onDestroyView "+Utilities.getIdentifier(this));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v(TAG, "onDestroy "+Utilities.getIdentifier(this));
+    }
+
+    @Override
     public Family getFamily() {
         return Family.MAYOR;
     }
@@ -64,5 +76,9 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
         Log.v(TAG, "Death: "+getMayoralFamily().name());
         onDeath();
         Governor.getInstance().unregister(this);
+    }
+
+    public void runOnUiThread(Runnable runnable) {
+        ((Municipality<T>)Governor.getInstance().getCitizen(Family.MUNICIPALITY)).runOnUiThread(runnable);
     }
 }

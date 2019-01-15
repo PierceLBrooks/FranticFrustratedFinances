@@ -142,7 +142,7 @@ public class InboxFragment extends MailboxFragment<InboxListener, Inbox> impleme
         }
         if (mail == null)
         {
-            getMunicipality().getOwner().makeToast("Inbox error!");
+            getApplication().makeToast("Inbox error!");
             return;
         }
         for (int i = 0; i != mail.size(); ++i)
@@ -154,7 +154,7 @@ public class InboxFragment extends MailboxFragment<InboxListener, Inbox> impleme
                 from += addresses.get(j).getAddress();
                 from += "\n";
             }
-            addItem(from);
+            addItem(from.trim());
             this.mail.add(mail.get(i));
         }
     }
@@ -172,6 +172,6 @@ public class InboxFragment extends MailboxFragment<InboxListener, Inbox> impleme
         {
             Log.e(TAG, "Box error!");
         }
-        getMunicipality().getOwner().makeToast("Inbox done!");
+        getApplication().makeToast("Inbox done!");
     }
 }

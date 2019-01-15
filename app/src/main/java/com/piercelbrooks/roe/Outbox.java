@@ -69,6 +69,8 @@ public class Outbox extends Mailbox<OutboxListener> {
             Transport.send(mime);
         } catch (MessagingException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         getListener().onOut(this, recipient);
     }

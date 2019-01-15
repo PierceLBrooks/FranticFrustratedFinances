@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
+import com.piercelbrooks.common.Family;
+import com.piercelbrooks.common.Governor;
 import com.piercelbrooks.roe.Mailbox;
 import com.piercelbrooks.roe.MailboxListener;
 
@@ -84,5 +86,10 @@ public abstract class MailboxFragment <T extends MailboxListener, U extends Mail
         box = getNewBox(listener);
         box.execute();
         return true;
+    }
+
+    public BasicApplication getApplication()
+    {
+        return (BasicApplication)Governor.getInstance().getCitizen(Family.APPLICATION);
     }
 }

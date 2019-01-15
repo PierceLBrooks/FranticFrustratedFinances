@@ -37,7 +37,7 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         @Override
         public int getInputType()
         {
-            return EditorInfo.TYPE_TEXT_VARIATION_NORMAL;
+            return EditorInfo.TYPE_TEXT_VARIATION_NORMAL|EditorInfo.TYPE_CLASS_TEXT;
         }
 
         @Override
@@ -100,7 +100,7 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         @Override
         public int getInputType()
         {
-            return EditorInfo.TYPE_TEXT_VARIATION_NORMAL;
+            return EditorInfo.TYPE_TEXT_VARIATION_NORMAL|EditorInfo.TYPE_CLASS_TEXT;
         }
 
         @Override
@@ -197,7 +197,7 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
             @Override
             public void onClick(View v)
             {
-                ((MainActivity)getMunicipality()).showAccount(getLedger());
+                ((MainActivity)getMunicipality()).showLobby(getLedger());
             }
         });
     }

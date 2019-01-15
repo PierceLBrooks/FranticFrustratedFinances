@@ -241,25 +241,38 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
 
     @Override
     public <Y extends Fragment & Mayor<T>> void postShow(@Nullable Y previous, @Nullable Y current) {
+        int i = 0;
         if (previous != null) {
             T mayoralFamilyPrevious = previous.getMayoralFamily();
             if (mayoralFamilyPrevious != null) {
                 if (!backStack.isEmpty()) {
-                    T mayoralFamilyBack = backStack.get(backStack.size()-1);
                     if (current != null) {
                         boolean check = true;
                         T mayoralFamilyCurrent = current.getMayoralFamily();
+                        T mayoralFamilyBack = null;
                         if (mayoralFamilyCurrent != null) {
-                            if (mayoralFamilyCurrent.equals(mayoralFamilyBack)) {
-                                check = false;
+                            for (i = backStack.size(); --i >= 0;) {
+                                mayoralFamilyBack = backStack.get(i);
+                                if (mayoralFamilyCurrent.equals(mayoralFamilyBack)) {
+                                    check = false;
+                                    break;
+                                }
                             }
                         }
                         if (check) {
-                            if ((!isBacking) && (!getIsTemporary(previous))) {
-                                backStack.add(previous.getMayoralFamily());
+                            if ((!isBacking) && (!getIsTemporary(previous)) && (!mayoralFamilyPrevious.equals(backStack.get(backStack.size()-1)))) {
+                                backStack.add(mayoralFamilyPrevious);
                             }
                         } else {
-                            popBack();
+                            if (mayoralFamilyBack != null) {
+                                for (int j = backStack.size(); --j >= i; ) {
+                                    if (backStack.get(j).equals(mayoralFamilyBack)) {
+                                        popBack();
+                                        break;
+                                    }
+                                    popBack();
+                                }
+                            }
                         }
                     }
                 } else {

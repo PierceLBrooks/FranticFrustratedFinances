@@ -180,7 +180,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color"
-                        android:text="FINISH"
+                        android:text="CLOSE"
                         android:id="@+id/lobby_finish">
 
                     </Button>

@@ -5,6 +5,7 @@ package com.piercelbrooks.f3;
 
 public enum MailSerialMember
 {
+    DATE,
     SUBJECT,
     CONTENT,
     FROM,

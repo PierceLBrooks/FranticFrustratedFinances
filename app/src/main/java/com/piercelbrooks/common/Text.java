@@ -3,6 +3,7 @@
 
 package com.piercelbrooks.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.text.Editable;
@@ -154,7 +155,7 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
 
     private void initialize(Context context)
     {
-        Log.d(TAG, "initialize "+Utilities.getIdentifier(this));
+        Log.v(TAG, "initialize "+Utilities.getIdentifier(this));
         listener = null;
         cache = null;
         input = null;
@@ -191,7 +192,15 @@ public abstract class Text extends android.support.v7.widget.AppCompatEditText i
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs)
     {
-        input = new TextInput(this, super.onCreateInputConnection(outAttrs), false);
+        InputConnection connection = super.onCreateInputConnection(outAttrs);
+        if (connection == null)
+        {
+            input = null;
+        }
+        else
+        {
+            input = new TextInput(this, connection, false);
+        }
         return input;
     }
 

@@ -61,11 +61,18 @@ public class MailSerial extends Mail implements Serial<MailSerialMember>
         String serialization = "";
         switch (member)
         {
+            case DATE:
+                serialization += "";
+                break;
             case SUBJECT:
                 serialization += getSubject();
                 break;
             case CONTENT:
-                serialization += getContent();
+                for (int i = 0; i != getContent().size(); ++i)
+                {
+                    serialization += getContent().get(i);
+                    serialization += "\n";
+                }
                 break;
             case FROM:
                 for (int i = 0; i != getFrom().size(); ++i)
@@ -74,10 +81,13 @@ public class MailSerial extends Mail implements Serial<MailSerialMember>
                     serialization += "\n";
                 }
                 break;
-        }
-        if (serialization == null)
-        {
-            return null;
+            case TO:
+                for (int i = 0; i != getTo().size(); ++i)
+                {
+                    serialization += getTo().get(i).getAddress();
+                    serialization += "\n";
+                }
+                break;
         }
         if (!serialization.isEmpty())
         {

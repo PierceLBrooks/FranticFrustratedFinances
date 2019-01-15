@@ -11,6 +11,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,31 @@ import java.util.List;
 
 public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment implements Mayor<T>, AdapterView.OnItemClickListener
 {
+    public class ItemAdder implements Runnable
+    {
+        private BasicListFragment owner;
+        private List<String> labels;
+
+        public ItemAdder(@NonNull BasicListFragment owner, @Nullable String label)
+        {
+            this.owner = owner;
+            this.labels = new ArrayList<>();
+            this.labels.add(label);
+        }
+
+        public ItemAdder(@NonNull BasicListFragment owner, @Nullable List<String> labels)
+        {
+            this.owner = owner;
+            this.labels = labels;
+        }
+
+        @Override
+        public void run()
+        {
+            owner.notifyItems(labels);
+        }
+    }
+
     public class Item
     {
         private BasicListFragment owner;
@@ -92,7 +118,8 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     protected abstract @IdRes int getItemID();
     protected abstract @LayoutRes int getItemLayout();
 
-    public BasicListFragment() {
+    public BasicListFragment()
+    {
         super();
         list = null;
         items = null;
@@ -111,7 +138,8 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         list = getListView();
         items = new ArrayList<>();
         itemLabels = new ArrayList<>();
@@ -120,6 +148,20 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         setListAdapter(adapter);
         list.setOnItemClickListener(this);
         createView(view);
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        Log.v(TAG, "onDestroyView "+Utilities.getIdentifier(this));
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        Log.v(TAG, "onDestroy "+Utilities.getIdentifier(this));
     }
 
     @Override
@@ -205,7 +247,7 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         return itemLabelOriginals.get(position);
     }
 
-    public boolean setItemLabel(int position, String label)
+    public boolean setItemLabel(int position, @Nullable String label)
     {
         if (label == null)
         {
@@ -245,11 +287,16 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         return item;
     }
 
-    public Item addItem(String label)
+    public void addItem(@Nullable String label)
+    {
+        runOnUiThread(new ItemAdder(this, label));
+    }
+
+    public void notifyItem(@Nullable String label)
     {
         if (label == null)
         {
-            return null;
+            return;
         }
         itemLabelOriginals.add(label);
         if (itemLabelAffix())
@@ -261,10 +308,14 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
             itemLabels.add(label);
         }
         adapter.notifyDataSetChanged();
-        return getItem(getItemCount()-1);
     }
 
-    public void addItems(List<String> labels)
+    public void addItems(@Nullable List<String> labels)
+    {
+        runOnUiThread(new ItemAdder(this, labels));
+    }
+
+    public void notifyItems(@Nullable List<String> labels)
     {
         if (labels == null)
         {
@@ -272,7 +323,7 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         }
         for (int i = 0; i != labels.size(); ++i)
         {
-            addItem(labels.get(i));
+            notifyItem(labels.get(i));
         }
     }
 
@@ -309,5 +360,10 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         {
             removeItem(0);
         }
+    }
+
+    public void runOnUiThread(Runnable runnable)
+    {
+        ((Municipality<T>)Governor.getInstance().getCitizen(Family.MUNICIPALITY)).runOnUiThread(runnable);
     }
 }

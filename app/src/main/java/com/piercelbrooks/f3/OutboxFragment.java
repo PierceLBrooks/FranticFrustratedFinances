@@ -144,6 +144,6 @@ public class OutboxFragment extends MailboxFragment<OutboxListener, Outbox> impl
         {
             Log.e(TAG, "Box error!");
         }
-        getMunicipality().getOwner().makeToast("Outbox done!");
+        getApplication().makeToast("Outbox done!");
     }
 }

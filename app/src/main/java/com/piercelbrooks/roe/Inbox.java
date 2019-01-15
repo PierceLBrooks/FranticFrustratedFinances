@@ -48,7 +48,11 @@ public class Inbox extends Mailbox<InboxListener> {
             store.connect(getAddress(), getPassword());
             folder = store.getFolder("Inbox");
             folder.open(Folder.READ_ONLY);
-            messages = folder.search(searchTerm);
+            if (searchTerm instanceof Searcher) {
+                messages = ((Searcher)searchTerm).search(folder);
+            } else {
+                messages = folder.search(searchTerm);
+            }
             fetch = new FetchProfile();
             fetch.add(FetchProfile.Item.ENVELOPE);
             fetch.add(FetchProfile.Item.CONTENT_INFO);
@@ -62,6 +66,8 @@ public class Inbox extends Mailbox<InboxListener> {
         } catch (NoSuchProviderException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         getListener().onIn(this, mail);

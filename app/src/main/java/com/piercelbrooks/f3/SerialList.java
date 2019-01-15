@@ -54,6 +54,10 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
         Serial child;
         for (i = 0; i != enumeration.length; ++i)
         {
+            if (enumeration[i].equals(SerialListMember.NONE))
+            {
+                continue;
+            }
             members.add(enumeration[i]);
         }
         for (i = 0; i < source.size(); ++i)
@@ -93,6 +97,11 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
                         case SERIALS:
                             for (int k = 0; k != deserialization.getPopulation(); ++k)
                             {
+                                if (!source.get(0).trim().equals(parent.getIdentifier()))
+                                {
+                                    Log.w(TAG, "Invalid identifier at index:");
+                                    continue;
+                                }
                                 child = parent.getDeserialization(source);
                                 if (child != null)
                                 {
@@ -127,8 +136,12 @@ public abstract class SerialList <T extends Serial> extends ArrayList<T> impleme
             {
                 break;
             }
+            if (members.isEmpty())
+            {
+                break;
+            }
         }
-        for (int j = 0; j != i; ++j)
+        for (int j = 0; j < i; ++j)
         {
             if (source.isEmpty())
             {

@@ -62,6 +62,7 @@ public abstract class EditorFragment extends FieldFragment
             @Override
             public void onClick(View v)
             {
+                getMunicipality().getOwner().makeToast("Saved!");
                 onSave(editorField.getText().toString());
             }
         });

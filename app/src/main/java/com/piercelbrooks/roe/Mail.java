@@ -3,34 +3,46 @@
 
 package com.piercelbrooks.roe;
 
-import java.io.IOException;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.piercelbrooks.common.Utilities;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeMultipart;
 
 public class Mail {
+    private MailDate date;
     private String subject;
-    private String content;
+    private ArrayList<String> content;
     private ArrayList<MailAddress> from;
     private ArrayList<MailRecipient> to;
 
-    public Mail(Mail other) {
+    public Mail(@Nullable Mail other) {
         if (other == null) {
+            this.date = null;
             this.subject = null;
             this.content = null;
             this.from = new ArrayList<>();
             this.to = new ArrayList<>();
             return;
         }
+        List<String> content = other.getContent();
         List<MailAddress> from = other.getFrom();
         List<MailRecipient> to = other.getTo();
-        this.subject = ""+other.getSubject();
-        this.content = ""+other.getContent();
+        this.date = null;
+        this.subject = other.getSubject();
+        this.content = new ArrayList<>();
         this.from = new ArrayList<>();
         this.to = new ArrayList<>();
+        for (int i = 0; i != content.size(); ++i) {
+            this.content.add(content.get(i));
+        }
         for (int i = 0; i != from.size(); ++i) {
             this.from.add(new MailAddress(from.get(i)));
         }
@@ -39,17 +51,19 @@ public class Mail {
         }
     }
 
-    public Mail(Message message) {
+    public Mail(@NonNull Message message) {
         MailRecipientType[] types = MailRecipientType.values();
         MailRecipientType type;
         Address[] addresses;
+        this.date = null;
         this.subject = null;
         this.content = null;
         this.from = new ArrayList<>();
         this.to = new ArrayList<>();
         try {
-            this.subject = ""+message.getSubject();
-            this.content = ""+message.getContent().toString();
+            this.date = new MailDate(message);
+            this.subject = message.getSubject();
+            this.content = getContentParse(message.getContent());
             addresses = message.getFrom();
             for (int i = 0; i != addresses.length; ++i) {
                 this.from.add(new MailAddress(addresses[i]));
@@ -57,22 +71,29 @@ public class Mail {
             for (int i = 0; i != types.length; ++i) {
                 type = types[i];
                 addresses = message.getRecipients(type.getImplementation());
+                if (addresses == null) {
+                    continue;
+                }
                 for (int j = 0; j != addresses.length; ++j) {
                     this.to.add(new MailRecipient(addresses[j], type));
                 }
             }
         } catch (MessagingException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public MailDate getDate() {
+        return date;
     }
 
     public String getSubject() {
         return subject;
     }
 
-    public String getContent() {
+    public List<String> getContent() {
         return content;
     }
 
@@ -82,5 +103,30 @@ public class Mail {
 
     public List<MailRecipient> getTo() {
         return to;
+    }
+
+    public static ArrayList<String> getContentParse(Object content) {
+        try {
+            ArrayList<String> parse = new ArrayList<>();
+            if (content == null) {
+                return parse;
+            }
+            if (content instanceof MimeMultipart) {
+                Object bodyPart;
+                MimeMultipart mime = (MimeMultipart)content;
+                for (int i = 0; i != mime.getCount(); ++i) {
+                    bodyPart = mime.getBodyPart(i);
+                    Utilities.add(parse, getContentParse(bodyPart));
+                }
+                return parse;
+            }
+            parse.add(content.toString());
+            return parse;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

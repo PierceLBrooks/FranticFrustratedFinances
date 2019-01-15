@@ -54,7 +54,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color"
-                        android:text="VIEW/EDIT LEDGERS"
+                        android:text="OPEN LEDGERS"
                         android:id="@+id/launch_ledgers">
 
                     </Button>
@@ -72,7 +72,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color"
-                        android:text="VIEW/EDIT SETTINGS"
+                        android:text="OPEN SETTINGS"
                         android:id="@+id/launch_settings">
 
                     </Button>

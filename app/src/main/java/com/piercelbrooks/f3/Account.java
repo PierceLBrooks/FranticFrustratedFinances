@@ -81,7 +81,7 @@ public class Account implements Serial<AccountMember>, LedgerProperty
             data = source.get(i).trim();
             if (data.equals(getIdentifier()))
             {
-                for (int j = 0; j != i; ++j)
+                for (int j = 0; j < i; ++j)
                 {
                     source.remove(0);
                     if (source.isEmpty())
@@ -158,7 +158,7 @@ public class Account implements Serial<AccountMember>, LedgerProperty
                 break;
             }
         }
-        for (int j = 0; j != i; ++j)
+        for (int j = 0; j < i; ++j)
         {
             if (source.isEmpty())
             {

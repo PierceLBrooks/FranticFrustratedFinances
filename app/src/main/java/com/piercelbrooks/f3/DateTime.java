@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.piercelbrooks.common.Utilities;
+import com.piercelbrooks.roe.MailDate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DateTime implements Persistable<DateTimeMember>
@@ -25,12 +27,23 @@ public class DateTime implements Persistable<DateTimeMember>
         set();
     }
 
+    public DateTime(@Nullable Date date)
+    {
+        set(date);
+    }
+
+    public DateTime(@Nullable MailDate mail)
+    {
+        set(mail);
+    }
+
     public DateTime(@Nullable DateTime other)
     {
         set(other);
     }
 
-    public DateTime(@Nullable DateTime other, int change, @NonNull DateTimeMember member) {
+    public DateTime(@Nullable DateTime other, int change, @NonNull DateTimeMember member)
+    {
         this(other);
         if (!set(change, member))
         {
@@ -41,6 +54,24 @@ public class DateTime implements Persistable<DateTimeMember>
     public void set()
     {
         set(-1, -1, -1);
+    }
+
+    public void set(@Nullable Date date)
+    {
+        if (date == null)
+        {
+            return;
+        }
+        set(date.getYear(), date.getMonth(), date.getDay());
+    }
+
+    public void set(@Nullable MailDate mail)
+    {
+        if (mail == null)
+        {
+            return;
+        }
+        set(mail.getYear(), mail.getMonth(), mail.getDay());
     }
 
     public void set(@Nullable DateTime other)
@@ -121,6 +152,10 @@ public class DateTime implements Persistable<DateTimeMember>
         String data;
         for (i = 0; i != enumeration.length; ++i)
         {
+            if (enumeration[i].equals(DateTimeMember.NONE))
+            {
+                continue;
+            }
             members.add(enumeration[i]);
         }
         for (i = 0; i < source.size(); ++i)
@@ -156,7 +191,7 @@ public class DateTime implements Persistable<DateTimeMember>
                 }
             }
         }
-        for (int j = 0; j != i; ++j)
+        for (int j = 0; j < i; ++j)
         {
             if (source.isEmpty())
             {

@@ -17,4 +17,5 @@ public interface Municipality <T extends Enum<T>> extends Citizen
     public <U extends Fragment & Mayor<T>> boolean show(@Nullable U fragment);
     public <U extends Fragment & Mayor<T>> U getNewMayor(@Nullable T mayoralFamily);
     public BasicApplication getOwner();
+    public void runOnUiThread(Runnable runnable);
 }
