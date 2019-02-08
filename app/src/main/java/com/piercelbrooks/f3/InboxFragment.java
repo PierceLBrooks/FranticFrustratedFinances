@@ -160,12 +160,6 @@ public class InboxFragment extends MailboxFragment<InboxListener, Inbox> impleme
     }
 
     @Override
-    public MailProperties getProperties()
-    {
-        return SettingsFragment.getSettings();
-    }
-
-    @Override
     public void onDone(@NonNull Mailbox sender)
     {
         if (sender != getBox())

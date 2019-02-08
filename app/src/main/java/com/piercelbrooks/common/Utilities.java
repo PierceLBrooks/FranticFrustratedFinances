@@ -22,6 +22,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -247,8 +249,7 @@ public abstract class Utilities {
             File file = new File(path);
             reader = new FileReader(file);
             buffer = new BufferedReader(reader);
-            while ((line = buffer.readLine()) != null)
-            {
+            while ((line = buffer.readLine()) != null) {
                 lines.add(line);
                 Log.d(TAG, "Read: \""+line+"\"");
             }
@@ -378,6 +379,32 @@ public abstract class Utilities {
         return success;
     }
 
+    public static List<String> toString(InputStream stream) {
+        if (stream == null) {
+            return null;
+        }
+        InputStreamReader reader = new InputStreamReader(stream);
+        BufferedReader buffer = new BufferedReader(reader);
+        ArrayList<String> result = new ArrayList<>();
+        String line = null;
+        try {
+            while ((line = buffer.readLine()) != null) {
+                result.add(line);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        } finally {
+            try {
+                buffer.close();
+                reader.close();
+                stream.close();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public static List<String> toString(Object[] objects) {
         if (objects == null) {
             return null;
@@ -418,6 +445,18 @@ public abstract class Utilities {
             } else {
                 result.add(object.toString());
             }
+        }
+        return result;
+    }
+
+    public static String toString(List<String> strings) {
+        if (strings == null) {
+            return null;
+        }
+        String result = "";
+        for (int i = 0; i != strings.size(); ++i) {
+            result += strings.get(i);
+            result += "\n";
         }
         return result;
     }

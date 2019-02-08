@@ -41,13 +41,13 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
                     if (activeFragment instanceof Citizen) {
                         ((Citizen)activeFragment).death();
                     }
-                    manager.beginTransaction().remove(activeFragment).commitNow();
+                    manager.beginTransaction().remove(activeFragment).commitNowAllowingStateLoss();
                 }
                 activity.setActiveFragment(fragment);
                 activity.preShow(fragment);
                 if (fragment != null) {
                     fragment.birth();
-                    manager.beginTransaction().replace(getFragmentSlot(), fragment, null).commitNow();
+                    manager.beginTransaction().replace(getFragmentSlot(), fragment, null).commitNowAllowingStateLoss();
                 }
                 activity.postShow(activeFragment, fragment);
             }

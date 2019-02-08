@@ -6,6 +6,7 @@ package com.piercelbrooks.roe;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -40,6 +41,16 @@ public class Outbox extends Mailbox<OutboxListener> {
     }
 
     @Override
+    protected MailProperties getMailboxProperties() {
+        return getListener().getOutboxProperties();
+    }
+
+    @Override
+    protected Properties getMailProperties() {
+        return getMailboxProperties().getOutgoingMailProperties();
+    }
+
+    @Override
     public void run() {
         if (recipients == null)
         {
@@ -51,22 +62,17 @@ public class Outbox extends Mailbox<OutboxListener> {
     }
 
     private void run(String recipient) {
-        MimeMessage mime;
+
         try {
-            //Creating MimeMessage object
-            mime = new MimeMessage(getSession());
-
-            //Setting sender address
+            MimeMessage mime = new MimeMessage(getSession());
+            Transport transport = getSession().getTransport();
             mime.setFrom(new InternetAddress(getAddress()));
-            //Adding receiver
             mime.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            //Adding subject
             mime.setSubject(subject);
-            //Adding message
             mime.setText(message);
-
-            //Sending email
-            Transport.send(mime);
+            transport.connect(getAddress(), getPassword());
+            transport.sendMessage(mime, mime.getAllRecipients());
+            transport.close();
         } catch (MessagingException e) {
             e.printStackTrace();
         } catch (Exception e) {

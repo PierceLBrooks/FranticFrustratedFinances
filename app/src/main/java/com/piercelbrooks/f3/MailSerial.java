@@ -68,11 +68,14 @@ public class MailSerial extends Mail implements Serial<MailSerialMember>
                 serialization += getSubject();
                 break;
             case CONTENT:
+                serialization += "{\n";
                 for (int i = 0; i != getContent().size(); ++i)
                 {
-                    serialization += getContent().get(i);
-                    serialization += "\n";
+                    serialization += " \n";
+                    serialization += getContent().get(i).replaceAll("\n"," \n \n ");
+                    serialization += " \n";
                 }
+                serialization += " \n}\n \n";
                 break;
             case FROM:
                 for (int i = 0; i != getFrom().size(); ++i)

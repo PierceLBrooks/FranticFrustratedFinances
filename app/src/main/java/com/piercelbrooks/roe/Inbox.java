@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.mail.FetchProfile;
 import javax.mail.Folder;
@@ -35,6 +36,16 @@ public class Inbox extends Mailbox<InboxListener> {
 
     public SearchTerm getSearchTerm() {
         return searchTerm;
+    }
+
+    @Override
+    protected MailProperties getMailboxProperties() {
+        return getListener().getInboxProperties();
+    }
+
+    @Override
+    protected Properties getMailProperties() {
+        return getMailboxProperties().getIncomingMailProperties();
     }
 
     @Override

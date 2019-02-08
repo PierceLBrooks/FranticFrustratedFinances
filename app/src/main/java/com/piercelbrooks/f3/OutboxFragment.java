@@ -130,13 +130,7 @@ public class OutboxFragment extends MailboxFragment<OutboxListener, Outbox> impl
         }
         addItem(recipient);
     }
-
-    @Override
-    public MailProperties getProperties()
-    {
-        return SettingsFragment.getSettings();
-    }
-
+    
     @Override
     public void onDone(@NonNull Mailbox sender)
     {

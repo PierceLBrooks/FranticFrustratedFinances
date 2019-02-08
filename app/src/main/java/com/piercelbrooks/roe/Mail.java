@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.piercelbrooks.common.Utilities;
+import com.sun.mail.util.ReadableMime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,10 @@ public class Mail {
                     bodyPart = mime.getBodyPart(i);
                     Utilities.add(parse, getContentParse(bodyPart));
                 }
+                return parse;
+            }
+            if (content instanceof ReadableMime) {
+                Utilities.add(parse, Utilities.toString(((ReadableMime)content).getMimeStream()));
                 return parse;
             }
             parse.add(content.toString());

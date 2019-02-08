@@ -11,10 +11,11 @@ import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicListFragment;
 import com.piercelbrooks.common.Family;
 import com.piercelbrooks.common.Governor;
+import com.piercelbrooks.roe.MailProperties;
 import com.piercelbrooks.roe.Mailbox;
 import com.piercelbrooks.roe.MailboxListener;
 
-public abstract class MailboxFragment <T extends MailboxListener, U extends Mailbox<T>> extends BasicListFragment<MayoralFamily> implements Accountant
+public abstract class MailboxFragment <T extends MailboxListener, U extends Mailbox<T>> extends BasicListFragment<MayoralFamily> implements Accountant, MailboxListener
 {
     private static final String TAG = "F3-MailboxFrag";
 
@@ -31,6 +32,18 @@ public abstract class MailboxFragment <T extends MailboxListener, U extends Mail
         selectionIndex = -1;
         selection = null;
         ledger = null;
+    }
+
+    @Override
+    public MailProperties getInboxProperties()
+    {
+        return SettingsFragment.getSettings();
+    }
+
+    @Override
+    public MailProperties getOutboxProperties()
+    {
+        return SettingsFragment.getSettings();
     }
 
     @Override

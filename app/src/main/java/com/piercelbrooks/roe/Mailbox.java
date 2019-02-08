@@ -5,6 +5,9 @@ package com.piercelbrooks.roe;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.piercelbrooks.common.Utilities;
 
 import java.util.Properties;
 
@@ -16,13 +19,18 @@ import javax.mail.Session;
 
 public abstract class Mailbox <T extends MailboxListener> extends AsyncTask<Void, Void, Void> implements Runnable {
     private static final String TAG = "ROE-Mailbox";
+    public static final String MAIL_TRANSPORT_PROPERTY = "mail.transport.protocol";
     public static final String MAIL_PROTOCOL_PROPERTY = "mail.store.protocol";
     public static final String MAIL_HOST_PROPERTY = "mail.host";
+    public static final String MAIL_DEBUG_PROPERTY = "mail.debug";
 
     private T listener;
     private Session session;
     private String address;
     private String password;
+
+    protected abstract MailProperties getMailboxProperties();
+    protected abstract Properties getMailProperties();
 
     public Mailbox(@NonNull T listener,  String address, String password) {
         this.listener = listener;
@@ -49,11 +57,12 @@ public abstract class Mailbox <T extends MailboxListener> extends AsyncTask<Void
 
     @Override
     protected Void doInBackground(Void... params) {
-        session = Session.getDefaultInstance(listener.getProperties().getMailProperties(), new Authenticator() {
+        session = Session.getInstance(getMailProperties(), new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(address, password);
                 }
             });
+        Log.d(TAG, Utilities.toString(Utilities.toString(Utilities.getEntries(session.getProperties()))));
         run();
         listener.onDone(this);
         return null;

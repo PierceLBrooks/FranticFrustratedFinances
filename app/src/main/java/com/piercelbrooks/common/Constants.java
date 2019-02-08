@@ -10,4 +10,7 @@ public interface Constants
     public static final String TAG = "PLB";
     public static final int BUILD_CODE = 0;
     public static final int TOAST_DURATION = Toast.LENGTH_LONG;
+    public static final int SMTP_TLS_PORT = 587;
+    public static final int SMTP_SSL_PORT = 465;
+    public static final boolean DEBUG = true;
 }
