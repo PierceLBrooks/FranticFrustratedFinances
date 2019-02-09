@@ -337,23 +337,35 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
         {
             return false;
         }
-        if (selectionIndex == position)
+        try
         {
-            if (selection != null)
+            if (selectionIndex == position)
             {
-                selection.setBackground(selectionBackground);
-                selection = null;
+                if (selection != null)
+                {
+                    selection.setBackground(selectionBackground);
+                    selection = null;
+                }
+                selectionIndex = -1;
             }
-            selectionIndex = -1;
+            items.remove(getItem(position).getPosition());
+            itemLabels.remove(position);
+            itemLabelOriginals.remove(position);
+            adapter.notifyDataSetChanged();
+            for (int i = position; i != itemLabels.size(); ++i)
+            {
+                Item item = items.get(i);
+                if (item == null)
+                {
+                    continue;
+                }
+                item.setPosition(item.getPosition()-1);
+            }
         }
-        items.remove(position);
-        itemLabels.remove(position);
-        itemLabelOriginals.remove(position);
-        adapter.notifyDataSetChanged();
-        for (int i = position; i != itemLabels.size(); ++i)
+        catch (Exception exception)
         {
-            Item item = items.get(i);
-            item.setPosition(item.getPosition()-1);
+            exception.printStackTrace();
+            return false;
         }
         return true;
     }

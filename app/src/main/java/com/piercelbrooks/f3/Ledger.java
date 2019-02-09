@@ -369,18 +369,39 @@ public class Ledger implements Persistable<LedgerMember> {
                             }
                             break;
                         case ACTIONS:
+                            for (int k = 0; k < i; ++k) {
+                                if (source.isEmpty()) {
+                                    break;
+                                }
+                                source.remove(0);
+                            }
+                            i = 0;
                             if (!deserialization.setActions((ActionList)actions.getDeserialization(source))) {
                                 Log.e(TAG, "Malformed actions!");
                                 return null;
                             }
                             break;
                         case CONTACTS:
+                            for (int k = 0; k < i; ++k) {
+                                if (source.isEmpty()) {
+                                    break;
+                                }
+                                source.remove(0);
+                            }
+                            i = 0;
                             if (!deserialization.setContacts((ContactList)contacts.getDeserialization(source))) {
                                 Log.e(TAG, "Malformed contacts!");
                                 return null;
                             }
                             break;
                         case ACCOUNT:
+                            for (int k = 0; k < i; ++k) {
+                                if (source.isEmpty()) {
+                                    break;
+                                }
+                                source.remove(0);
+                            }
+                            i = 0;
                             if (!deserialization.setAccount((Account)account.getDeserialization(source))) {
                                 Log.e(TAG, "Malformed account!");
                                 return null;
