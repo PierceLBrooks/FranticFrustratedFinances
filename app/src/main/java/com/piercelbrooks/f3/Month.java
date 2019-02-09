@@ -78,7 +78,7 @@ public class Month extends BasicCalendar<FrameLayout> implements Mortal
     @Override
     public void onClick(int day, int column, int row)
     {
-        if (day > getDays())
+        if (day >= getDays())
         {
             this.day = -1;
             return;

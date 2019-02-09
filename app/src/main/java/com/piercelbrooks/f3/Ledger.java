@@ -16,6 +16,36 @@ import java.util.Collections;
 import java.util.List;
 
 public class Ledger implements Persistable<LedgerMember> {
+    public class ActionList extends SerialList<Action> {
+        public ActionList() {
+            super();
+        }
+
+        @Override
+        public SerialList<Action> getNew() {
+            return new ActionList();
+        }
+
+        @Override
+        public Action getSerial() {
+            return new Action();
+        }
+
+        @Override
+        public String getIdentifier() {
+            return LedgerMember.ACTIONS.name();
+        }
+
+        public List<String> getNames() {
+            ArrayList<String> names = new ArrayList<>();
+            Collections.sort(this);
+            for (int i = 0; i != size(); ++i) {
+                names.add(get(i).getName());
+            }
+            return names;
+        }
+    }
+
     public class ContactList extends SerialList<Contact> {
         public ContactList() {
             super();
@@ -55,6 +85,7 @@ public class Ledger implements Persistable<LedgerMember> {
     private Contact targetContact;
     private DateTime targetDateTime;
     private Event targetEvent;
+    private ActionList actions;
     private ContactList contacts;
     private Account account;
 
@@ -69,6 +100,7 @@ public class Ledger implements Persistable<LedgerMember> {
         this.targetContact = new Contact(this, "");
         this.targetDateTime = new DateTime();
         this.targetEvent = null;
+        this.actions = new ActionList();
         this.contacts = new ContactList();
         this.account = new Account();
     }
@@ -157,6 +189,19 @@ public class Ledger implements Persistable<LedgerMember> {
         if (targetEvent != null) {
             targetEvent.setOwner(this);
         }
+    }
+
+    public ActionList getActions() {
+        return actions;
+    }
+
+    public boolean setActions(ActionList actions) {
+        if (actions == null) {
+            this.actions = new ActionList();
+            return false;
+        }
+        this.actions = actions;
+        return true;
     }
 
     public ContactList getContacts() {
@@ -323,6 +368,12 @@ public class Ledger implements Persistable<LedgerMember> {
                                 return null;
                             }
                             break;
+                        case ACTIONS:
+                            if (!deserialization.setActions((ActionList)actions.getDeserialization(source))) {
+                                Log.e(TAG, "Malformed actions!");
+                                return null;
+                            }
+                            break;
                         case CONTACTS:
                             if (!deserialization.setContacts((ContactList)contacts.getDeserialization(source))) {
                                 Log.e(TAG, "Malformed contacts!");
@@ -342,8 +393,7 @@ public class Ledger implements Persistable<LedgerMember> {
                     break;
                 }
             }
-            if (source.isEmpty())
-            {
+            if (source.isEmpty()) {
                 break;
             }
         }
@@ -393,6 +443,9 @@ public class Ledger implements Persistable<LedgerMember> {
             case LEDGER_PASSWORD:
                 serialization.add(getMemberIdentifier(member));
                 serialization.add(""+password);
+                break;
+            case ACTIONS:
+                Utilities.add(serialization, actions.getSerialization());
                 break;
             case CONTACTS:
                 Utilities.add(serialization, contacts.getSerialization());

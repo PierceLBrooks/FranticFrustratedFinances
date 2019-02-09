@@ -124,6 +124,8 @@ public class ActionsFragment extends BasicListFragment<MayoralFamily> implements
                 ((MainActivity)getMunicipality()).showAuthor(ledger.getTargetAction());
             }
         });
+
+        addItems(ledger.getActions().getNames());
     }
 
     @Override

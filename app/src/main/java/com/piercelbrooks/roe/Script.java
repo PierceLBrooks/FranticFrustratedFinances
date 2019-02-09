@@ -59,6 +59,26 @@ public class Script implements Mortal
         return Ruby.getInstance().run(body, entry);
     }
 
+    public String getBody()
+    {
+        return body;
+    }
+
+    public String getEntry()
+    {
+        return entry;
+    }
+
+    public void setBody(String body)
+    {
+        this.body = body;
+    }
+
+    public void setEntry(String entry)
+    {
+        this.entry = entry;
+    }
+
     @Override
     public void birth()
     {

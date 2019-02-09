@@ -8,10 +8,19 @@ import android.util.Log;
 import com.piercelbrooks.common.Utilities;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class Contact implements Serial<ContactMember>, Comparable<Contact>, LedgerProperty
+public class Contact implements SerialComparable<ContactMember, Contact>, LedgerProperty
 {
+    public class ContactComparator extends SerialComparator<ContactMember, Contact>
+    {
+        public ContactComparator()
+        {
+            super();
+        }
+    }
+
     private static final String TAG = "F3-Contact";
 
     private Ledger owner;
@@ -197,5 +206,11 @@ public class Contact implements Serial<ContactMember>, Comparable<Contact>, Ledg
     public int compareTo(Contact other)
     {
         return address.compareTo(other.getAddress());
+    }
+
+    @Override
+    public SerialComparator<ContactMember, Contact> getComparator()
+    {
+        return new ContactComparator();
     }
 }

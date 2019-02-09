@@ -166,7 +166,7 @@ public abstract class BasicCalendar <T extends ViewGroup> extends Grid<T> implem
         label.setGravity(Gravity.CENTER);
         label.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
         label.setTextColor(ContextCompat.getColor(context, getSlotLabelColor()));
-        if (index <= getDays())
+        if (index < getDays())
         {
             label.setText(""+(index+1));
         }
