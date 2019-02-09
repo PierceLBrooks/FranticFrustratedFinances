@@ -11,5 +11,6 @@ public enum Family
     MAYOR,
     APPLICATION,
     MUNICIPALITY,
+    SERVICE,
     UNKNOWN
 }

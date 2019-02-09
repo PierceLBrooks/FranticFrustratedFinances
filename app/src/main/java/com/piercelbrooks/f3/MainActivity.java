@@ -9,13 +9,25 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.piercelbrooks.common.BasicActivity;
+import com.piercelbrooks.common.BasicServiceActivity;
+import com.piercelbrooks.common.BasicServiceConnector;
 import com.piercelbrooks.common.Mayor;
 import com.piercelbrooks.roe.Mail;
 
 import javax.mail.search.SearchTerm;
 
-public class MainActivity extends BasicActivity<MayoralFamily> implements Accountant {
+public class MainActivity extends BasicServiceActivity<MayoralFamily, MainService> implements Accountant {
+    public class MainServiceConnector extends BasicServiceConnector<MayoralFamily, MainService> {
+        public MainServiceConnector(MainActivity activity) {
+            super(activity);
+        }
+
+        @Override
+        public Class<?> getServiceClass() {
+            return MainService.class;
+        }
+    }
+
     private static final String TAG = "F3-MainActivity";
 
     private Ledger ledger;
@@ -177,6 +189,16 @@ public class MainActivity extends BasicActivity<MayoralFamily> implements Accoun
     @Override
     public Ledger getLedger() {
         return ledger;
+    }
+
+    @Override
+    protected BasicServiceConnector<MayoralFamily, MainService> getConnector(BasicServiceActivity<MayoralFamily, MainService> activity) {
+        return new MainServiceConnector(this);
+    }
+
+    @Override
+    public Class<?> getServiceClass() {
+        return MainService.class;
     }
 
     public void showLobby(Ledger ledger) {
