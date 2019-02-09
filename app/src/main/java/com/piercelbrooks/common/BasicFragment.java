@@ -58,7 +58,10 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
     @Override
     public Municipality<T> getMunicipality() {
         Activity activity = getActivity();
-        if (activity instanceof  Municipality) {
+        if (activity == null) {
+            return null;
+        }
+        if (activity instanceof Municipality) {
             return (Municipality<T>)activity;
         }
         return null;
@@ -79,6 +82,10 @@ public abstract class BasicFragment <T extends Enum<T>> extends Fragment impleme
     }
 
     public void runOnUiThread(Runnable runnable) {
-        ((Municipality<T>)Governor.getInstance().getCitizen(Family.MUNICIPALITY)).runOnUiThread(runnable);
+        Municipality<T> municipality = getMunicipality();
+        if (municipality == null) {
+            return;
+        }
+        municipality.runOnUiThread(runnable);
     }
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.piercelbrooks.common.Prompt;
+
 public abstract class EditorFragment extends FieldFragment
 {
     private static final String TAG = "F3-EditorFrag";
@@ -66,6 +68,9 @@ public abstract class EditorFragment extends FieldFragment
                 onSave(editorField.getText().toString());
             }
         });
+
+        setExit();
+        setSave();
     }
 
     @Override
@@ -73,4 +78,35 @@ public abstract class EditorFragment extends FieldFragment
     {
         editorField.setText(field);
     }
+
+    public String getExit()
+    {
+        return null;
+    }
+
+    public void setExit()
+    {
+        String exit = getExit();
+        if (exit == null)
+        {
+            return;
+        }
+        editorExit.setText(exit);
+    }
+
+    public String getSave()
+    {
+        return null;
+    }
+
+    public void setSave()
+    {
+        String save = getSave();
+        if (save == null)
+        {
+            return;
+        }
+        editorSave.setText(save);
+    }
+
 }

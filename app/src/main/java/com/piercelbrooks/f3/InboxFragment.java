@@ -104,18 +104,6 @@ public class InboxFragment extends MailboxFragment<InboxListener, Inbox> impleme
     }
 
     @Override
-    public void onBirth()
-    {
-
-    }
-
-    @Override
-    public void onDeath()
-    {
-
-    }
-
-    @Override
     public MayoralFamily getMayoralFamily()
     {
         return MayoralFamily.INBOX;
@@ -136,9 +124,9 @@ public class InboxFragment extends MailboxFragment<InboxListener, Inbox> impleme
     @Override
     public void onIn(@NonNull Inbox sender, @Nullable List<Mail> mail)
     {
-        if (sender != getBox())
+        if (!checkBox(sender))
         {
-            Log.e(TAG, "Box error!");
+            return;
         }
         if (mail == null)
         {

@@ -92,18 +92,6 @@ public class OutboxFragment extends MailboxFragment<OutboxListener, Outbox> impl
     }
 
     @Override
-    public void onBirth()
-    {
-
-    }
-
-    @Override
-    public void onDeath()
-    {
-
-    }
-
-    @Override
     public MayoralFamily getMayoralFamily()
     {
         return MayoralFamily.OUTBOX;
@@ -124,9 +112,9 @@ public class OutboxFragment extends MailboxFragment<OutboxListener, Outbox> impl
     @Override
     public void onOut(@NonNull Outbox sender, @Nullable String recipient)
     {
-        if (sender != getBox())
+        if (!checkBox(sender))
         {
-            Log.e(TAG, "Box error!");
+            return;
         }
         addItem(recipient);
     }

@@ -35,6 +35,18 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         }
 
         @Override
+        public String getExit()
+        {
+            return "RESET";
+        }
+
+        @Override
+        public String getSave()
+        {
+            return "SET";
+        }
+
+        @Override
         public String getField() {
             return account.getAddress();
         }
@@ -85,6 +97,18 @@ public class AccountFragment extends BasicFragment<MayoralFamily> implements Acc
         @Override
         public int getInputType() {
             return EditorInfo.TYPE_TEXT_VARIATION_PASSWORD;
+        }
+
+        @Override
+        public String getExit()
+        {
+            return "RESET";
+        }
+
+        @Override
+        public String getSave()
+        {
+            return "SET";
         }
 
         @Override

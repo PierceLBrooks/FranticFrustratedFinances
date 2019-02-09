@@ -186,7 +186,11 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
     public Municipality<T> getMunicipality()
     {
         Activity activity = getActivity();
-        if (activity instanceof  Municipality)
+        if (activity == null)
+        {
+            return null;
+        }
+        if (activity instanceof Municipality)
         {
             return (Municipality<T>)getActivity();
         }
@@ -364,6 +368,11 @@ public abstract class BasicListFragment <T extends Enum<T>> extends ListFragment
 
     public void runOnUiThread(Runnable runnable)
     {
-        ((Municipality<T>)Governor.getInstance().getCitizen(Family.MUNICIPALITY)).runOnUiThread(runnable);
+        Municipality<T> municipality = getMunicipality();
+        if (municipality == null)
+        {
+            return;
+        }
+        municipality.runOnUiThread(runnable);
     }
 }

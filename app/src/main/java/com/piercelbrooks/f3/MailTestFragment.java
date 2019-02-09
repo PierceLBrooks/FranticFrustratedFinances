@@ -41,6 +41,18 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         }
 
         @Override
+        public String getExit()
+        {
+            return "DEFAULT";
+        }
+
+        @Override
+        public String getSave()
+        {
+            return "TEST";
+        }
+
+        @Override
         public String getField()
         {
             return subject;
@@ -101,6 +113,18 @@ public class MailTestFragment extends BasicFragment<MayoralFamily> implements Ac
         public int getInputType()
         {
             return EditorInfo.TYPE_TEXT_VARIATION_NORMAL|EditorInfo.TYPE_CLASS_TEXT;
+        }
+
+        @Override
+        public String getExit()
+        {
+            return "DEFAULT";
+        }
+
+        @Override
+        public String getSave()
+        {
+            return "TEST";
         }
 
         @Override
