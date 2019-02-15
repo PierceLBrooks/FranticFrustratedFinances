@@ -6,11 +6,14 @@ package com.piercelbrooks.common;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicService<U>> extends BasicActivity<T> implements BasicServiceUser<U>
 {
+    private static final String TAG = "PLB-BaseServeActivity";
+
     private AtomicBoolean isBound;
     private BasicServiceConnector<T, U> connector;
     private U service;
@@ -43,6 +46,10 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
 
     public boolean getIsServiceBound()
     {
+        if (connector == null)
+        {
+            return false;
+        }
         return isBound.get();
     }
 
@@ -63,25 +70,47 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
     {
         if (!getIsServiceRunning())
         {
+            Log.d(TAG, "Starting service...");
             startService(getServiceIntent());
+            Log.d(TAG, "Started service!");
         }
+        return bindService();
+    }
+
+    public boolean endService()
+    {
+        if (!getIsServiceRunning())
+        {
+            return false;
+        }
+        unbindService();
+        return stopService(getServiceIntent());
+    }
+
+    public boolean bindService()
+    {
         if (!getIsServiceBound())
         {
+            boolean success;
+            Log.d(TAG, "Binding service...");
             connector = getConnector(this);
-            return bindService(getServiceIntent(), connector, 0);
+            success = bindService(getServiceIntent(), connector, Context.BIND_AUTO_CREATE);
+            Log.d(TAG, "Bound service!");
+            return success;
         }
         return true;
     }
 
-    public boolean endService() {
-        if (!getIsServiceRunning()) {
-            return false;
-        }
+    public boolean unbindService()
+    {
         if (getIsServiceBound())
         {
+            Log.d(TAG, "Unbinding service...");
             unbindService(connector);
+            Log.d(TAG, "Unbound service!");
+            return true;
         }
-        return stopService(getServiceIntent());
+        return false;
     }
 
     public Intent getServiceIntent()
@@ -93,5 +122,19 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
     public U getService()
     {
         return service;
+    }
+
+    @Override
+    protected void onPause()
+    {
+        unbindService();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        bindService();
+        super.onResume();
     }
 }

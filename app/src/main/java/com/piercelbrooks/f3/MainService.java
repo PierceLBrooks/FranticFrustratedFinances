@@ -60,4 +60,16 @@ public class MainService extends BasicService<MainService>
     {
         return new MainServiceBinder(service);
     }
+
+    @Override
+    protected Integer getNotification()
+    {
+        return 0;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return TAG;
+    }
 }

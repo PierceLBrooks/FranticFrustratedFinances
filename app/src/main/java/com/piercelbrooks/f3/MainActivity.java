@@ -55,11 +55,12 @@ public class MainActivity extends BasicServiceActivity<MayoralFamily, MainServic
     @Override
     protected void resume() {
         showLaunch();
+        Log.d(TAG, "beginService = "+beginService());
     }
 
     @Override
     protected void pause() {
-
+        Log.d(TAG, "endService = "+endService());
     }
 
     @Override

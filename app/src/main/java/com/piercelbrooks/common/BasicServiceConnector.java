@@ -6,9 +6,12 @@ package com.piercelbrooks.common;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 
 public abstract class BasicServiceConnector <T extends Enum<T>, U extends BasicService<U>> implements ServiceConnection, BasicServiceUser<U>
 {
+    private static final String TAG = "PLB-BaseServeConnect";
+
     private BasicServiceActivity<T, U> activity;
     private U service;
 
@@ -26,8 +29,10 @@ public abstract class BasicServiceConnector <T extends Enum<T>, U extends BasicS
             return;
         }
         BasicServiceBinder<U> binder = (BasicServiceBinder<U>)service;
+        Log.d(TAG, "Connecting service...");
         this.service = binder.getService();
         this.activity.onServiceConnected(this.service);
+        Log.d(TAG, "Connected service!");
     }
 
     @Override
@@ -37,7 +42,9 @@ public abstract class BasicServiceConnector <T extends Enum<T>, U extends BasicS
         {
             return;
         }
+        Log.d(TAG, "Disconnecting service...");
         this.activity.onServiceDisconnected();
+        Log.d(TAG, "Disconnected service!");
     }
 
     @Override
