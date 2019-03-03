@@ -18,8 +18,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver
+            android:name=".MainServiceKiller">
+            <intent-filter>
+                <action android:name="com.piercelbrooks.f3.KILL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
         <service
             android:name=".MainService">
+            <intent-filter>
+                <action android:name="com.piercelbrooks.common.STOP" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </service>
         <activity
             android:name=".MainActivity"

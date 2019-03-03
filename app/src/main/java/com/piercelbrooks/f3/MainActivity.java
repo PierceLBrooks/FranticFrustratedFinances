@@ -60,7 +60,7 @@ public class MainActivity extends BasicServiceActivity<MayoralFamily, MainServic
 
     @Override
     protected void pause() {
-        Log.d(TAG, "endService = "+endService());
+        //Log.d(TAG, "endService = "+endService());
     }
 
     @Override

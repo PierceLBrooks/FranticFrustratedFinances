@@ -6,6 +6,7 @@ package com.piercelbrooks.common;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,6 +40,7 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
     {
         if (!isBound.get())
         {
+            Log.v(TAG, "No binding.");
             return;
         }
         this.service = null;
@@ -48,6 +50,7 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
     {
         if (connector == null)
         {
+            Log.v(TAG, "No connection.");
             return false;
         }
         return isBound.get();
@@ -60,6 +63,16 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
         {
             if (getServiceClass().getName().equals(service.service.getClassName()))
             {
+                if (!service.foreground)
+                {
+                    Log.v(TAG, "Service not foregrounded...");
+                    /*if (service.started)
+                    {
+                        Log.v(TAG, "Service not started...");
+                        stopService();
+                    }*/
+                    return false;
+                }
                 return true;
             }
         }
@@ -71,7 +84,7 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
         if (!getIsServiceRunning())
         {
             Log.d(TAG, "Starting service...");
-            startService(getServiceIntent());
+            startService();
             Log.d(TAG, "Started service!");
         }
         return bindService();
@@ -81,10 +94,11 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
     {
         if (!getIsServiceRunning())
         {
+            Log.v(TAG, "No service.");
             return false;
         }
         unbindService();
-        return stopService(getServiceIntent());
+        return stopService();
     }
 
     public boolean bindService()
@@ -113,9 +127,28 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
         return false;
     }
 
+    public boolean startService()
+    {
+        Log.v(TAG, "Starting service...");
+        startService(getServiceIntent());
+        return true;
+    }
+
+    public boolean stopService()
+    {
+        Log.v(TAG, "Stopping service...");
+        //return LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(getServiceIntent(BasicService.getStop()));
+        return stopService(getServiceIntent());
+    }
+
     public Intent getServiceIntent()
     {
-        return new Intent(getApplicationContext(), getServiceClass());
+        return (new Intent(getApplicationContext(), getServiceClass())).addCategory(Intent.CATEGORY_DEFAULT);
+    }
+
+    public Intent getServiceIntent(String action)
+    {
+        return (new Intent(action, null, getApplicationContext(), getServiceClass())).addCategory(Intent.CATEGORY_DEFAULT);
     }
 
     @Override

@@ -14,6 +14,22 @@ import java.io.File;
 public class MainApplication extends BasicApplication {
     private static final String TAG = "F3-MainApp";
 
+    private MainActivity activity;
+    private boolean serviceKill;
+
+    public boolean killService()
+    {
+        if (activity != null)
+        {
+            Log.v(TAG, "Killing service now!");
+            serviceKill = false;
+            return activity.endService();
+        }
+        Log.v(TAG, "Killing service later...");
+        serviceKill = true;
+        return true;
+    }
+
     public String getDataPath() {
         String path = getApplicationInfo().dataDir;
         if (path.length() != 0)
@@ -33,7 +49,8 @@ public class MainApplication extends BasicApplication {
 
     @Override
     protected void create() {
-
+        serviceKill = false;
+        activity = null;
     }
 
     @Override
@@ -43,12 +60,21 @@ public class MainApplication extends BasicApplication {
 
     @Override
     protected void activityCreated(Activity activity) {
-
+        if (activity != null) {
+            if (activity instanceof MainActivity) {
+                this.activity = (MainActivity) activity;
+                if (serviceKill) {
+                    killService();
+                }
+            }
+        }
     }
 
     @Override
     protected void activityDestroyed(Activity activity) {
-
+        if (activity == this.activity) {
+            this.activity = null;
+        }
     }
 
     @Override
@@ -63,7 +89,7 @@ public class MainApplication extends BasicApplication {
 
     @Override
     protected void activityResumed(Activity activity) {
-        //Tests.testDateTime();
+
     }
 
     @Override
