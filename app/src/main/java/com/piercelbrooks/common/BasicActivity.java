@@ -3,6 +3,8 @@
 
 package com.piercelbrooks.common;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -66,7 +68,7 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
         }
     }
 
-    private static final String TAG = "PLB-BaseActivity";
+    private static final String TAG = "PLB-BaseAct";
 
     private Fragment activeFragment;
     private Window.Callback androidWindowCallback;
@@ -323,5 +325,13 @@ public abstract class BasicActivity <T extends Enum<T>> extends FragmentActivity
     @Override
     public void death() {
         Governor.getInstance().unregister(this);
+    }
+
+    public static Intent getLauncher(Context context, Class<?> activity) {
+        Intent launcher = new Intent(context, activity);
+        launcher.addCategory(Intent.CATEGORY_LAUNCHER);
+        launcher.setAction(Intent.ACTION_MAIN);
+        launcher.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return launcher;
     }
 }

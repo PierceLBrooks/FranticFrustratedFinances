@@ -28,7 +28,7 @@ public class MainActivity extends BasicServiceActivity<MayoralFamily, MainServic
         }
     }
 
-    private static final String TAG = "F3-MainActivity";
+    private static final String TAG = "F3-MainAct";
 
     private Ledger ledger;
 
@@ -55,7 +55,6 @@ public class MainActivity extends BasicServiceActivity<MayoralFamily, MainServic
     @Override
     protected void resume() {
         showLaunch();
-        Log.d(TAG, "beginService = "+beginService());
     }
 
     @Override

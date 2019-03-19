@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 
+import com.piercelbrooks.common.BasicApplication;
 import com.piercelbrooks.common.BasicFragment;
+import com.piercelbrooks.common.Family;
+import com.piercelbrooks.common.Governor;
 
 public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accountant
 {
@@ -20,6 +23,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
     private Button lobbyCalendar;
     private Button lobbyContacts;
     private Button lobbyAccount;
+    private Button lobbyService;
     private Button lobbyFinish;
     private Ledger ledger;
 
@@ -32,6 +36,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
         lobbyCalendar = null;
         lobbyContacts = null;
         lobbyAccount = null;
+        lobbyService = null;
         lobbyFinish = null;
         ledger = null;
     }
@@ -51,6 +56,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
         lobbyCalendar = view.findViewById(R.id.lobby_calendar);
         lobbyContacts = view.findViewById(R.id.lobby_contacts);
         lobbyAccount = view.findViewById(R.id.lobby_account);
+        lobbyService = view.findViewById(R.id.lobby_service);
         lobbyFinish = view.findViewById(R.id.lobby_finish);
 
         lobbyActions.setOnClickListener(new View.OnClickListener()
@@ -104,6 +110,22 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             public void onClick(View v)
             {
                 ((MainActivity)getMunicipality()).showAccount(getLedger());
+            }
+        });
+
+        lobbyService.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (((MainActivity)getMunicipality()).beginService())
+                {
+                    ((BasicApplication)Governor.getInstance().getCitizen(Family.APPLICATION)).makeToast("Service started successfully!");
+                }
+                else
+                {
+                    ((BasicApplication)Governor.getInstance().getCitizen(Family.APPLICATION)).makeToast("Service started unsuccessfully...");
+                }
             }
         });
 

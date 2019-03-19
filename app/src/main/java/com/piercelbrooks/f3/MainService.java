@@ -36,7 +36,7 @@ public class MainService extends BasicService<MainService>
 
     public MainService()
     {
-        super(/*TAG*/);
+        super();
     }
 
     @Override
@@ -48,13 +48,19 @@ public class MainService extends BasicService<MainService>
     @Override
     protected void destroy()
     {
-
+        //((MainApplication)getApplication()).getActivity().finish();
     }
 
     @Override
     public Class<?> getServiceClass()
     {
         return MainService.class;
+    }
+
+    @Override
+    protected Class<?> getActivityClass()
+    {
+        return MainActivity.class;
     }
 
     @Override

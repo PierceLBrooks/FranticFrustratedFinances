@@ -72,7 +72,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color"
-                        android:text="OPEN SETTINGS"
+                        android:text="VIEW SETTINGS"
                         android:id="@+id/launch_settings">
 
                     </Button>

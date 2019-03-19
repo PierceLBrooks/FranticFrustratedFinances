@@ -3,49 +3,26 @@
 
 package com.piercelbrooks.common;
 
-import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.piercelbrooks.f3.R;
 
 import java.util.List;
 
-public abstract class BasicService <T extends BasicService<T>> extends /*Intent*/Service implements BasicServiceUser<T>, Citizen
+public abstract class BasicService <T extends BasicService<T>> extends Service implements BasicServiceUser<T>, Citizen
 {
-    private class BasicServiceReceiver <U extends BasicService<U>> extends BroadcastReceiver
-    {
-        private BasicService<U> owner;
-
-        public BasicServiceReceiver(BasicService<U> owner)
-        {
-            super();
-            this.owner = owner;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            owner.onHandleIntent(intent);
-        }
-    }
-
     private static final String TAG = "PLB-BaseServe";
-    private static final String STOP = "com.piercelbrooks.common.STOP";
 
-    private Integer id;
-    private String name;
-    private BasicServiceReceiver<T> receiver;
+    private boolean isForeground;
 
     protected abstract void create();
     protected abstract void destroy();
@@ -53,59 +30,20 @@ public abstract class BasicService <T extends BasicService<T>> extends /*Intent*
     protected abstract String getName();
     protected abstract Integer getNotification();
     protected abstract List<NotificationCompat.Action> getNotificationActions();
+    protected abstract Class<?> getActivityClass();
     public abstract String getDescription();
 
-    public BasicService(/*String name*/)
+    public BasicService()
     {
-        super(/*name*/);
-        this.name = null;//this.name = name;
-        this.receiver = null;
-        this.id = null;
-    }
-
-    //@Override
-    protected void onHandleIntent(Intent intent)
-    {
-        try
-        {
-            if (intent == null)
-            {
-                Log.e(TAG, "Handle error 1!");
-                return;
-            }
-            if (intent.getAction() == null)
-            {
-                Log.e(TAG, "Handle error 2!");
-                return;
-            }
-            if (!intent.getAction().equals(getStop()))
-            {
-                Log.e(TAG, "Handle error 3!");
-                return;
-            }
-            if (id == null)
-            {
-                Log.e(TAG, "Handle error 4!");
-                return;
-            }
-            if (!stopSelfResult(id.intValue()))
-            {
-                Log.e(TAG, "Handle error 5!");
-                return;
-            }
-            Log.v(TAG, "Handle success!");
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-            Log.e(TAG, "Handle error 0!");
-        }
+        super();
+        this.isForeground = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         Integer notification = getNotification();
+        isForeground = false;
         if (notification != null)
         {
             String description = getDescription();
@@ -114,10 +52,12 @@ public abstract class BasicService <T extends BasicService<T>> extends /*Intent*
                 android.app.Notification build;
                 List<NotificationCompat.Action> actions = getNotificationActions();
                 String id = TAG+"_"+Constants.NOTIFICATION_CHANNEL;
+                PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, BasicActivity.getLauncher(getContext(), getActivityClass()), 0);
                 NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), id);
                 builder.setContentTitle(getName());
                 builder.setContentText(description);
+                builder.setContentIntent(pendingIntent);
                 builder.setPriority(NotificationCompat.PRIORITY_HIGH);
                 builder.setVibrate(new long[]{});
                 builder.setSmallIcon(R.drawable.empty);
@@ -136,10 +76,10 @@ public abstract class BasicService <T extends BasicService<T>> extends /*Intent*
                 build = builder.build();
                 startForeground(notification.intValue(), build);
                 manager.notify(notification.intValue(), build);
+                isForeground = true;
             }
         }
         super.onStartCommand(intent, flags, startId);
-        this.id = startId;
         Log.v(TAG, "Started!");
         return START_STICKY;
     }
@@ -168,22 +108,15 @@ public abstract class BasicService <T extends BasicService<T>> extends /*Intent*
         super.onCreate();
         birth();
         create();
-        if (receiver == null)
-        {
-            receiver = new BasicServiceReceiver<>(this);
-            LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, getServiceIntentFilter());
-        }
     }
 
     @Override
     public void onDestroy()
     {
-        if (receiver != null)
+        if (isForeground)
         {
-            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
-            receiver = null;
+            stopForeground(true);
         }
-        stopForeground(true);
         destroy();
         death();
         super.onDestroy();
@@ -219,21 +152,13 @@ public abstract class BasicService <T extends BasicService<T>> extends /*Intent*
         Governor.getInstance().unregister(this);
     }
 
-    public IntentFilter getServiceIntentFilter()
+    public boolean getIsForeground()
     {
-        IntentFilter filter = new IntentFilter();
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        filter.addAction(getStop());
-        return filter;
+        return isForeground;
     }
 
     public Context getContext()
     {
         return getApplicationContext();
-    }
-
-    public static String getStop()
-    {
-        return STOP;
     }
 }

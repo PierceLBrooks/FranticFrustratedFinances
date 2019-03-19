@@ -20,7 +20,6 @@ public class MainServiceKiller extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        ///*
         try
         {
             if ((context == null) || (intent == null))
@@ -60,6 +59,5 @@ public class MainServiceKiller extends BroadcastReceiver
             exception.printStackTrace();
             Log.e(TAG, "Kill error 0!");
         }
-        //*/
     }
 }
