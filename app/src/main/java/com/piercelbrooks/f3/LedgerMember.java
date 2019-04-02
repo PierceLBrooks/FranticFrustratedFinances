@@ -11,5 +11,6 @@ public enum LedgerMember
     ACTIONS,
     EVENTS,
     CONTACTS,
+    REPOSITORIES,
     ACCOUNT
 }

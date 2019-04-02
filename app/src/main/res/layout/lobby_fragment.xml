@@ -35,177 +35,202 @@
             android:layout_height="0dp"
             android:layout_weight="90">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/spacing"
-                android:orientation="vertical"
-                android:weightSum="90"
+                android:layout_gravity="center"
+                android:fillViewport="true"
                 android:background="@drawable/outline">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing"
+                    android:orientation="vertical">
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="UPDATE"
-                        android:id="@+id/lobby_update">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="UPDATE"
+                            android:id="@+id/lobby_update">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="ACTIONS"
-                        android:id="@+id/lobby_actions">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="OPEN ACTIONS"
+                            android:id="@+id/lobby_actions">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="CALENDAR"
-                        android:id="@+id/lobby_calendar">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="VIEW CALENDAR"
+                            android:id="@+id/lobby_calendar">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="CHANGE NAME"
-                        android:id="@+id/lobby_name">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="CHANGE NAME"
+                            android:id="@+id/lobby_name">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="CHANGE PASSWORD"
-                        android:id="@+id/lobby_password">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="CHANGE PASSWORD"
+                            android:id="@+id/lobby_password">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="EDIT CONTACTS"
-                        android:id="@+id/lobby_contacts">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="EDIT CONTACTS"
+                            android:id="@+id/lobby_contacts">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="EDIT/TEST ACCOUNT"
-                        android:id="@+id/lobby_account">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="EDIT REPOSITORIES"
+                            android:id="@+id/lobby_repositories">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="LAUNCH SERVICE"
-                        android:id="@+id/lobby_service">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="EDIT/TEST ACCOUNT"
+                            android:id="@+id/lobby_account">
 
-                </FrameLayout>
+                        </Button>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10">
+                    </FrameLayout>
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="@dimen/text_size"
-                        android:textColor="@color/text_color"
-                        android:text="CLOSE"
-                        android:id="@+id/lobby_finish">
+                        android:padding="@dimen/spacing">
 
-                    </Button>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="LAUNCH SERVICE"
+                            android:id="@+id/lobby_service">
 
-                </FrameLayout>
+                        </Button>
 
-            </LinearLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/text_size"
+                            android:textColor="@color/text_color"
+                            android:text="CLOSE"
+                            android:id="@+id/lobby_finish">
+
+                        </Button>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
 
         </FrameLayout>
 

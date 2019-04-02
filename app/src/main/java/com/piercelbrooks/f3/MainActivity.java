@@ -173,6 +173,12 @@ public class MainActivity extends BasicServiceActivity<MayoralFamily, MainServic
             case PASSWORD:
                 mayor = (T)(new PasswordFragment());
                 break;
+            case REPOSITORY:
+                mayor = (T)(new RepositoryFragment());
+                break;
+            case REPOSITORIES:
+                mayor = (T)(new RepositoriesFragment());
+                break;
         }
         setMayorLedger(mayor);
         return mayor;
@@ -345,6 +351,20 @@ public class MainActivity extends BasicServiceActivity<MayoralFamily, MainServic
         fragment.setLedger(ledger);
         fragment.setPrevious(previous);
         fragment.setNext(next);
+        show(fragment);
+        this.ledger = ledger;
+    }
+
+    public void showRepository(Repository repository) {
+        RepositoryFragment fragment = new RepositoryFragment();
+        fragment.setLedger(ledger);
+        ledger.setTargetRepository(repository);
+        show(fragment);
+    }
+
+    public void showRepositories(Ledger ledger) {
+        RepositoriesFragment fragment = new RepositoriesFragment();
+        fragment.setLedger(ledger);
         show(fragment);
         this.ledger = ledger;
     }

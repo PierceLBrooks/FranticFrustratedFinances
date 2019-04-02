@@ -76,6 +76,36 @@ public class Ledger implements Persistable<LedgerMember> {
         }
     }
 
+    public class RepositoryList extends SerialList<Repository> {
+        public RepositoryList() {
+            super();
+        }
+
+        @Override
+        public SerialList<Repository> getNew() {
+            return new RepositoryList();
+        }
+
+        @Override
+        public Repository getSerial() {
+            return new Repository();
+        }
+
+        @Override
+        public String getIdentifier() {
+            return LedgerMember.REPOSITORIES.name();
+        }
+
+        public List<String> getNames() {
+            ArrayList<String> names = new ArrayList<>();
+            Collections.sort(this);
+            for (int i = 0; i != size(); ++i) {
+                names.add(get(i).getName());
+            }
+            return names;
+        }
+    }
+
     private static final String TAG = "F3-Ledger";
     private static Ledger current = null;
 
@@ -83,10 +113,12 @@ public class Ledger implements Persistable<LedgerMember> {
     private String password;
     private Action targetAction;
     private Contact targetContact;
+    private Repository targetRepository;
     private DateTime targetDateTime;
     private Event targetEvent;
     private ActionList actions;
     private ContactList contacts;
+    private RepositoryList repositories;
     private Account account;
 
     public Ledger() {
@@ -97,11 +129,13 @@ public class Ledger implements Persistable<LedgerMember> {
         this.name = name;
         this.password = "";
         this.targetAction = new Action(this);
-        this.targetContact = new Contact(this, "");
+        this.targetContact = new Contact(this);
+        this.targetRepository = new Repository(this);
         this.targetDateTime = new DateTime();
         this.targetEvent = null;
         this.actions = new ActionList();
         this.contacts = new ContactList();
+        this.repositories = new RepositoryList();
         this.account = new Account();
     }
 
@@ -172,6 +206,17 @@ public class Ledger implements Persistable<LedgerMember> {
         return targetContact;
     }
 
+    public void setTargetRepository(Repository targetRepository) {
+        this.targetRepository = targetRepository;
+        if (targetRepository != null) {
+            targetRepository.setOwner(this);
+        }
+    }
+
+    public Repository getTargetRepository() {
+        return targetRepository;
+    }
+
     public void setTargetDateTime(DateTime targetDateTime) {
         this.targetDateTime = targetDateTime;
     }
@@ -217,6 +262,19 @@ public class Ledger implements Persistable<LedgerMember> {
         return true;
     }
 
+    public RepositoryList getRepositories() {
+        return repositories;
+    }
+
+    public boolean setRepositories(RepositoryList repositories) {
+        if (repositories == null) {
+            this.repositories = new RepositoryList();
+            return false;
+        }
+        this.repositories = repositories;
+        return true;
+    }
+
     public Account getAccount() {
         return account;
     }
@@ -241,6 +299,7 @@ public class Ledger implements Persistable<LedgerMember> {
         setPassword((other.getPassword()));
         setContacts(other.getContacts());
         setAccount(other.getAccount());
+        setRepositories(other.getRepositories());
         Log.d(TAG, "Contacts: "+contacts.toString());
         return true;
     }
@@ -394,6 +453,19 @@ public class Ledger implements Persistable<LedgerMember> {
                                 return null;
                             }
                             break;
+                        case REPOSITORIES:
+                            for (int k = 0; k < i; ++k) {
+                                if (source.isEmpty()) {
+                                    break;
+                                }
+                                source.remove(0);
+                            }
+                            i = 0;
+                            if (!deserialization.setRepositories((RepositoryList)repositories.getDeserialization(source))) {
+                                Log.e(TAG, "Malformed repositories!");
+                                return null;
+                            }
+                            break;
                         case ACCOUNT:
                             for (int k = 0; k < i; ++k) {
                                 if (source.isEmpty()) {
@@ -470,6 +542,9 @@ public class Ledger implements Persistable<LedgerMember> {
                 break;
             case CONTACTS:
                 Utilities.add(serialization, contacts.getSerialization());
+                break;
+            case REPOSITORIES:
+                Utilities.add(serialization, repositories.getSerialization());
                 break;
             case ACCOUNT:
                 serialization.add(getMemberIdentifier(member));

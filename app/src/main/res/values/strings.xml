@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Frantic Frustrated Finances</string>
+    <string name="list_add"><![CDATA[ [ + ] ]]></string>
+    <string name="list_remove"><![CDATA[ [ - ] ]]></string>
 </resources>

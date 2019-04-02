@@ -29,5 +29,9 @@ public enum MayoralFamily
     MAIL_TEST_OUTBOX,
     INBOX,
     OUTBOX,
-    PASSWORD
+    PASSWORD,
+    REPOSITORY,
+    REPOSITORY_NAME,
+    REPOSITORY_URL,
+    REPOSITORIES
 }

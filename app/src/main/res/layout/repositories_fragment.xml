@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/actions_root">
+    android:id="@+id/repositories_root">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_gravity="center"
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/text_color"
-                android:text="ACTIONS">
+                android:text="REPOSITORIES">
 
             </TextView>
 
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:id="@+id/actions_exit"
+                    android:id="@+id/repositories_exit"
                     android:text="BACK"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:id="@+id/actions_remove"
+                        android:id="@+id/repositories_remove"
                         android:text="@string/list_remove"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color">
@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:id="@+id/actions_add"
+                        android:id="@+id/repositories_add"
                         android:text="@string/list_add"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color">
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:id="@+id/actions_edit"
+                    android:id="@+id/repositories_edit"
                     android:text="EDIT"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/text_color">

@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:id="@+id/contacts_remove"
-                        android:text=" [ - ] "
+                        android:text="@string/list_remove"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color">
 
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:id="@+id/contacts_add"
-                        android:text=" [ + ] "
+                        android:text="@string/list_add"
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/text_color">
 

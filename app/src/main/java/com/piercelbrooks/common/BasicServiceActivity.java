@@ -155,7 +155,7 @@ public abstract class BasicServiceActivity <T extends Enum<T>, U extends BasicSe
 
     public Intent getServiceIntent()
     {
-        return (new Intent(getApplicationContext(), getServiceClass()));
+        return new Intent(getApplicationContext(), getServiceClass());
     }
 
     @Override

@@ -22,6 +22,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
     private Button lobbyPassword;
     private Button lobbyCalendar;
     private Button lobbyContacts;
+    private Button lobbyRepositories;
     private Button lobbyAccount;
     private Button lobbyService;
     private Button lobbyFinish;
@@ -35,6 +36,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
         lobbyPassword = null;
         lobbyCalendar = null;
         lobbyContacts = null;
+        lobbyRepositories = null;
         lobbyAccount = null;
         lobbyService = null;
         lobbyFinish = null;
@@ -55,6 +57,7 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
         lobbyPassword = view.findViewById(R.id.lobby_password);
         lobbyCalendar = view.findViewById(R.id.lobby_calendar);
         lobbyContacts = view.findViewById(R.id.lobby_contacts);
+        lobbyRepositories = view.findViewById(R.id.lobby_repositories);
         lobbyAccount = view.findViewById(R.id.lobby_account);
         lobbyService = view.findViewById(R.id.lobby_service);
         lobbyFinish = view.findViewById(R.id.lobby_finish);
@@ -92,6 +95,15 @@ public class LobbyFragment extends BasicFragment<MayoralFamily> implements Accou
             public void onClick(View v)
             {
                 ((MainActivity)getMunicipality()).showYears(getLedger());
+            }
+        });
+
+        lobbyRepositories.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ((MainActivity)getMunicipality()).showRepositories(getLedger());
             }
         });
 
