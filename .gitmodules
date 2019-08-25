@@ -4,3 +4,6 @@
 [submodule "dependencies/mruby"]
 	path = dependencies/mruby
 	url = https://github.com/PierceLBrooks/mruby.git
+[submodule "dependencies/mgit"]
+	path = dependencies/mgit
+	url = https://github.com/PierceLBrooks/MGit.git

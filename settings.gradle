@@ -1,1 +1,4 @@
-include ':app'
+include ':app', ':sheimi', ':manichord'
+rootProject.projectDir = settingsDir
+project(':sheimi').projectDir = new File(rootDir, 'dependencies/mgit/sheimi')
+project(':manichord').projectDir = new File(rootDir, 'dependencies/mgit/manichord')

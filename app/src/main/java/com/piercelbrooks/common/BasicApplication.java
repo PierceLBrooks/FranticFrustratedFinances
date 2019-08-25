@@ -5,11 +5,14 @@ package com.piercelbrooks.common;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
-public abstract class BasicApplication extends Application implements Application.ActivityLifecycleCallbacks, Citizen {
+public abstract class BasicApplication extends MultiDexApplication implements Application.ActivityLifecycleCallbacks, Citizen {
     private static final String TAG = "PLB-BaseApp";
 
     public abstract @DrawableRes int getEmptyDrawable();
@@ -58,6 +61,12 @@ public abstract class BasicApplication extends Application implements Applicatio
             }
         });
         return true;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override
